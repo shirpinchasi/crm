@@ -1,23 +1,42 @@
-import logo from './logo.svg';
 import './App.css';
+import Menu from './Menu/Menu';
+import Users from './users';
+import { BrowserRouter, Route, useLocation } from "react-router-dom";
+import Calls from './Calls/Calls';
+import Login from './Login/Login';
+import SignUp from './SignUp/SignUp';
+import LogOff from './SignUp/LogOff';
+
+
+
+
 
 function App() {
-  return (
+
+  // const user = null;
+
+  return  (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      
+      <BrowserRouter>
+        <Route exact path="/Calls">
+          <Calls Component={Calls} />
+        </Route>
+        <Route exact path="/LogOff">
+            <LogOff/>
+        </Route>
+        {/* <Route exact path="/SignUp">
+            <SignUp/>
+        </Route> */}
+        <Route exact path="/Login">
+            <Login/>
+        </Route>
+        <Route exact path="/">
+
+        </Route>
+
+      </BrowserRouter>
+      {/* {user && <Menu />} */}
     </div>
   );
 }

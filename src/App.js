@@ -47,7 +47,7 @@ function App(props) {
   return (
     <div className="App">
       <UserContext.Provider value={{ fetchUser, setUser }}>
-      {isLoading && <div className="App__Loading">Loading...</div>}
+      {/* {isLoading && <div className="App__Loading">Loading...</div>} */}
         <Switch>
         {/* <Route exact path="/Login">
             <Login Component={Login}/>

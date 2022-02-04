@@ -3,6 +3,8 @@ import { Formik, Form, Field } from "formik";
 import { LoginSchema } from "./loginSchema";
 import { UserContext } from "../../userContext";
 import { useHistory, Link, withRouter } from "react-router-dom";
+import config from "../../config/index"
+
 
 function Login() {
         const { setUser } = useContext(UserContext);
@@ -11,7 +13,7 @@ function Login() {
         const [auth, setAuth] = useState(false)
 
         const submit  = async (values) => {
-                const res = await  fetch("/user/login", {
+                const res = await  fetch(config.apiUrl +  "/user/login", {
                         method: "POST",
                         headers: {
                                 "Content-Type": "application/json"

@@ -1,9 +1,9 @@
-
+import config from "./config/index"
 
 export class UserService{
     static async get(){
         try{
-            const res = await fetch("/user/me", {
+            const res = await fetch(config.apiUrl + `/user/me`, {
                 method :"GET",
                 credentials :"include"
             });

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useFormik, Formik, Form, Field } from 'formik';
 import { useHistory, withRouter } from "react-router-dom";
 import { SignUpSchema } from './SignUpSchema';
-
+import config from "../../config/index"
 
 
 
@@ -13,7 +13,7 @@ function SignUp() {
 
     const submit = async (values) => {
         console.log(values);
-        const res = await fetch("/user/signup", {
+        const res = await fetch(config.apiUrl +  "/user/signup", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

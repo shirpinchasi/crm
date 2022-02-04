@@ -29,6 +29,9 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MuiAppBar from '@mui/material/AppBar';
 import { BrowserRouter, Route, useLocation, useHistory, Redirect, withRouter,Switch } from "react-router-dom";
+import config from "../config/index";
+
+
 
 export default function Menu(props) {
     const [users, setUsers] = useState([]);
@@ -63,19 +66,19 @@ console.log(props);
     };
 
     async function getUsers() {
-        const getUser = await (await fetch("/getUser", {
+        const getUser = await (await fetch(config.apiUrl +  `/getUser`, {
             method: "GET"
         })).json()
         setUsers(getUser)
     }
     async function getSystems() {
-        const getSystem = await (await fetch("/system", {
+        const getSystem = await (await fetch(config.apiUrl +  `/system`, {
             method: "GET"
         })).json()
         setAllSystems(getSystem)
     }
     function logOut(){
-        const logout =  fetch("/logOut", {
+        const logout =  fetch(config.apiUrl +  "/logOut", {
             method: "GET",
             credentials:"include"
         })
@@ -86,7 +89,7 @@ console.log(props);
         
     }
    async function getAdmin(){
-        const res = await fetch("/adminPanel", {
+        const res = await fetch(config.apiUrl +  "/adminPanel", {
             method: "GET",
             credentials:"include",
         });
@@ -102,7 +105,7 @@ console.log(props);
 
         
     const handleSubmit = async (values) => {
-            const res = await fetch("/addCall", {
+            const res = await fetch(config.apiUrl +  "/addCall", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

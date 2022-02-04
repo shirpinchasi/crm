@@ -8,6 +8,9 @@ import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import "./CallInfo.scss"
 import { Button } from "@material-ui/core";
+import config from "../../config/index"
+
+
 
 function CallInfo() {
     const { id } = useParams()
@@ -16,7 +19,7 @@ function CallInfo() {
 
     async function fetchCalls() {
         try {
-            const getCalls = await fetch(`http://localhost:5000/getCalls/${id}`, {
+            const getCalls = await fetch( config.apiUrl +  `/getCalls/${id}`, {
                 method: "GET",
                 credentials: "include",
                 headers: {

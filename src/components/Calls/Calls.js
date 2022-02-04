@@ -8,6 +8,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import config from "../../config/index";
 
 
 import { createTheme } from '@mui/material/styles';
@@ -27,7 +28,7 @@ export default function Calls() {
 
   async function fetchCalls() {
     try {
-      const getCalls = await fetch("http://localhost:5000/getCalls", {
+      const getCalls = await fetch(config.apiUrl + `/getCalls`, {
         method: "GET",
         credentials: "include",
         headers: {

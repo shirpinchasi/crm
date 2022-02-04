@@ -15,9 +15,9 @@ function Login() {
         const submit  = async (values) => {
                 const res = await  fetch(config.apiUrl +  `/user/login`, {
                         method: "POST",
+                        mode:"same-origin",
                         headers: {
                                 "Content-Type": "application/json",
-                                "Access-Control-Allow-Origin": "*"
                         },
                         credentials: "include",
                         body: JSON.stringify(values),

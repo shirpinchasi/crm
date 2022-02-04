@@ -15,7 +15,7 @@ function Login() {
         const submit  = async (values) => {
                 const res = await  fetch(config.apiUrl +  `/user/login`, {
                         method: "POST",
-                        mode:"same-origin",
+                        mode:"cors",
                         headers: {
                                 "Content-Type": "application/json",
                         },

@@ -47,39 +47,48 @@ function App(props) {
   return (
     <div className="App">
       <UserContext.Provider value={{ fetchUser, setUser }}>
-      {/* {isLoading && <div className="App__Loading">Loading...</div>} */}
+        {!fetchUser ?
+            <Switch>
+              <Route exact path={"/Login"}>
+                  <Login/>
+              </Route>
+              <Route exact path={"/SignUp"}>
+                  <SignUp/>
+              </Route>
+            </Switch>  
+        :
+        <>
+        <Menu props={fetchUser}/>
         <Switch>
-        {/* <Route exact path="/Login">
-            <Login Component={Login}/>
-          </Route> */}
-          <Route exact path="/callInfo/:id?">
-            <CallInfo />
-          </Route>
-          <Route exact path="/Requests">
-            <Req />
-          </Route>
-          <Route exact path="/addUser">
-            <addUser Component={Users} />
-          </Route>
-          <Route exact path="/Calls">
-            <Calls Component={Calls} />
-          </Route>
-          <Route exact path="/SignUp">
-            <SignUp/>
+        <Route exact path="/callInfo/:id?">
+          <CallInfo />
         </Route>
-        <Route exact path="/adminPanel">
-            <AdminPanel Component={AdminPanel}/>
+        <Route exact path="/Requests">
+          <Req />
         </Route>
-          <Route exact path="/">
-
-          </Route>
-
-        </Switch>
         
-        <div>
+        <Route exact path="/Calls">
+          <Calls Component={Calls} />
+        </Route>
+        <Route exact path="/SignUp">
+          <SignUp/>
+      </Route>
+      <Route exact path="/adminPanel">
+          <AdminPanel Component={AdminPanel}/>
+      </Route>
+        <Route exact path="/">
+
+        </Route>
+
+      </Switch>
+      </>
+      }
+        
+        
+        {/* <div>
           {!fetchUser ? <Login/> : <Menu props={fetchUser}/>}
         {/* {fetchUser && <Menu props={fetchUser}/>} */}
-        </div>
+        {/* </div> */}
         
       </UserContext.Provider>
 

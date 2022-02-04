@@ -34,7 +34,7 @@ function SignUp() {
     return (
 
         <>
-            <div id="Login">
+            <div id="SignUp">
                 <div id="ajust1">
                     <Formik initialValues={{ userName: "", password: "",email : "" }}
                         validationSchema={SignUpSchema}
@@ -42,7 +42,7 @@ function SignUp() {
 
                         {({ errors, touched }) => (
                             <Form className="Login_form">
-                                <h2 className="Login_title">Login</h2>
+                                <h2 className="Login_title">Sign Up</h2>
                                 <div class="form-group">
                                 </div>
                                 <label htmlFor="username">UserName</label>

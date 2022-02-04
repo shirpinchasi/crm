@@ -1,0 +1,22 @@
+.callInfo{
+    margin-top: 5%;
+    margin-left: 5%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.call_id{
+    margin-top: 5%;
+}
+.Form_Control{
+    width: auto;
+    padding-right: 5%;
+}
+.call_header{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    align-items: baseline;
+    height: 80px;
+}

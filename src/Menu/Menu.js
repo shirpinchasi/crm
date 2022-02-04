@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import "./Menu.scss"
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
+import { styled, useTheme } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -11,10 +10,7 @@ import PropTypes from 'prop-types';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
-import Hidden from '@material-ui/core/Hidden';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Backdrop from '@material-ui/core/Backdrop';
 import CardContent from '@material-ui/core/CardContent';
@@ -27,209 +23,185 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import db from "../firebase";
-import firebase from "../firebase";
 import { Link } from "@material-ui/core";
-const fire = firebase.firestore();
+import Box from '@mui/material/Box';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import MuiAppBar from '@mui/material/AppBar';
+import { BrowserRouter, Route, useLocation, useHistory, Redirect, withRouter,Switch } from "react-router-dom";
 
-
-
-
-
-
-export default function ResponsiveDrawer(props) {
-    const classes = useStyles();
-    const [age, setAge] = React.useState('');
-    const { window } = props;
-    const theme = useTheme();
-    const [mobileOpen, setMobileOpen] = React.useState(false);
-    const [open, setOpen] = React.useState(false);
+export default function Menu(props) {
     const [users, setUsers] = useState([]);
-    const [options, setOptions] = useState("");
-    const [numId, setNumId] = useState(1)
-    
+    const [getSystem, setAllSystems] = useState([]);
+    const theme = useTheme();
+    const [open, setOpen] = useState(false);
+    const [openBackDrop, setOpenBackDrop] = useState(false);
+    const [value, setValue] = useState("");
+    const [system, setSystem] = useState("");
+    const history = useHistory();
 
-    const handleChange = (event) => {
-        setAge(event.target.value);
+    const handleDrawerOpen = () => {
+        setOpen(true);
     };
-    const increase = () => {
-        setNumId(numId +1);
-      };
-
-    const handleClose = () => {
+    const handleDrawerClose = () => {
         setOpen(false);
-        setOptions("")
     };
-    const handleToggle = () => {
-        setOpen(!open);
+    const handleBackDropOpen = () => {
+        setOpenBackDrop(true);
     };
-
-    const handleDrawerToggle = (props) => {
-        setMobileOpen(!mobileOpen);
+console.log(props);
+    const handleBackDropClose = () => {
+        setOpenBackDrop(false);
+        setValue("")
+        setSystem("")
     };
     const handleUserChange = (e) => {
-        setOptions(e.target.value)
-        
+        setValue(e.target.value)
     };
-    const sendData = (e)=>{
-        fire
-        .collection("Menu").add({
-            id :numId,
-            name : options,
-            // id : firestore.FieldValue.increment(1)
-        },{merge :true})
-        .then(()=>{
-            setOptions("")
-            setNumId(numId +1)
-            console.log("success");
+    const handleSystemChange = (e) => {
+        setSystem(e.target.value)
+    };
+
+    async function getUsers() {
+        const getUser = await (await fetch("http://localhost:5000/getUser", {
+            method: "GET"
+        })).json()
+        setUsers(getUser)
+    }
+    async function getSystems() {
+        const getSystem = await (await fetch("http://localhost:5000/system", {
+            method: "GET"
+        })).json()
+        setAllSystems(getSystem)
+    }
+    function logOut(){
+        const logout =  fetch("http://localhost:5000/logOut", {
+            method: "GET",
+            credentials:"include"
         })
-        .catch((error)=>{
-            console.error("Error: ", error);
-        })
+            history.push("/Login")
+            window.location.reload()
+            console.log("logged Out Successfully")
+        
+        
+    }
+   async function getAdmin(){
+        const res = await fetch("http://localhost:5000/adminPanel", {
+            method: "GET",
+            credentials:"include",
+        });
+        if (res.status === 403) {
+            alert("You Need Admin Premissions")
+                history.push("/")
+        }
+        else if(res.status === 200){
+            history.push("/adminPanel")
+        }
+        
     }
 
-
-    useEffect(()=>{
-        db
-        .firestore()
-        .collection("Users")
-        .onSnapshot((snapshot)=>{
-            const newUsers = snapshot.docs.map((doc)=>({
-                id : doc.id,
-                ...doc.data()
-            }))
-            setUsers(newUsers)
-            
-            
-        })
-        setNumId(numId)
-    },[options,numId])
-console.log(numId);
-    const drawer = (
-        <div>
-            <div className={classes.toolbar} />
-            <Divider />
-            <List>
-                <ListItemText className="text">
-                <Link  color="inherit" href="/Bakashot">
-                    בקשות
-                </Link>
-                <br/>
-                <Link color="inherit"  href="/Calls">
-                    קריאות
-                </Link>
-                <br/>
-                <Link color="inherit"  href="/DrishotShinui">
-                    דרישות שינוי
-                </Link>
-                <br/>
-                <Link color="inherit"  href="/Activities">
-                    פעילויות
-                </Link>
-                <br/>
-                </ListItemText>
-                
-                {/* {['בקשות', 'קריאות', 'דרישות שינוי', 'פעילויות'].map((text, index) => (
-                    
-                    <ListItem button key={index}>
-                        {console.log(index)}
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))} */}
-            </List>
-            <Divider />
-            <List>
-                {['פרטי תצורה', 'קטלוג מערכות', 'משתמשים','דרישות פרט'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
-        </div>
-    );
-    const container = window !== undefined ? () => window().document.body : undefined;
+        
+    const handleSubmit = async (values) => {
+            const res = await fetch("http://localhost:5000/addCall", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify({
+                    userName : value,
+                    system : system,
+                }),
+            })
+    }
+    useEffect(() => {
+        getUsers();
+        getSystems();
+        return()=>{
+            setUsers([]);
+            setAllSystems([])
+        }    
+    }, [])
 
     return (
         <div>
-            <div className={classes.root}>
+
+            <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
-                <AppBar position="fixed" className={classes.appBar}>
-                    <Toolbar id="1" >
+                <AppBar position="fixed" open={open}>
+                    <Toolbar >
                         <IconButton
-                            color="inherit"
                             aria-label="open drawer"
-                            edge="end"
-                            onClick={handleDrawerToggle}
-                            className={classes.menuButton}
+                            onClick={handleDrawerOpen}
+                            edge="start"
+                            sx={{ mr: 2, ...(open && { display: 'none' }) }}
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Typography id="crmTitle" variant="h6" noWrap>
-                            CRM
+                        <Typography  variant="h6" noWrap component="div">
+                            CRM      
                         </Typography>
-                        <Typography >
-                            <Button id="plusIcon" variant="outlined" color="primary" onClick={handleToggle}>
-                                קריאה חדשה
-                            </Button>
-                            <Backdrop className={classes.backdrop} open={open}>
-                                {/* <CircularProgress color="inherit" /> */}
-                                <Card id="backdrop" className={classes.root}>
-                                    <CardContent>
-                                        <CardActions>
-                                            <FontAwesomeIcon icon={faTimes} onClick={handleClose} />
-                                        </CardActions>
-                                        <FormControl required className={classes.formControl}>
-                                            <InputLabel id="demo-simple-select-required-label">שם משתמש</InputLabel>
-                                            <Select
-                                                labelId="demo-simple-select-required-label"
-                                                id="demo-simple-select-required"
-                                                value={options}
-                                                onChange={handleUserChange}
-                                                className={classes.selectEmpty}
-                                            >
-                                                {/* <MenuItem value="">
-                                                    <em>NONE</em>
-                                                </MenuItem> */}
-                                                
-                                                {Object.entries(users || console.log("none")).map(([key,value],i)=>{
-                                                    return(
-                                                        <MenuItem required={true} key={key} value={value.Username}>{value.Username} </MenuItem>
-                                                        
-                                                    )
-                                                           
-                                                        
-                                                
-                                                    // <MenuItem value={value.id}>{value.id}</MenuItem>
-                                                    // console.log("this is value", value)
-                                                    // console.log("this is i",i)
-                                                })}
-                                                {/* {users.map((user)=>(
-                                                        <MenuItem value={user.Username}>{user.Username}</MenuItem>
-                                                ))} */}
-                                                
-                                                
-                                            </Select>
-                                            <FormHelperText>Required</FormHelperText>
-                                        </FormControl>
-                                        {/* <FormControl required className={classes.formControl}>
-                                            <InputLabel id="demo-simple-select-required-label">שם פרטי</InputLabel>
-                                            <Select
-                                                labelId="demo-simple-select-required-label"
-                                                id="demo-simple-select-required"
-                                                value={age}
-                                                onChange={handleChange}
-                                                className={classes.selectEmpty}
-                                            >
-                                                <MenuItem value="">
-                                                    <em>None</em>
-                                                </MenuItem>
-                                                <MenuItem value={10}>Ten</MenuItem>
-                                                <MenuItem value={20}>Twenty</MenuItem>
-                                                <MenuItem value={30}>Thirty</MenuItem>
-                                            </Select>
-                                            <FormHelperText>Required</FormHelperText>
-                                        </FormControl> */}
-                                        {/* <FormControl required className={classes.formControl}>
+                          <Button onClick={getAdmin}>
+                            Admin
+                        </Button>
+                        
+                        
+
+                        <Typography className="Hello" variant="h6" noWrap component="div">
+                            Hello {props.props.userName}
+                        </Typography>
+                        <Button id="LogOff" variant="outlined" color="primary" onClick={logOut}>
+                            LogOff
+                        </Button>
+                        <Button id="plusIcon" variant="outlined" color="primary" onClick={handleBackDropOpen}>
+                            New Call
+                        </Button>
+                        <Backdrop open={openBackDrop}>
+                            {/* <CircularProgress color="inherit" /> */}
+                            <Card id="backdrop" >
+                                <CardContent>
+                                    <CardActions>
+                                        <FontAwesomeIcon icon={faTimes} onClick={handleBackDropClose} />
+                                    </CardActions>
+                                    <Box className="box_form">
+                                    <FormControl required className="form" >
+                                        <InputLabel id="demo-simple-select-required-label">UserName</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-required-label"
+                                            id="demo-simple-select-required"
+                                            value={value}
+                                            onChange={handleUserChange}
+                                            required
+                                            defaultValue=""
+                                        >
+                                            <MenuItem value="">
+                                                <em>NONE</em>
+                                            </MenuItem>
+                                            {users.map((user) => (
+                                                <MenuItem key={user._id} value={user.userName}>{user.userName} </MenuItem>
+                                            ))}
+                                        </Select>
+                                        <FormHelperText>Required</FormHelperText>
+                                    </FormControl>
+                                    <FormControl required className="form" >
+                                        <InputLabel id="demo-simple-select-required-label">System</InputLabel>
+                                        <Select
+                                            labelId="demo-simple-select-required-label"
+                                            id="demo-simple-select-required"
+                                            value={system}
+                                            onChange={handleSystemChange}
+                                        >
+                                            <MenuItem value="">
+                                                <em>None</em>
+                                            </MenuItem>
+                                            {getSystem.map((system) => (
+                                                <MenuItem key={system._id} value={system.systemName}>{system.systemName} </MenuItem>
+                                            ))}
+                                        </Select>
+                                        <FormHelperText>Required</FormHelperText>
+                                    </FormControl>
+                                    </Box>
+                                    {/* <FormControl required className={classes.formControl}>
                                             <InputLabel id="demo-simple-select-required-label">קטגוריה</InputLabel>
                                             <Select
                                                 labelId="demo-simple-select-required-label"
@@ -247,7 +219,7 @@ console.log(numId);
                                             </Select>
                                             <FormHelperText>Required</FormHelperText>
                                         </FormControl> */}
-                                        {/* <FormControl required className={classes.formControl}>
+                                    {/* <FormControl required className={classes.formControl}>
                                             <InputLabel id="demo-simple-select-required-label">מיקום</InputLabel>
                                             <Select
                                                 labelId="demo-simple-select-required-label"
@@ -265,74 +237,70 @@ console.log(numId);
                                             </Select>
                                             <FormHelperText>Required</FormHelperText>
                                         </FormControl> */}
-                                        <br/>
-                                        
-                                        <Button disabled={!options} onClickCapture={handleClose} onClick={sendData}>save</Button>
-                                    </CardContent>
+                                    <br />
 
-                                </Card>
-
-                            </Backdrop>
-
-                        </Typography>
+        
+                                    <Button  onClick={() => { handleSubmit(); handleBackDropClose(); }}>save</Button>
+                                </CardContent>
+                            </Card>
+                        </Backdrop>
                     </Toolbar>
-                    
                 </AppBar>
-                <nav className={classes.drawer} aria-label="mailbox folders">
-                    <Hidden smUp implementation="css">
-                        <Drawer id="1"
-                            container={container}
-                            variant="temporary"
-                            anchor={theme.direction === 'rtl' ? 'right' : 'right'}
-                            open={mobileOpen}
-                            onClose={handleDrawerToggle}
-                            classes={{
-                                paper: classes.drawerPaper,
-                            }}
-                            ModalProps={{
-                                keepMounted: true, // Better open performance on mobile.
-                            }}
-                        >
-                            {drawer}
-                        </Drawer>
-                    </Hidden>
-                    <Hidden xsDown implementation="css">
-                        <Drawer id="2"
-                            classes={{
-                                paper: classes.drawerPaper,
-                            }}
-                            anchor="right"
-                            variant="permanent"
-                            open
-                        >
-                            {drawer}
-                        </Drawer>
-                    </Hidden>
-                </nav>
-                <main className={classes.content}>
-                    <div className={classes.toolbar} />
+                <Drawer
+                    sx={{
+                        width: drawerWidth,
+                        flexShrink: 0,
+                        '& .MuiDrawer-paper': {
+                            width: drawerWidth,
+                            boxSizing: 'border-box',
+                        },
+                    }}
+                    variant="persistent"
+                    anchor="left"
+                    open={open}
+                >
+                    <DrawerHeader >
+                        <IconButton onClick={handleDrawerClose}>
+                            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                        </IconButton>
+                    </DrawerHeader>
+                    <Divider />
+                    <List>
+                        <ListItemText className="text">
+                            <Link color="inherit" href="/Requests">
+                                Requests
+                            </Link>
+                            <Divider />
+                            <Link color="inherit" href="/Calls">
+                                Calls
+                            </Link>
+                            <Divider />
+                            <Link color="inherit" href="/Catalog">
+                                Systems
+                            </Link>
+                            <Divider />
+                            <Link color="inherit" href="/Users">
+                                Users
+                            </Link>
+                        </ListItemText>
+                    </List>
+                </Drawer>
+                {/* <Main open={open}>
+                    <DrawerHeader />
                     <Typography paragraph>
-                        
-                    {/* {Object.entries(users).map(([key,value],i)=>{
-                                                    <div>
-                                                        
-                                                    </div>
-                                                    // <MenuItem value={value.id}>{value.id}</MenuItem>
-                                                    // console.log("this is value", value)
-                                                    // console.log("this is i",i)
-                                                })} */}
+
                     </Typography>
                     <Typography paragraph>
-                        
+
                     </Typography>
-                </main>
-            </div>
+                </Main> */}
+            </Box>
         </div>
     );
 }
 
 
-ResponsiveDrawer.propTypes = {
+Menu.propTypes = {
     /**
      * Injected by the documentation to work in an iframe.
      * You won't need it on your project.
@@ -343,97 +311,44 @@ ResponsiveDrawer.propTypes = {
 
 
 
-const drawerWidth = 200;
+const drawerWidth = 240;
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        color: "black",
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
-    },
-    title: {
-        flexGrow: 1,
-
-    },
-    root: {
-        display: 'flex',
-    },
-    drawer: {
-        direction: "rtl",
-        [theme.breakpoints.up('sm')]: {
-            width: drawerWidth,
-            // flexShrink: 0,
-
-        },
-    },
-    appBar: {
-        [theme.breakpoints.up('sm')]: {
-            width: `calc(100% - ${drawerWidth}px)`,
-            marginRight: drawerWidth,
-        },
-    },
-    menuButton: {
-        position: "absolute",
-        right: 0,
-        marginRight: theme.spacing(2),
-        [theme.breakpoints.up('sm')]: {
-            display: 'none',
-        },
-    },
-    // necessary for content to be below app bar
-    toolbar: theme.mixins.toolbar,
-    
-    drawerPaper: {
-        position: "absolute",
-        right: 0,
-        width: drawerWidth,
-    },
-    content: {
-
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+    ({ theme, open }) => ({
         flexGrow: 1,
         padding: theme.spacing(3),
-    },
-    // root: {
-    //     '& > *': {
-    //         margin: theme.spacing(1),
-    //     },
-    // },
-    extendedIcon: {
-        marginRight: theme.spacing(1),
-    },
-    backdrop: {
-        zIndex: theme.zIndex.drawer + 1,
-        color: '#fff',
-    },
-    root: {
-        // marginRight: 200,
-        // minWidth: 900,
-        // minHeight: 600,
-        // direction : "rtl"
-        
-        
-        
-    },
-    bullet: {
-        display: 'inline-block',
-        margin: '0 2px',
-        transform: 'scale(0.8)',
-    },
-    title: {
-        fontSize: 14,
-    },
-    pos: {
-        marginBottom: 12,
-    },
-    formControl: {
-        margin: theme.spacing(1),
-        minWidth: 120,
-        
-    },
-    selectEmpty: {
-        marginTop: theme.spacing(2),
-    },
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        marginLeft: `-${drawerWidth}px`,
+        ...(open && {
+            transition: theme.transitions.create('margin', {
+                easing: theme.transitions.easing.easeOut,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+            marginLeft: 0,
+        }),
+    }),
+);
+
+const AppBar = styled(MuiAppBar, {
+    shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme }) => ({
+    transition: theme.transitions.create(['margin', 'width'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+    }),
 }));
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    width: drawerWidth,
+    padding: theme.spacing(0, 1),
+    // necessary for content to be below app bar
+    ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
+}));
+
 

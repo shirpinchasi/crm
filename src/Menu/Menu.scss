@@ -3,20 +3,36 @@
     right: 15px;
     top: 15px;
     padding-right: 5px;
-    color: white;
+    border: transparent;
+    color: black;
 }
-.MuiDrawer-paper{
+#LogOff{
     position: absolute;
-    right: 0;
+    right: 105px;
+    top: 15px;
+    padding-right: 5px;
+    border: transparent;
+    color: black;
 }
 
 #1{
     justify-content: center;
 }
 #backdrop{
-    margin-right: 200px;
     min-width: 900px;
     min-height: 500px;
-    direction: rtl;
 }
 
+.box_form{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+}
+.form{
+    padding-right: 15%;
+    width: 110px;
+}
+.Hello{
+    
+}

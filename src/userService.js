@@ -3,7 +3,7 @@
 export class UserService{
     static async get(){
         try{
-            const res = await fetch("http://localhost:5000/user/me", {
+            const res = await fetch("/user/me", {
                 method :"GET",
                 credentials :"include"
             });

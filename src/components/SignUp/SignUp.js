@@ -13,7 +13,7 @@ function SignUp() {
 
     const submit = async (values) => {
         console.log(values);
-        const res = await fetch("http://localhost:5000/user/signup", {
+        const res = await fetch("/user/signup", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

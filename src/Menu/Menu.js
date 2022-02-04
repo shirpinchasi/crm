@@ -63,19 +63,19 @@ console.log(props);
     };
 
     async function getUsers() {
-        const getUser = await (await fetch("http://localhost:5000/getUser", {
+        const getUser = await (await fetch("/getUser", {
             method: "GET"
         })).json()
         setUsers(getUser)
     }
     async function getSystems() {
-        const getSystem = await (await fetch("http://localhost:5000/system", {
+        const getSystem = await (await fetch("/system", {
             method: "GET"
         })).json()
         setAllSystems(getSystem)
     }
     function logOut(){
-        const logout =  fetch("http://localhost:5000/logOut", {
+        const logout =  fetch("/logOut", {
             method: "GET",
             credentials:"include"
         })
@@ -86,7 +86,7 @@ console.log(props);
         
     }
    async function getAdmin(){
-        const res = await fetch("http://localhost:5000/adminPanel", {
+        const res = await fetch("/adminPanel", {
             method: "GET",
             credentials:"include",
         });
@@ -102,7 +102,7 @@ console.log(props);
 
         
     const handleSubmit = async (values) => {
-            const res = await fetch("http://localhost:5000/addCall", {
+            const res = await fetch("/addCall", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

@@ -30,10 +30,6 @@ export default function Calls() {
     try {
       const getCalls = await fetch(config.apiUrl + `/getCalls`, {
         method: "GET",
-        credentials: "include",
-        headers: {
-          "Access-Control-Allow-Origin": "*"
-        }
       })
       const fetchCalls = await getCalls.json();
       setCalls(fetchCalls)

@@ -15,11 +15,6 @@ function Login() {
         const submit  = async (values) => {
                 const res = await  fetch(config.apiUrl +  `/user/login`, {
                         method: "POST",
-                        mode:"cors",
-                        headers: {
-                                "Content-Type": "application/json",
-                        },
-                        credentials: "include",
                         body: JSON.stringify(values),
                  
                 });

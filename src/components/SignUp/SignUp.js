@@ -15,9 +15,6 @@ function SignUp() {
         console.log(values);
         const res = await fetch(config.apiUrl +  "/user/signup", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
             body: JSON.stringify(values)
         });
         if (res) {

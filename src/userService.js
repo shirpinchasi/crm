@@ -5,7 +5,6 @@ export class UserService{
         try{
             const res = await fetch(config.apiUrl + `/user/me`, {
                 method :"GET",
-                credentials :"include"
             });
             if (res.status === 403){
                 console.log("status 403")

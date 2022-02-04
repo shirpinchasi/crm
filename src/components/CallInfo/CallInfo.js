@@ -21,10 +21,6 @@ function CallInfo() {
         try {
             const getCalls = await fetch( config.apiUrl +  `/getCalls/${id}`, {
                 method: "GET",
-                credentials: "include",
-                headers: {
-                    "Access-Control-Allow-Origin": "*"
-                }
             })
             const fetchCalls = await getCalls.json();
             setCalls(fetchCalls.call)

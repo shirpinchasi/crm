@@ -80,7 +80,6 @@ console.log(props);
     function logOut(){
         const logout =  fetch(config.apiUrl +  "/logOut", {
             method: "GET",
-            credentials:"include"
         })
             history.push("/Login")
             window.location.reload()
@@ -91,7 +90,6 @@ console.log(props);
    async function getAdmin(){
         const res = await fetch(config.apiUrl +  "/adminPanel", {
             method: "GET",
-            credentials:"include",
         });
         if (res.status === 403) {
             alert("You Need Admin Premissions")
@@ -110,7 +108,6 @@ console.log(props);
                 headers: {
                     "Content-Type": "application/json"
                 },
-                credentials: "include",
                 body: JSON.stringify({
                     userName : value,
                     system : system,

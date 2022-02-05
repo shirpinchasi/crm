@@ -13,8 +13,12 @@ function Login() {
         const [auth, setAuth] = useState(false)
 
         const submit  = async (values) => {
-                const res = await  fetch(config.apiUrl +  `/user/login`, {
+                console.log(values);
+                const res = await  fetch(config.apiUrl +  "/user/login", {
                         method: "POST",
+                        headers : {
+                                "content-type": "application/JSON"
+                            },
                         body: JSON.stringify(values),
                  
                 });

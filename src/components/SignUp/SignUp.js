@@ -13,10 +13,14 @@ function SignUp() {
 
     const submit = async (values) => {
         console.log(values);
-        const res = await fetch(config.apiUrl +  "/user/signup", {
+        const res = await fetch(config.apiUrl+ "/user/signup", {
             method: "POST",
+            headers : {
+                "content-type": "application/JSON"
+            },
             body: JSON.stringify(values)
         });
+        console.log(res);
         if (res) {
             setSuccess(true);
             history.push("/Login")
@@ -26,6 +30,17 @@ function SignUp() {
         }
         return res;
     }
+
+    // const handleUserNameChange = (e) => {
+    //     setUserName(e.target.value)
+    // };
+    // const handleEmailChange = (e) => {
+    //     setEmail(e.target.value)
+    // };
+    
+    // const handlePasswordChange = (e) => {
+    //     setPassword(e.target.value)
+    // };
     
 
     return (
@@ -43,7 +58,7 @@ function SignUp() {
                                 <div class="form-group">
                                 </div>
                                 <label htmlFor="username">UserName</label>
-                                <Field type="text" class="form-control" name="userName" id="userName" />
+                                <Field  type="text" class="form-control" name="userName" id="userName" />
                                 {errors.userName && touched.userName && <small className="text-danger mt-2">{errors.userName}</small>}
 
                                 <div class="form-group">
@@ -53,7 +68,7 @@ function SignUp() {
                                 </div>
                                 <div class="form-group">
                                     <label htmlFor="email">Email</label>
-                                    <Field type="email" className="form-control" name="email" id="email" />
+                                    <Field type="email"className="form-control" name="email" id="email" />
                                     {errors.email && touched.email && <small className="text-danger mt-2">{errors.email}</small>}
                                 </div>
                                 <div className="form-group">

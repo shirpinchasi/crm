@@ -19,7 +19,7 @@ function Login() {
                         headers : {
                                 "content-type": "application/JSON"
                             },
-                        //     mode:"no-cors",
+                            mode:"no-cors",
                         body: JSON.stringify(values),
                  
                 });

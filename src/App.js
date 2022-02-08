@@ -39,11 +39,7 @@ function App(props) {
     getUser();
   },[history])
 
-
-
   
- 
-
   return (
     <div className="App">
       <UserContext.Provider value={{ fetchUser, setUser }}>

@@ -79,8 +79,8 @@ console.log(props);
         })).json()
         setAllSystems(getSystem)
     }
-    function logOut(){
-        const logout =  fetch(config.apiUrl +  "/logOut", {
+    async function logOut(){
+        const logout = await fetch(config.apiUrl +  "/logOut", {
             method: "GET",
             credentials:"include",
         })

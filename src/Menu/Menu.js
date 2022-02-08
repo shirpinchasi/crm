@@ -82,9 +82,9 @@ console.log(props);
     async function logOut(){
         const logout = await fetch(config.apiUrl +  "/logOut", {
             method: "GET",
-            // credentials:"include",
+            credentials:"include",
         })
-            // history.push("/Login")
+            history.push("/Login")
             window.location.reload()
             console.log("logged Out Successfully")
         

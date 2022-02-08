@@ -35,6 +35,12 @@ function App(props) {
       if (!user) {
         history.push("/Login");
       }
+      if(user) {
+        history.pushState(null, null, location.href);
+        window.onpopstate = function(event) {
+          history.go(1);
+        };
+      }
     }
     getUser();
   },[history])
@@ -65,12 +71,6 @@ function App(props) {
         </Route>
         <Route exact path="/Requests">
           <Req />
-        </Route>
-        <Route exact path="/Login">
-          <Redirect to={"/"}/>
-        </Route>
-        <Route exact path="/SignUp">
-          <Redirect to={"/"}/>
         </Route>
         <Route exact path="/Calls">
           <Calls Component={Calls} />

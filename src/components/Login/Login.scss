@@ -1,0 +1,29 @@
+#login_form{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    position: absolute;
+}
+#card{
+    box-shadow: 2px 2px 2px 2px rgb(179, 173, 173);
+    display: flex;
+    flex-direction: column;
+    width: 600px;
+    height: 400px;
+}
+#inputs{
+    display: flex;
+    flex-direction: column;
+    margin-top: 5%;
+    align-items: center;
+}
+#button_submit{
+    margin-top: 10%;
+}
+.text-center{
+margin-top: 10%;
+}

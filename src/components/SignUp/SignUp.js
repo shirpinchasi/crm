@@ -1,130 +1,121 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFormik, Formik, Form, Field } from 'formik';
 import { useHistory, withRouter } from "react-router-dom";
-import { SignUpSchema } from './SignUpSchema';
 import config from "../../config/index"
+import { SignUpSchema } from './SignUpSchema';
+import { Button, TextField } from '@material-ui/core';
+import "./SignUp.scss"
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import * as Yup from 'yup';
 
 
 
 
-function SignUp() {
-    const history = useHistory();
-    const [showSuccess, setSuccess] = useState(false)
+    const  SignUp = () => {
+        const history = useHistory();
+     const [getError,setError] = useState("")
+     const [showSuccess, setSuccess] = useState(false)
+        const formik = useFormik({
+          initialValues: {
+            userName :"",
+            password : "",
+            email : ""
+          },
+          
+          validationSchema: SignUpSchema,
+           onSubmit: async (values) => {
+            const res = await fetch(config.apiUrl+ "/user/signup", {
+                method: "POST",
+                headers : {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify(values)
+            });
+            let result = await res.json();
+            setError(result.message)
+            console.log(result.message);
 
-    const submit = async (values) => {
-        console.log(values);
-        const res = await fetch(config.apiUrl+ "/user/signup", {
-            method: "POST",
-            headers : {
-                "content-type": "application/json"
-            },
-            body: JSON.stringify(values)
+            if (res.status === 500) {
+                res.setStatus(500)
+               
+                
+                
+                console.log("ERORR In creating user!");
+                
+            }else if(res.status === 400){
+                let result = await res.json();
+                setError(result.message)
+            }
+            
+            else {
+                setSuccess(true);
+                history.push("/Login")
+            }
+          },
         });
-        console.log(res);
-        if (res) {
-            setSuccess(true);
-            history.push("/Login")
-        } else {
-            res.setStatus(500)
-            console.log("ERORR In creating user!");
-        }
-        return res;
-    }
+        console.log(getError);
 
-    // const handleUserNameChange = (e) => {
-    //     setUserName(e.target.value)
-    // };
-    // const handleEmailChange = (e) => {
-    //     setEmail(e.target.value)
-    // };
-    
-    // const handlePasswordChange = (e) => {
-    //     setPassword(e.target.value)
-    // };
-    
+        
 
     return (
 
-        <>
-            <div id="SignUp">
-                <div id="ajust1">
-                    <Formik initialValues={{ userName: "", password: "",email : "" }}
-                        validationSchema={SignUpSchema}
-                        onSubmit={submit}>
-
-                        {({ errors, touched }) => (
-                            <Form className="Login_form">
-                                <h2 className="Login_title">Sign Up</h2>
-                                <div class="form-group">
-                                </div>
-                                <label htmlFor="username">UserName</label>
-                                <Field  type="text" class="form-control" name="userName" id="userName" />
-                                {errors.userName && touched.userName && <small className="text-danger mt-2">{errors.userName}</small>}
-
-                                <div class="form-group">
-                                    <label htmlFor="Password">Password</label>
-                                    <Field type="password" class="form-control" name="password" id="password" />
-                                    {errors.password && touched.password && <small className="text-danger mt-2">{errors.password}</small>}
-                                </div>
-                                <div class="form-group">
-                                    <label htmlFor="email">Email</label>
-                                    <Field type="email"className="form-control" name="email" id="email" />
-                                    {errors.email && touched.email && <small className="text-danger mt-2">{errors.email}</small>}
-                                </div>
-                                <div className="form-group">
-                                    {showSuccess
-                                        ? <div className="alert alert-success Register_success">Wait for transfer...</div>
-                                        : <button type="submit" className="mt-3 Register_submit-btn" >Submit</button>}
-                                </div>
-                            </Form>
-
-                        )}
-                    </Formik>
-                </div>
-            </div>
-
-            {/*         
-            <div className="text-center"> 
-                <h2 className="Register_title">Register now!</h2>
-                <h4 className="Register_subtitle">It's quick and easy!</h4>
-            </div>
+        <div id="signup_form">
+             <Card id="card_signup">
+      <form id='form_submit_signup' onSubmit={formik.handleSubmit}>
+      <Typography variant="h5" component="div">
+          Sign Up
+        </Typography>
+      <TextField
+          id="userName"
+          name="userName"
+          label="userName"
+          type="userName"
+          value={formik.values.userName}
+          onChange={formik.handleChange}
+          error={formik.touched.userName && Boolean(formik.errors.userName)}
+          helperText={formik.touched.userName && formik.errors.userName}
+        />
+        <TextField
+          id="password"
+          name="password"
+          label="Password"
+          type="password"
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          error={formik.touched.password && formik.errors.password}
+          helperText={formik.touched.password && formik.errors.password}
+        />
+        <TextField
+          id="email"
+          name="email"
+          label="Email"
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          error={formik.touched.email && formik.errors.email}
+          helperText={formik.touched.email && formik.errors.email}
+        />
+        {/* {getError} */}
+        <Button color="primary"  id="button_submit_signup" variant="contained"  type="submit">
+          SIGN UP
+        </Button>
+      </form>
+    </Card>
     
-        <div id="ajust" className="shadow-lg p-3 mb-5 bg-white rounded" >
-        <Formik initialValues ={{userName : "", password : "", email:""}}
-            validationSchema ={SignUpSchema}
-            onSubmit={submit}>
-            {({ errors, touched, isSubmitting})=>(
-                    <Form className ="Register_form mt-1 px-0">
-                        <div className="form-group">
-                                <label htmlFor="username">UserName</label>
-                                <Field type="text" class="form-control" id ="username"  name = "username" placeholder="2-16 characters"/>
-                                {errors.userName && touched.userName && <small className="text-danger mt-2">{errors.userName}</small>}
-                        </div>
-                        
-                        <div class="form-group">
-                            <label htmlFor="Password">Password</label>
-                            <Field type="password" className="form-control" name = "password" id="password" placeholder="6-16 characters"/>
-                            {errors.password && touched.password && <small className="text-danger mt-2">{errors.password}</small>}
-                        </div>
-                        <div class="form-group">
-                            <label htmlFor="email">Email</label>
-                            <Field type="email" className="form-control" name = "email" id="email" />
-                            {errors.email && touched.email && <small className="text-danger mt-2">{errors.email}</small>}
-                        </div>
-                        
-                        <div className="form-group">
-                            {showSuccess
-                                ?<div className="alert alert-success Register_success">Wait for transfer...</div>
-                                : <button type="submit" className="mt-3 Register_submit-btn" disabled={isSubmitting}>Submit</button>}
-                        </div>
-                    </Form>
-                )}
-            </Formik>
-            </div> */}
-        </>
-    )
+                
+                   
+                
+           
 
-}
+            
+        </div>
+    )
+        
+                }
+
 
 
 export default SignUp;

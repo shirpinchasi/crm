@@ -1,0 +1,39 @@
+#signup_submit{
+    width: fit-content;
+    height: 100vh;
+
+}
+
+#form_submit_signup{
+    display: grid;
+    justify-items: stretch;
+    width: 500px;
+    height: inherit;
+}
+#card_signup{
+    box-shadow: 2px 2px 2px 2px rgb(179, 173, 173);
+    height: 100vh;
+    width: fit-content;
+
+}
+#userName{
+    height: fit-content;
+}
+#password{
+    height: fit-content;
+}
+#email{
+    height: fit-content;
+}
+#button_submit_signup{
+    height: fit-content;
+}
+.line{
+    height: 40vh;
+    width: 1px;
+    margin-left: 50px;
+    border: solid black;
+}
+#OR{
+
+}

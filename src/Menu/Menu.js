@@ -67,19 +67,22 @@ console.log(props);
 
     async function getUsers() {
         const getUser = await (await fetch(config.apiUrl +  `/getUser`, {
-            method: "GET"
+            method: "GET",
+            credentials:"include",
         })).json()
         setUsers(getUser)
     }
     async function getSystems() {
         const getSystem = await (await fetch(config.apiUrl +  `/system`, {
-            method: "GET"
+            method: "GET",
+            credentials:"include",
         })).json()
         setAllSystems(getSystem)
     }
     function logOut(){
         const logout =  fetch(config.apiUrl +  "/logOut", {
             method: "GET",
+            credentials:"include",
         })
             history.push("/Login")
             window.location.reload()
@@ -87,9 +90,11 @@ console.log(props);
         
         
     }
+    console.log(getSystem);
    async function getAdmin(){
         const res = await fetch(config.apiUrl +  "/adminPanel", {
             method: "GET",
+            credentials:"include",
         });
         if (res.status === 403) {
             alert("You Need Admin Premissions")
@@ -108,11 +113,14 @@ console.log(props);
                 headers: {
                     "Content-Type": "application/json"
                 },
+                credentials:"include",
                 body: JSON.stringify({
                     userName : value,
                     system : system,
                 }),
+                
             })
+            window.location.reload()
     }
     useEffect(() => {
         getUsers();

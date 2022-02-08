@@ -38,28 +38,21 @@ import * as Yup from 'yup';
             let result = await res.json();
             setError(result.message)
             console.log(result.message);
+            if(res.status === 201){
+              setSuccess(true);
+                history.push("/Login")
+            }
 
             if (res.status === 500) {
                 res.setStatus(500)
-               
-                
-                
                 console.log("ERORR In creating user!");
                 
             }else if(res.status === 400){
                 let result = await res.json();
                 setError(result.message)
             }
-            
-            else {
-                setSuccess(true);
-                history.push("/Login")
-            }
           },
         });
-        console.log(getError);
-
-        
 
     return (
 
@@ -98,7 +91,7 @@ import * as Yup from 'yup';
           error={formik.touched.email && formik.errors.email}
           helperText={formik.touched.email && formik.errors.email}
         />
-        {/* {getError} */}
+        {getError}
         <Button color="primary"  id="button_submit_signup" variant="contained"  type="submit">
           SIGN UP
         </Button>

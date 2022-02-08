@@ -10,7 +10,7 @@ import Req from "./components/Req/Req";
 import Users from "./components/Users/Users"
 import CallInfo from './components/CallInfo/CallInfo';
 import { UserContext } from "./userContext";
-import {UserService, UserContextProvider} from "./userService"
+import {UserService} from "./userService"
 import AdminPanel from './components/adminPanel/adminPanel';
 
 
@@ -49,10 +49,10 @@ function App(props) {
       <UserContext.Provider value={{ fetchUser, setUser }}>
         {!fetchUser ?
             <Switch>
-              <Route exact path={"/Login"}>
+              <Route exact path="/Login">
                   <Login/>
               </Route>
-              <Route exact path={"/SignUp"}>
+              <Route exact path="/SignUp">
                   <SignUp/>
               </Route>
             </Switch>  
@@ -66,13 +66,15 @@ function App(props) {
         <Route exact path="/Requests">
           <Req />
         </Route>
-        
+        <Route exact path="/Login">
+          <Redirect to={"/"}/>
+        </Route>
+        <Route exact path="/SignUp">
+          <Redirect to={"/"}/>
+        </Route>
         <Route exact path="/Calls">
           <Calls Component={Calls} />
         </Route>
-        <Route exact path="/SignUp">
-          <SignUp/>
-      </Route>
       <Route exact path="/adminPanel">
           <AdminPanel Component={AdminPanel}/>
       </Route>
@@ -83,12 +85,6 @@ function App(props) {
       </Switch>
       </>
       }
-        
-        
-        {/* <div>
-          {!fetchUser ? <Login/> : <Menu props={fetchUser}/>}
-        {/* {fetchUser && <Menu props={fetchUser}/>} */}
-        {/* </div> */}
         
       </UserContext.Provider>
 

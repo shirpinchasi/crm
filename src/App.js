@@ -35,12 +35,6 @@ function App(props) {
       if (!user) {
         history.push("/Login");
       }
-      if(user) {
-        history.pushState(null, null, location.href);
-        window.onpopstate = function(event) {
-          history.go(1);
-        };
-      }
     }
     getUser();
   },[history])

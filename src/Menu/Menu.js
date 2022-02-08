@@ -84,11 +84,11 @@ console.log(props);
             method: "GET",
             credentials:"include",
         })
+        if(logout.status === 200){
             history.push("/Login")
             window.location.reload()
             console.log("logged Out Successfully")
-        
-        
+        }
     }
     console.log(getSystem);
    async function getAdmin(){

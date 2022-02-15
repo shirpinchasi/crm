@@ -52,7 +52,6 @@ export default function Menu(props) {
     const handleBackDropOpen = () => {
         setOpenBackDrop(true);
     };
-console.log(props);
     const handleBackDropClose = () => {
         setOpenBackDrop(false);
         setValue("")
@@ -64,7 +63,6 @@ console.log(props);
     const handleSystemChange = (e) => {
         setSystem(e.target.value)
     };
-
     async function getUsers() {
         const getUser = await (await fetch(config.apiUrl +  `/getUser`, {
             method: "GET",
@@ -84,20 +82,21 @@ console.log(props);
             method: "GET",
             credentials:"include",
         })
+        
         if(logout.status === 200){
             history.push("/Login")
             window.location.reload()
             console.log("logged Out Successfully")
         }
     }
-    console.log(getSystem);
    async function getAdmin(){
         const res = await fetch(config.apiUrl +  "/adminPanel", {
             method: "GET",
             credentials:"include",
         });
+        const fetchData = await res.json();
         if (res.status === 403) {
-            alert("You Need Admin Premissions")
+            alert(fetchData.message)
                 history.push("/")
         }
         else if(res.status === 200){
@@ -164,8 +163,8 @@ console.log(props);
                         <Button id="plusIcon" variant="outlined" color="primary" onClick={handleBackDropOpen}>
                             New Call
                         </Button>
+                        
                         <Backdrop open={openBackDrop}>
-                            {/* <CircularProgress color="inherit" /> */}
                             <Card id="backdrop" >
                                 <CardContent>
                                     <CardActions>
@@ -209,42 +208,6 @@ console.log(props);
                                         <FormHelperText>Required</FormHelperText>
                                     </FormControl>
                                     </Box>
-                                    {/* <FormControl required className={classes.formControl}>
-                                            <InputLabel id="demo-simple-select-required-label">קטגוריה</InputLabel>
-                                            <Select
-                                                labelId="demo-simple-select-required-label"
-                                                id="demo-simple-select-required"
-                                                value={age}
-                                                onChange={handleChange}
-                                                className={classes.selectEmpty}
-                                            >
-                                                <MenuItem value="">
-                                                    <em>None</em>
-                                                </MenuItem>
-                                                <MenuItem value={10}>Ten</MenuItem>
-                                                <MenuItem value={20}>Twenty</MenuItem>
-                                                <MenuItem value={30}>Thirty</MenuItem>
-                                            </Select>
-                                            <FormHelperText>Required</FormHelperText>
-                                        </FormControl> */}
-                                    {/* <FormControl required className={classes.formControl}>
-                                            <InputLabel id="demo-simple-select-required-label">מיקום</InputLabel>
-                                            <Select
-                                                labelId="demo-simple-select-required-label"
-                                                id="demo-simple-select-required"
-                                                value={age}
-                                                onChange={handleChange}
-                                                className={classes.selectEmpty}
-                                            >
-                                                <MenuItem value="">
-                                                    <em>None</em>
-                                                </MenuItem>
-                                                <MenuItem value={10}>Ten</MenuItem>
-                                                <MenuItem value={20}>Twenty</MenuItem>
-                                                <MenuItem value={30}>Thirty</MenuItem>
-                                            </Select>
-                                            <FormHelperText>Required</FormHelperText>
-                                        </FormControl> */}
                                     <br />
 
         
@@ -254,6 +217,7 @@ console.log(props);
                         </Backdrop>
                     </Toolbar>
                 </AppBar>
+                
                 <Drawer
                     sx={{
                         width: drawerWidth,
@@ -293,15 +257,7 @@ console.log(props);
                         </ListItemText>
                     </List>
                 </Drawer>
-                {/* <Main open={open}>
-                    <DrawerHeader />
-                    <Typography paragraph>
-
-                    </Typography>
-                    <Typography paragraph>
-
-                    </Typography>
-                </Main> */}
+                
             </Box>
         </div>
     );
@@ -309,10 +265,6 @@ console.log(props);
 
 
 Menu.propTypes = {
-    /**
-     * Injected by the documentation to work in an iframe.
-     * You won't need it on your project.
-     */
     window: PropTypes.func,
 
 }
@@ -354,7 +306,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     alignItems: 'center',
     width: drawerWidth,
     padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: 'flex-end',
 }));

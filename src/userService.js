@@ -12,7 +12,6 @@ export class UserService{
                  return null;
             }
             const user = await res.json();
-            console.log(user);
             return user;
          }catch(e){
              return null;

@@ -13,24 +13,27 @@ import config from "../../config/index"
 
 
 function CallInfo() {
-    const { id } = useParams()
-    const [calls, setCalls] = useState([])
+    const { id } = useParams();
+    const [calls, setCalls] = useState([]);
+    const [isLoading, setLoading] = useState(true);
     console.log(id);
 
     async function fetchCalls() {
         try {
             const getCalls = await fetch( config.apiUrl +  `/getCalls/${id}`, {
                 method: "GET",
+                credentials:"include",
             })
             const fetchCalls = await getCalls.json();
             setCalls(fetchCalls.call)
+            setLoading(false)
             console.log(fetchCalls.call);
         } catch (err) {
             console.log(err);
         }
     }
 
-    // console.log(calls);
+    console.log(calls.userName);
 
 
     useEffect(() => {
@@ -41,12 +44,19 @@ function CallInfo() {
 
     return (
         <>
+        {isLoading ? <div>Loading dataaaaaaaaaaaa</div> : 
+        <>
             <div className="call_header">
-                <p className="call_id">Call Id : {calls._id}</p>
+            <TextField
+          disabled
+          id="call_id"
+          label="UserName"
+          defaultValue={calls._id}
+          variant="standard"
+        />
                 <Button>Update Call</Button>
             </div>
-
-            <Box className="callInfo">
+            <div className="callInfo">
             <TextField
           disabled
           id="standard-disabled"
@@ -58,42 +68,27 @@ function CallInfo() {
           disabled
           id="standard-disabled"
           label="System"
+          defaultValue={calls.system}
           variant="standard"
         />
         <TextField
           disabled
           id="standard-disabled"
-          label="Disabled"
-          defaultValue="Hello World"
+          label="Opening Date"
+          defaultValue={calls.openingDate}
           variant="standard"
         />
-        <TextField
+        {/* <TextField
           disabled
           id="standard-disabled"
           label="Disabled"
           defaultValue="Hello World"
           variant="standard"
-        />
-                <FormControl className="Form_Control" disabled variant="standard">
-                    <InputLabel htmlFor="component-disabled">userName</InputLabel>
-                    
-                    <Input id="component-disabled" value={calls.userName}/>
-                </FormControl>
-                <FormControl className="Form_Control" disabled variant="standard">
-                    <InputLabel htmlFor="component-disabled">System</InputLabel>
-                    <Input id="component-disabled" value={calls.system} />
-                </FormControl>
-                <FormControl className="Form_Control" disabled variant="standard">
-                    <InputLabel htmlFor="component-disabled">Opening Date</InputLabel>
-                    <Input id="component-disabled" value={calls.openingDate} />
-                </FormControl>
-                <FormControl className="Form_Control" disabled variant="standard">
-                    <InputLabel htmlFor="component-disabled">Description</InputLabel>
-                    <Input id="component-disabled" value={calls.description} />
-                </FormControl>
-
-            </Box>
-
+        /> */}
+        
+            </div>
+            </>
+}
         </>
     )
 }

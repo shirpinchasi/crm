@@ -31,7 +31,6 @@ function App(props) {
       const user = await UserService.get();
       setUser(user);
       setLoading(false);
-      console.log(user);
       if (!user) {
         history.push("/Login");
       }
@@ -39,7 +38,6 @@ function App(props) {
     getUser();
   },[history])
 
-  
   return (
     <div className="App">
       <UserContext.Provider value={{ fetchUser, setUser }}>
@@ -61,6 +59,9 @@ function App(props) {
         </Route>
         <Route exact path="/Requests">
           <Req />
+        </Route>
+        <Route exact path="/Users">
+          <Users Component={Users} />
         </Route>
         <Route exact path="/Calls">
           <Calls Component={Calls} />

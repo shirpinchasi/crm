@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Menu from './Menu/Menu';
-import {Route,useNavigate,Routes, BrowserRouter, Navigate} from "react-router-dom";
+import {Route,useNavigate,Routes, BrowserRouter,} from "react-router-dom";
 import Calls from './components/Calls/Calls';
 import Login from './components/Login/Login';
 import SignUp from './components/SignUp/SignUp';
@@ -18,13 +18,15 @@ function App(props) {
   
   const [fetchUser, setUser] = useState({});
   const [haveAccess, setAccess]= useState(false)
+  const navigate = useNavigate()
 
   useEffect(()=> {
     async function getUser(){
       const user = await UserService.get();
       setUser(user);
-      if (!user) {
-        <Navigate to="/Login"/>
+      if (user === null ) {
+        console.log(user);
+        navigate("/Login")
       }
     }
     getUser();
@@ -33,6 +35,7 @@ function App(props) {
   return (
     <div className="App">
       <UserContext.Provider value={{ fetchUser, setUser }}>
+        {console.log(fetchUser)}
         {!fetchUser ?
         <>
           <Routes>
@@ -50,7 +53,7 @@ function App(props) {
         {/* <Route path='/userInfo/:id?' element={<User}/> */}
         <Route path="/Calls" element={<Calls props={fetchUser}/>}/>
       <Route path="/adminPanel" element={<AdminPanel props={fetchUser}/>}/>
-        <Route path="/"/>
+        <Route path="/" element={"/"}/>
         <Route element={<PageNotFound/>}/>
         </Routes>
         </>

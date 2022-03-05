@@ -88,10 +88,10 @@ export default function Menu(props) {
         const fetchData = await res.json();
         if (res.status === 403) {
             alert(fetchData.message)
-                history.push("/")
+                console.log(res);
         }
         else if(res.status === 200){
-            history.push("/adminPanel")
+            window.location = fetchData.redirectUrl
         }
         
     }

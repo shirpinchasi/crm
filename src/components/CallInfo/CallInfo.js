@@ -49,6 +49,7 @@ function CallInfo() {
 		formData.append('File', selectedFile);
    const uploadData = await fetch(config.apiUrl + `/uploadPicture/${id}`,{
       method :"PUT",
+      credentials:"include",
       body:formData
     })
     const fetchData = await uploadData.json()

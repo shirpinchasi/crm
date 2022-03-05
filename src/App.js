@@ -20,9 +20,7 @@ function App(props) {
   
   const [fetchUser, setUser] = useState({});
   const [haveAccess, setAccess]= useState(false)
-
- 
-
+  
   useEffect(()=> {
     async function getUser(){
       const user = await UserService.get();

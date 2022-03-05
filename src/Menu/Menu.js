@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect} from "react";
 import "./Menu.scss"
 import { styled, useTheme } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -18,30 +18,29 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import { Link } from "@material-ui/core";
 import Box from '@mui/material/Box';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MuiAppBar from '@mui/material/AppBar';
-import { BrowserRouter, Route, useLocation, useHistory, Redirect, withRouter,Switch } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import config from "../config/index";
+import NewCall from "../components/Calls/newCall";
 
 
 
 export default function Menu(props) {
-    const [users, setUsers] = useState([]);
     const [getSystem, setAllSystems] = useState([]);
     const theme = useTheme();
+    const [userName, setUserName] = useState([]);
+    const [system, setSystem] = useState([]);
+    const [goremMetapel, setGoremMetapel] = useState([]);
+    const [team, setTeam] = useState([]);
+    const [status, setStatus] = useState([]);
+    const [description, setDescription] = useState([])
     const [open, setOpen] = useState(false);
     const [openBackDrop, setOpenBackDrop] = useState(false);
-    const [value, setValue] = useState("");
-    const [system, setSystem] = useState("");
-    const history = useHistory();
+    const history = useNavigate();
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -54,22 +53,14 @@ export default function Menu(props) {
     };
     const handleBackDropClose = () => {
         setOpenBackDrop(false);
-        setValue("")
+        setUserName("")
         setSystem("")
+        setGoremMetapel("")
+        setTeam("")
+        setStatus("")
+        setDescription("")
     };
-    const handleUserChange = (e) => {
-        setValue(e.target.value)
-    };
-    const handleSystemChange = (e) => {
-        setSystem(e.target.value)
-    };
-    async function getUsers() {
-        const getUser = await (await fetch(config.apiUrl +  `/getUser`, {
-            method: "GET",
-            credentials:"include",
-        })).json()
-        setUsers(getUser)
-    }
+ 
     async function getSystems() {
         const getSystem = await (await fetch(config.apiUrl +  `/system`, {
             method: "GET",
@@ -82,10 +73,10 @@ export default function Menu(props) {
             method: "GET",
             credentials:"include",
         })
-        
+        const data = await logout.json()
         if(logout.status === 200){
-            history.push("/Login")
-            window.location.reload()
+            console.log(data);
+            window.location = data.redirectUrl
             console.log("logged Out Successfully")
         }
     }
@@ -106,32 +97,18 @@ export default function Menu(props) {
     }
 
         
-    const handleSubmit = async (values) => {
-            const res = await fetch(config.apiUrl +  "/addCall", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                credentials:"include",
-                body: JSON.stringify({
-                    userName : value,
-                    system : system,
-                }),
-                
-            })
-            window.location.reload()
-    }
+   
     useEffect(() => {
-        getUsers();
         getSystems();
+       
         return()=>{
-            setUsers([]);
-            setAllSystems([])
-        }    
-    }, [])
+            setAllSystems([]);
+        }
+    }, [userName,system,goremMetapel,team,status,description])
 
     return (
         <div>
+            
 
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
@@ -170,48 +147,7 @@ export default function Menu(props) {
                                     <CardActions>
                                         <FontAwesomeIcon icon={faTimes} onClick={handleBackDropClose} />
                                     </CardActions>
-                                    <Box className="box_form">
-                                    <FormControl required className="form" >
-                                        <InputLabel id="demo-simple-select-required-label">UserName</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-required-label"
-                                            id="demo-simple-select-required"
-                                            value={value}
-                                            onChange={handleUserChange}
-                                            required
-                                            defaultValue=""
-                                        >
-                                            <MenuItem value="">
-                                                <em>NONE</em>
-                                            </MenuItem>
-                                            {users.map((user) => (
-                                                <MenuItem key={user._id} value={user.userName}>{user.userName} </MenuItem>
-                                            ))}
-                                        </Select>
-                                        <FormHelperText>Required</FormHelperText>
-                                    </FormControl>
-                                    <FormControl required className="form" >
-                                        <InputLabel id="demo-simple-select-required-label">System</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-required-label"
-                                            id="demo-simple-select-required"
-                                            value={system}
-                                            onChange={handleSystemChange}
-                                        >
-                                            <MenuItem value="">
-                                                <em>None</em>
-                                            </MenuItem>
-                                            {getSystem.map((system) => (
-                                                <MenuItem key={system._id} value={system.systemName}>{system.systemName} </MenuItem>
-                                            ))}
-                                        </Select>
-                                        <FormHelperText>Required</FormHelperText>
-                                    </FormControl>
-                                    </Box>
-                                    <br />
-
-        
-                                    <Button  onClick={() => { handleSubmit(); handleBackDropClose(); }}>save</Button>
+                                    <NewCall onClick={handleBackDropClose} />
                                 </CardContent>
                             </Card>
                         </Backdrop>
@@ -273,24 +209,6 @@ Menu.propTypes = {
 
 const drawerWidth = 240;
 
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
-    ({ theme, open }) => ({
-        flexGrow: 1,
-        padding: theme.spacing(3),
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        marginLeft: `-${drawerWidth}px`,
-        ...(open && {
-            transition: theme.transitions.create('margin', {
-                easing: theme.transitions.easing.easeOut,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
-            marginLeft: 0,
-        }),
-    }),
-);
 
 const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== 'open',

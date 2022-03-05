@@ -1,21 +1,17 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext,useState } from "react";
 import { LoginSchema } from "./loginSchema";
 import { UserContext } from "../../userContext";
-import { useHistory, Link, withRouter } from "react-router-dom";
+import { Link} from "react-router-dom";
 import config from "../../config/index"
 import { Button, TextField } from '@material-ui/core';
-import { useFormik, Formik, Form, Field } from 'formik';
-import "./Login.scss"
-import Box from '@mui/material/Box';
+import { useFormik} from 'formik';
+import "./Login.scss";
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
 
 const  Login = () => {
         const { setUser } = useContext(UserContext);
-        const history = useHistory();
         const [data,setData] = useState("")
         const formik = useFormik({
           initialValues: {
@@ -37,8 +33,8 @@ const  Login = () => {
                 if (res.status === 200) {
                         const loggedUser = await res.json();
                         setUser(loggedUser);
+                        window.location = loggedUser.redirectUrl
                         console.log(loggedUser)
-                        history.push("/")
                 } 
                 
                 else if (res.status === 401) {

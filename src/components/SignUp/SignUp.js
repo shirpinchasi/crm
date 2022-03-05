@@ -1,29 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { useFormik, Formik, Form, Field } from 'formik';
-import { useHistory, withRouter } from "react-router-dom";
+import React, {useState } from 'react';
+import { useFormik} from 'formik';
 import config from "../../config/index"
 import { SignUpSchema } from './SignUpSchema';
 import { Button, TextField } from '@material-ui/core';
-import "./SignUp.scss"
-import Box from '@mui/material/Box';
+import "./SignUp.scss";
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import * as Yup from 'yup';
 
 
 
 
     const  SignUp = () => {
-        const history = useHistory();
      const [getError,setError] = useState("")
      const [showSuccess, setSuccess] = useState(false)
         const formik = useFormik({
           initialValues: {
             userName :"",
+            firstName : "",
+            lastName : "",
             password : "",
-            email : ""
+            email : "",
+            status : "Active"
           },
           
           validationSchema: SignUpSchema,
@@ -40,7 +37,7 @@ import * as Yup from 'yup';
             console.log(result.message);
             if(res.status === 201){
               setSuccess(true);
-                history.push("/Login")
+               window.location = result.redirectUrl
             }
 
             if (res.status === 500) {
@@ -65,12 +62,32 @@ import * as Yup from 'yup';
       <TextField
           id="userName"
           name="userName"
-          label="userName"
+          label="User Name"
           type="userName"
           value={formik.values.userName}
           onChange={formik.handleChange}
           error={formik.touched.userName && Boolean(formik.errors.userName)}
           helperText={formik.touched.userName && formik.errors.userName}
+        />
+        <TextField
+          id="firstName"
+          name="firstName"
+          label="First Name"
+          type="firstName"
+          value={formik.values.firstName}
+          onChange={formik.handleChange}
+          error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+          helperText={formik.touched.firstName && formik.errors.firstName}
+        />
+        <TextField
+          id="lastName"
+          name="lastName"
+          label="Last Name"
+          type="lastName"
+          value={formik.values.lastName}
+          onChange={formik.handleChange}
+          error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+          helperText={formik.touched.lastName && formik.errors.lastName}
         />
         <TextField
           id="password"

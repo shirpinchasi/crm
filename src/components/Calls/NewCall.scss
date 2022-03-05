@@ -1,0 +1,15 @@
+#call_form{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+#flex_inputs{
+    width: 800px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+}
+#input{
+    margin-left: 5px;
+}

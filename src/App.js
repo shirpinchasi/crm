@@ -1,82 +1,64 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Menu from './Menu/Menu';
-import { BrowserRouter, Route, useLocation, useHistory, Redirect, withRouter,Switch } from "react-router-dom";
+import {Route,useNavigate,Routes, BrowserRouter, Navigate} from "react-router-dom";
 import Calls from './components/Calls/Calls';
 import Login from './components/Login/Login';
 import SignUp from './components/SignUp/SignUp';
-import LogOff from './components/LogOff/LogOff';
 import Req from "./components/Req/Req";
 import Users from "./components/Users/Users"
 import CallInfo from './components/CallInfo/CallInfo';
 import { UserContext } from "./userContext";
 import {UserService} from "./userService"
 import AdminPanel from './components/adminPanel/adminPanel';
-
-
-
+import GetUsers from './components/Users/getUsers';
+import NewCall from './components/Calls/newCall';
+import PageNotFound from "./PageNotFound/PageNotFound"
 
 
 function App(props) {
   
   const [fetchUser, setUser] = useState({});
-  const [data, setData] = useState(false);
-  const [isLoading, setLoading] = useState(true);
-  const history = useHistory();
-  const location = useLocation()
-  
+  const [haveAccess, setAccess]= useState(false)
+
+ 
 
   useEffect(()=> {
     async function getUser(){
       const user = await UserService.get();
       setUser(user);
-      setLoading(false);
       if (!user) {
-        history.push("/Login");
+        <Navigate to="/Login"/>
       }
     }
     getUser();
-  },[history])
+  },[])
 
   return (
     <div className="App">
       <UserContext.Provider value={{ fetchUser, setUser }}>
         {!fetchUser ?
-            <Switch>
-              <Route exact path="/Login">
-                  <Login/>
-              </Route>
-              <Route exact path="/SignUp">
-                  <SignUp/>
-              </Route>
-            </Switch>  
+        <>
+          <Routes>
+              <Route path="/Login" element={<Login/>}/>
+              <Route path="/SignUp" element={<SignUp/>}/>
+        </Routes>
+         </>
         :
         <>
         <Menu props={fetchUser}/>
-        <Switch>
-        <Route exact path="/callInfo/:id?">
-          <CallInfo />
-        </Route>
-        <Route exact path="/Requests">
-          <Req />
-        </Route>
-        <Route exact path="/Users">
-          <Users Component={Users} />
-        </Route>
-        <Route exact path="/Calls">
-          <Calls Component={Calls} />
-        </Route>
-      <Route exact path="/adminPanel">
-          <AdminPanel Component={AdminPanel}/>
-      </Route>
-        <Route exact path="/">
-
-        </Route>
-
-      </Switch>
-      </>
+        <Routes>
+        <Route path="/callInfo/:id" element={<CallInfo props={fetchUser}/>}/>
+        <Route path="/Requests" element={<Req props={fetchUser}/>}/>
+        <Route path="/Users" element={<Users/>}/>
+        {/* <Route path='/userInfo/:id?' element={<User}/> */}
+        <Route path="/Calls" element={<Calls props={fetchUser}/>}/>
+      <Route path="/adminPanel" element={<AdminPanel props={fetchUser}/>}/>
+        <Route path="/"/>
+        <Route element={<PageNotFound/>}/>
+        </Routes>
+        </>
       }
-        
       </UserContext.Provider>
 
 

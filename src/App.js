@@ -17,21 +17,25 @@ import PageNotFound from "./PageNotFound/PageNotFound"
 function App(props) {
   
   const [fetchUser, setUser] = useState({});
-  const [haveAccess, setAccess]= useState(false)
+  const [isLoading,setLoading] = useState(true)
   const navigate = useNavigate()
 
   useEffect(()=> {
     async function getUser(){
       const user = await UserService.get();
       setUser(user);
-      if (user === null ) {
+      if (!user ) {
+        setLoading(false)
         navigate("/Login")
       }
     }
+    setLoading(false)
     getUser();
   },[])
 
   return (
+    <>
+    {isLoading ? null : 
     <div className="App">
       <UserContext.Provider value={{ fetchUser, setUser }}>
         {!fetchUser ?
@@ -62,6 +66,8 @@ function App(props) {
 
 
     </div>
+}
+    </>
   );
 }
 

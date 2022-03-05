@@ -11,8 +11,6 @@ import CallInfo from './components/CallInfo/CallInfo';
 import { UserContext } from "./userContext";
 import {UserService} from "./userService"
 import AdminPanel from './components/adminPanel/adminPanel';
-import GetUsers from './components/Users/getUsers';
-import NewCall from './components/Calls/newCall';
 import PageNotFound from "./PageNotFound/PageNotFound"
 
 
@@ -20,7 +18,7 @@ function App(props) {
   
   const [fetchUser, setUser] = useState({});
   const [haveAccess, setAccess]= useState(false)
-  
+
   useEffect(()=> {
     async function getUser(){
       const user = await UserService.get();

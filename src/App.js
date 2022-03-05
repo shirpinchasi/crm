@@ -29,7 +29,7 @@ function App(props) {
         navigate("/Login")
       }
     }
-    setLoading(false)
+    setLoading(true)
     getUser();
   }, [])
 

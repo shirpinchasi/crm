@@ -25,7 +25,6 @@ function App(props) {
       const user = await UserService.get();
       setUser(user);
       if (user === null ) {
-        console.log(user);
         navigate("/Login")
       }
     }
@@ -35,7 +34,6 @@ function App(props) {
   return (
     <div className="App">
       <UserContext.Provider value={{ fetchUser, setUser }}>
-        {console.log(fetchUser)}
         {!fetchUser ?
         <>
           <Routes>

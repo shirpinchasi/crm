@@ -29,7 +29,6 @@ function App(props) {
         navigate("/Login")
       }
     }
-    setLoading(true)
     getUser();
   }, [])
 
@@ -37,7 +36,6 @@ function App(props) {
     <>
 
       <div className="App">
-        {isLoading ? null :
         
         <UserContext.Provider value={{ fetchUser, setUser }}>
           {!fetchUser ?
@@ -67,7 +65,7 @@ function App(props) {
 
 
 
-        }
+      
       </div>
 
     </>

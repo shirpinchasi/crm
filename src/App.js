@@ -23,49 +23,51 @@ function App(props) {
   useEffect(() => {
     async function getUser() {
       const user = await UserService.get();
-      setUser(user);
       if (!user) {
+        setUser(null)
         setLoading(false)
         navigate("/Login")
+      } else {
+        setLoading(false)
+        setUser(user)
       }
     }
     getUser();
+    setLoading(true)
   }, [])
 
   return (
     <>
-
       <div className="App">
-        
-        <UserContext.Provider value={{ fetchUser, setUser }}>
-          {!fetchUser ?
-            <>
+        {isLoading ? <div></div> :
+          <UserContext.Provider value={{ fetchUser, setUser }}>
+            {!fetchUser ? (
+              <>
                 <Routes>
                   <Route path="/Login" element={<Login />} />
                   <Route path="/SignUp" element={<SignUp />} />
                 </Routes>
-              
-            </>
-            :
-            <>
-              <Menu props={fetchUser} />
-              <Routes>
-                <Route path="/callInfo/:id" element={<CallInfo props={fetchUser} />} />
-                <Route path="/Requests" element={<Req props={fetchUser} />} />
-                <Route path="/Users" element={<Users />} />
-                {/* <Route path='/userInfo/:id?' element={<User}/> */}
-                <Route path="/Calls" element={<Calls props={fetchUser} />} />
-                <Route path="/adminPanel" element={<AdminPanel props={fetchUser} />} />
-                <Route path="/" element={"/"} />
-                <Route element={<PageNotFound />} />
-              </Routes>
-            </>
-          }
-        </UserContext.Provider>
 
+              </>
+            ) : (
+              <>
+                <Menu props={fetchUser} />
+                <Routes>
+                  <Route path="/callInfo/:id" element={<CallInfo props={fetchUser} />} />
+                  <Route path="/Requests" element={<Req props={fetchUser} />} />
+                  <Route path="/Users" element={<Users />} />
+                  {/* <Route path='/userInfo/:id?' element={<User}/> */}
+                  <Route path="/Calls" element={<Calls props={fetchUser} />} />
+                  <Route path="/adminPanel" element={<AdminPanel props={fetchUser} />} />
+                  <Route path="/" element={"/"} />
+                  <Route element={<PageNotFound />} />
+                </Routes>
+              </>
+            )
+            }
 
-
-      
+          </UserContext.Provider>
+        }
       </div>
 
     </>

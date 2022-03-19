@@ -37,7 +37,7 @@ const  Login = () => {
                         console.log(loggedUser)
                 } 
                 
-                else if (res.status === 401) {
+                else if (res.status === 400 || res.status === 401) {
                         let result = await res.json();
                         console.log(result.message);
                         setData(result.message);

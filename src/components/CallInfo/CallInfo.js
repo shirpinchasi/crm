@@ -17,6 +17,7 @@ function CallInfo() {
   const { id } = useParams();
   const [calls, setCalls] = useState([]);
   const [info, setInfo] = useState([])
+  const [isLoading, setLoading] = useState(true)
   const [selectedFile, setSelectedFile] = useState([]);
   const [isFilePicked, setIsFilePicked] = useState(false);
   const [value, setValue] = useState('1');
@@ -32,7 +33,7 @@ function CallInfo() {
       })
       const fetchCalls = await getCalls.json();
       setCalls(fetchCalls.call)
-      console.log(fetchCalls.call);
+      setLoading(false)
     } catch (err) {
       console.log(err);
     }
@@ -43,121 +44,116 @@ function CallInfo() {
     setIsFilePicked(true);
   };
 
- async function handleSubmission(){
+  async function handleSubmission() {
     const formData = new FormData();
 
-		formData.append('File', selectedFile);
-   const uploadData = await fetch(config.apiUrl + `/uploadPicture/${id}`,{
-      method :"PUT",
-      credentials:"include",
-      body:formData
+    formData.append('File', selectedFile);
+    const uploadData = await fetch(config.apiUrl + `/uploadPicture/${id}`, {
+      method: "PUT",
+      credentials: "include",
+      body: formData
     })
     const fetchData = await uploadData.json()
     setInfo(fetchData)
-    console.log(fetchData);
-    
-    
   };
 
-
   useEffect(() => {
+    setLoading(true)
     fetchCalls()
   }, [])
 
-  console.log(calls);
-
-
   return (
-        <>
-          <Box className="tabs" sx={{ width: '100%', typography: 'body1' }}>
-            <TabContext value={value} centered>
-              <Box className="tabs" sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                <TabList id="tabList" onChange={handleChange} >
-                  <Tab label="Call Properties" value="1" />
-                  <Tab label="Item Two" value="2" />
-                  <Tab label="AddOns" value="3" />
-                </TabList>
-              </Box>
-              <TabPanel id="TabPanel" value="1">
-                <Card id="Card_Call">
-                  <div className="call_header">
-                    <TextField
-                      disabled
-                      id="call_id"
-                      label="Call Id"
-                      defaultValue={calls.CallId}
-                      variant="standard"
-                    />
-                    <Button>Update Call</Button>
-                  </div>
-                  <div className="callInfo">
-                    <TextField
-                      disabled
-                      id="standard-disabled"
-                      label="UserName"
-                      defaultValue={calls.userName}
-                      variant="standard"
-                    />
-                    <TextField
-                      disabled
-                      id="standard-disabled"
-                      label="System"
-                      defaultValue={calls.system}
-                      variant="standard"
-                    />
-                    <TextField
-                      disabled
-                      id="standard-disabled"
-                      label="Opening Date"
-                      defaultValue={calls.openingDate}
-                      variant="standard"
-                    />
-                    <TextField
-                      disabled
-                      id="standard-disabled"
-                      label="Disabled"
-                      defaultValue="Hello World"
-                      variant="standard"
-                    />
-                  </div>
+    <>
+      {isLoading ? <div>Loading</div> :
+        <Box className="tabs" sx={{ width: '100%', typography: 'body1' }}>
+          <TabContext value={value} centered>
+            <Box className="tabs" sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <TabList id="tabList" onChange={handleChange} >
+                <Tab label="Call Properties" value="1" />
+                <Tab label="Item Two" value="2" />
+                <Tab label="AddOns" value="3" />
+              </TabList>
+            </Box>
+            <TabPanel id="TabPanel" value="1">
+              <Card id="Card_Call">
+                <div className="call_header">
+                  <TextField
+                    disabled
+                    id="call_id"
+                    label="Call Id"
+                    defaultValue={calls.CallId}
+                    variant="standard"
+                  />
+                  <Button>Update Call</Button>
+                </div>
+                <div className="callInfo">
+                  <TextField
+                    disabled
+                    id="standard-disabled"
+                    label="UserName"
+                    defaultValue={calls.userName}
+                    variant="standard"
+                  />
+                  <TextField
+                    disabled
+                    id="standard-disabled"
+                    label="System"
+                    defaultValue={calls.system}
+                    variant="standard"
+                  />
+                  <TextField
+                    disabled
+                    id="standard-disabled"
+                    label="Opening Date"
+                    defaultValue={calls.openingDate}
+                    variant="standard"
+                  />
+                  <TextField
+                    disabled
+                    id="standard-disabled"
+                    label="Disabled"
+                    defaultValue="Hello World"
+                    variant="standard"
+                  />
+                </div>
 
 
-                </Card>
-              </TabPanel>
+              </Card>
+            </TabPanel>
 
 
-              <TabPanel id="TabPanel" value="2">Item Two</TabPanel>
-              <TabPanel id="TabPanel" value="3">
+            <TabPanel id="TabPanel" value="2">Item Two</TabPanel>
+            <TabPanel id="TabPanel" value="3">
               <input type="File" name="File" onChange={changeHandler} />
               <div>
-                  <button onClick={handleSubmission}>Submit</button>
-                
+                <button onClick={handleSubmission}>Submit</button>
+
               </div>
-                {!calls.picture ? null 
-                :  
+              {!calls.picture ? null
+                :
                 <div>
                   <p>Filename: {calls.picture.fileName}</p>
                   <p>
                     Upload Date : {calls.picture.uploadDate}
                   </p>
                   <a href={`data:${calls.picture.contentType};base64,${calls.picture.image}`} download >{calls.picture.fileName}</a>
-                </div> 
-                }
-              
-                
-                 
-                
+                </div>
+              }
 
-                
-                
-              
+
+
+
+
+
+
+
 
 
             </TabPanel>
           </TabContext>
         </Box>
-
-        </>
+      }
+    </>
   )
 }
 

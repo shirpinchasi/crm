@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "./Menu.scss"
 import { styled, useTheme } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -23,13 +23,13 @@ import Box from '@mui/material/Box';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import MuiAppBar from '@mui/material/AppBar';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import config from "../config/index";
 import NewCall from "../components/Calls/newCall";
 
 
 
-export default function Menu(props) {
+export default function Menu(props, types) {
     const [getSystem, setAllSystems] = useState([]);
     const theme = useTheme();
     const [userName, setUserName] = useState([]);
@@ -60,55 +60,35 @@ export default function Menu(props) {
         setStatus("")
         setDescription("")
     };
- 
+
     async function getSystems() {
-        const getSystem = await (await fetch(config.apiUrl +  `/system`, {
+        const getSystem = await (await fetch(config.apiUrl + `/system`, {
             method: "GET",
-            credentials:"include",
+            credentials: "include",
         })).json()
         setAllSystems(getSystem)
     }
-    async function logOut(){
-        const logout = await fetch(config.apiUrl +  "/logOut", {
+    async function logOut() {
+        const logout = await fetch(config.apiUrl + "/logOut", {
             method: "GET",
-            credentials:"include",
+            credentials: "include",
         })
         const data = await logout.json()
-        if(logout.status === 200){
-            console.log(data);
+        if (logout.status === 200) {
             window.location = data.redirectUrl
-            console.log("logged Out Successfully")
         }
     }
-   async function getAdmin(){
-        const res = await fetch(config.apiUrl +  "/adminPanel", {
-            method: "GET",
-            credentials:"include",
-        });
-        const fetchData = await res.json();
-        if (res.status === 403) {
-            alert(fetchData.message)
-                console.log(res);
-        }
-        else if(res.status === 200){
-            window.location = fetchData.redirectUrl
-        }
-        
-    }
-
-        
-   
     useEffect(() => {
         getSystems();
-       
-        return()=>{
+
+        return () => {
             setAllSystems([]);
         }
-    }, [userName,system,goremMetapel,team,status,description])
+    }, [userName, system, goremMetapel, team, status, description])
 
     return (
         <div>
-            
+
 
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
@@ -122,25 +102,20 @@ export default function Menu(props) {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Typography  variant="h6" noWrap component="div">
-                            CRM      
+                        <Typography variant="h6" noWrap component="div">
+                            CRM
                         </Typography>
-                          <Button onClick={getAdmin}>
-                            Admin
-                        </Button>
-                        
-                        
-
-                        <Typography className="Hello" variant="h6" noWrap component="div">
+                        <Typography id="Hello" variant="h6" noWrap component="div">
                             Hello {props.props.userName}
                         </Typography>
+                        {window.location.pathname === "/adminPanel" ? <Button>Hello</Button> : null}
                         <Button id="LogOff" variant="outlined" color="primary" onClick={logOut}>
                             LogOff
                         </Button>
                         <Button id="plusIcon" variant="outlined" color="primary" onClick={handleBackDropOpen}>
                             New Call
                         </Button>
-                        
+
                         <Backdrop open={openBackDrop}>
                             <Card id="backdrop" >
                                 <CardContent>
@@ -153,7 +128,7 @@ export default function Menu(props) {
                         </Backdrop>
                     </Toolbar>
                 </AppBar>
-                
+
                 <Drawer
                     sx={{
                         width: drawerWidth,
@@ -193,7 +168,7 @@ export default function Menu(props) {
                         </ListItemText>
                     </List>
                 </Drawer>
-                
+
             </Box>
         </div>
     );

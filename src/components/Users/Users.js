@@ -2,13 +2,18 @@ import React, { useState, useEffect} from "react";
 import config from "../../config/index";
 import {DataGrid} from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
-import "./Users.scss"
+import "./Users.scss";
+import { useNavigate } from "react-router-dom";
 import Chip from '@mui/material/Chip';
 import GetUsers from "./getUsers";
 
 export default function Users(){
     const [users, setUsers] = useState([]);
+    const [error, setError]= useState([])
+    const [isMounted,setMounted] = useState(true);
+    const [pageSize, setPageSize] = useState(25);
     const [isLoading, setLoading] = useState(true);
+    const history = useNavigate();
 
 
 
@@ -17,13 +22,25 @@ export default function Users(){
             method: "GET",
             credentials:"include",
         })).json()
+        if(getUser.status === 401){
+          history(getUser.redirectUrl)
+          setError(getUser)
+          setLoading(false)
+          return <h1>You Are Not Admin!</h1>
+        }else{
         setUsers(getUser)
         setLoading(false)
+        }
     }
 
     useEffect(()=>{
+      
         getUsers()
+      
+      
+        
     },[])
+
     const columns = [
         { field: 'employeeId',headerName: "Employee ID",width:150, renderCell: (cellValues) => {
             return <Link to={`/userInfo/${cellValues.value}`}>{cellValues.value}</Link>;
@@ -55,21 +72,30 @@ export default function Users(){
       <>
        {isLoading ? "loadinggggggg" : 
            <div className='table'>
-             
-
-      <div style={{ height: 500, width: '100%' }}>
+      {error.status === 401 ? <h1>Not Admin!</h1> : 
+      <div style={{ height: 540, width: '100%' }}>
         
           
             <DataGrid
             columns={columns}
             getRowId={(row)=> row._id}
            rows={{id:users._id}, users}
+           pageSize={pageSize}
+        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+        rowsPerPageOptions={[25, 50, 100]}
+        pagination
+          //  initialState={{
+          //   rowGrouping: {
+          //     model: INITIAL_GROUPING_COLUMN_MODEL,
+          //   },
+          // }}
            disableSelectionOnClick 
           />
           
        
       
   </div>
+        }
       
     </div>
 }

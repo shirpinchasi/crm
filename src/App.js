@@ -12,11 +12,13 @@ import { UserContext } from "./userContext";
 import { UserService } from "./userService"
 import AdminPanel from './components/adminPanel/adminPanel';
 import PageNotFound from "./PageNotFound/PageNotFound"
+import UserInfo from './components/Users/userInfo';
 
 
 function App(props) {
 
   const [fetchUser, setUser] = useState({});
+  const types = {one :"one", two:"two"}
   const [isLoading, setLoading] = useState(true)
   const navigate = useNavigate()
 
@@ -28,6 +30,7 @@ function App(props) {
         setLoading(false)
         navigate("/Login")
       } else {
+        console.log(user);
         setLoading(false)
         setUser(user)
       }
@@ -51,15 +54,17 @@ function App(props) {
               </>
             ) : (
               <>
-                <Menu props={fetchUser} />
+                <Menu props={fetchUser}/>
                 <Routes>
                   <Route path="/callInfo/:id" element={<CallInfo props={fetchUser} />} />
                   <Route path="/Requests" element={<Req props={fetchUser} />} />
                   <Route path="/Users" element={<Users />} />
-                  {/* <Route path='/userInfo/:id?' element={<User}/> */}
+                  <Route path='/userInfo/:id' element={<UserInfo/>}/>
                   <Route path="/Calls" element={<Calls props={fetchUser} />} />
-                  <Route path="/adminPanel" element={<AdminPanel props={fetchUser} />} />
-                  <Route path="/" element={"/"} />
+                  <Route path="/adminPanel" element={<AdminPanel props={fetchUser}/>} />
+                  <Route path="/" element={"/"}/>
+                  <Route path="/Hello"/>
+                  <Route path='/Oops' element={<PageNotFound />} />
                   <Route element={<PageNotFound />} />
                 </Routes>
               </>

@@ -3,19 +3,27 @@ import config from "../../config/index"
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
-
+import { useNavigate } from "react-router-dom";
 
 function GetSystems(props){
     const [systems, setSystems] = useState([]);
+    const [error,setError] = useState([])
+    const [isLoading, setLoading] = useState(true);
     const [isMounted,setMounted] = useState(true);
-
+    const history = useNavigate();
 
     async function getSystems() {
         const getSystem = await (await fetch(config.apiUrl + `/system`, {
             method: "GET",
             credentials: "include",
         })).json()
-        setSystems(getSystem)
+        if(getSystem.status === 401){
+            setLoading(false)
+            history(getSystem.redirectUrl)
+            setError(getSystem)
+        }else{
+            setSystems(getSystem)
+        }
     }
 
     useEffect(()=>{
@@ -27,7 +35,6 @@ function GetSystems(props){
         })
         
     },[])
-    
 
     return(
         <>

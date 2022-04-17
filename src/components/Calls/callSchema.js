@@ -6,10 +6,10 @@ export const CallSchema = Yup.object().shape({
     userName: Yup.string()
       .required('Required'),
       assignee: Yup.string(),
-      team: Yup.string()
-      .required('Required'),
-      status: Yup.string()
-      .required('Required'),
+      team: Yup.string(),
+      // .required('Required'),
+      status: Yup.string(),
+      // .required('Required'),
       description: Yup.string()
       .required('Required'),
   });

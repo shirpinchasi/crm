@@ -16,8 +16,6 @@ import TeamMembers from "../Teams/teamMembers";
 
 export default function NewCall(props) {
 
-
-
     const formik = useFormik({
         initialValues: {
             userName: "",
@@ -31,7 +29,6 @@ export default function NewCall(props) {
 
         validationSchema: CallSchema,
         onSubmit: async (values) => {
-            console.log(values);
             await fetch(config.apiUrl + "/addCall", {
                 method: "POST",
                 headers: {
@@ -46,6 +43,7 @@ export default function NewCall(props) {
         },
 
     });
+   
 
 
 
@@ -60,8 +58,9 @@ export default function NewCall(props) {
                         <GetSystems labelId="system" id="input" name="system" value={formik.values.system} onChange={formik.handleChange} error={formik.touched.system && formik.errors.system} helpertext={formik.touched.system && formik.errors.system} />
                     </div>
                     <div>
-                        <Teams labelIdTeam="assignee" idTeam="assignee" nameTeam="assignee" valueTeam={formik.values.assignee} onChangeTeam={formik.onChange} errorTeam={formik.touched.assignee && formik.errors.assignee} helpertextTeam={formik.touched.assignee && formik.errors.assignee} labelId="teams" id="input" name="team" value={formik.values.team} onChange={formik.handleChange} error={formik.touched.team && formik.errors.team} helpertext={formik.touched.team && formik.errors.team} />
+                        <Teams labelId="teams" id="input" name="team" value={formik.values.team} onChange={formik.handleChange} error={formik.touched.team && formik.errors.team} helpertext={formik.touched.team && formik.errors.team} />
                     </div>
+                    {/* labelIdTeam="assignee" idTeam="assignee" nameTeam="assignee" valueTeam={formik.values.assignee} onChangeTeam={formik.onChange} errorTeam={formik.touched.assignee && formik.errors.assignee} helpertextTeam={formik.touched.assignee && formik.errors.assignee}  */}
                     {/* <InputLabel id="system">System</InputLabel>
                         <Select sx={{ minWidth: 120 }}
                             labelId="system"
@@ -111,7 +110,7 @@ export default function NewCall(props) {
 
 
                 </div>
-                <Button color="primary" variant="contained" id="button_submit" type="submit">
+                <Button color="primary" onSubmit={formik.onSubmit} variant="contained" id="button_submit" type="submit">
                     Add Call
                 </Button>
             </form>

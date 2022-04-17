@@ -26,6 +26,7 @@ export default function NewCall(props) {
             description: ""
         },
 
+        
         validationSchema: CallSchema,
         onSubmit: async (values) => {
             await fetch(config.apiUrl + "/addCall", {

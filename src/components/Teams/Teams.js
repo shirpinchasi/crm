@@ -11,6 +11,7 @@ export default function Teams(props) {
     const [isMounted, setMounted] = useState(true);
 
     useEffect(() => {
+        
         if (!error) {
             if (isMounted) {
                 GetTeams();

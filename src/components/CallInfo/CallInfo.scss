@@ -31,3 +31,10 @@
     display: flex;
 
 }
+table, th, td {
+    border:1px solid black;
+  }
+  #backdropUpdate{
+        position: absolute;
+        z-index: -1;
+  }

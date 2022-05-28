@@ -18,7 +18,7 @@ import UserInfo from './components/Users/userInfo';
 function App(props) {
 
   const [fetchUser, setUser] = useState({});
-  const types = {one :"one", two:"two"}
+  const [types, setTypes] = useState({});
   const [isLoading, setLoading] = useState(true)
   const navigate = useNavigate()
 
@@ -30,9 +30,9 @@ function App(props) {
         setLoading(false)
         navigate("/Login")
       } else {
-        console.log(user);
         setLoading(false)
-        setUser(user)
+        setTypes(user.valid)
+        setUser(user.user)
       }
     }
     getUser();
@@ -54,18 +54,26 @@ function App(props) {
               </>
             ) : (
               <>
-                <Menu props={fetchUser}/>
-                <Routes>
-                  <Route path="/callInfo/:id" element={<CallInfo props={fetchUser} />} />
-                  <Route path="/Requests" element={<Req props={fetchUser} />} />
-                  <Route path="/Users" element={<Users />} />
-                  <Route path='/userInfo/:id' element={<UserInfo/>}/>
-                  <Route path="/Calls" element={<Calls props={fetchUser} />} />
-                  <Route path="/adminPanel" element={<AdminPanel props={fetchUser}/>} />
-                  <Route path="/" element={"/"}/>
-                  <Route path="/Hello"/>
-                  <Route path='/Oops' element={<PageNotFound />} />
-                  <Route element={<PageNotFound />} />
+                <Menu props={fetchUser} types={types} />
+
+                <Routes >
+                  {types === "admin" ?
+                    <>
+                    <Route path="/callInfo/:id" element={<CallInfo props={fetchUser} />} />
+                      <Route path="/Requests" element={<Req props={fetchUser} types={types} />} />
+                      <Route path="/Users" element={<Users />} types={types} />
+                      <Route path='/userInfo/:id' element={<UserInfo />} types={types} />
+                      <Route exact path="/Calls" element={<Calls props={fetchUser} />} />
+                      <Route path="/adminPanel" element={<AdminPanel props={fetchUser} types={types} />} />
+                      <Route path="/" element={"/"} />
+                      <Route element={<PageNotFound />} />
+                     </>
+                    :
+                    <> 
+                      <Route element={<PageNotFound />} />
+                      <Route path="/" element={"/"} />
+                    </>
+                  } 
                 </Routes>
               </>
             )

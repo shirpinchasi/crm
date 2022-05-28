@@ -29,7 +29,7 @@ import NewCall from "../components/Calls/newCall";
 
 
 
-export default function Menu(props, types) {
+export default function Menu(props) {
     const [getSystem, setAllSystems] = useState([]);
     const theme = useTheme();
     const [userName, setUserName] = useState([]);
@@ -106,9 +106,10 @@ export default function Menu(props, types) {
                             CRM
                         </Typography>
                         <Typography id="Hello" variant="h6" noWrap component="div">
-                            Hello {props.props.userName}
+                             Hello {props.props.userName} 
                         </Typography>
                         {window.location.pathname === "/adminPanel" ? <Button>Hello</Button> : null}
+                        
                         <Button id="LogOff" variant="outlined" color="primary" onClick={logOut}>
                             LogOff
                         </Button>
@@ -142,6 +143,8 @@ export default function Menu(props, types) {
                     anchor="left"
                     open={open}
                 >
+                    {props.types === "admin" ? 
+                    <>
                     <DrawerHeader >
                         <IconButton onClick={handleDrawerClose}>
                             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
@@ -150,6 +153,10 @@ export default function Menu(props, types) {
                     <Divider />
                     <List>
                         <ListItemText className="text">
+                        <Link color="inherit" href="/AdminPanel">
+                                Admin Panel
+                            </Link>
+                            <Divider />
                             <Link color="inherit" href="/Requests">
                                 Requests
                             </Link>
@@ -167,7 +174,27 @@ export default function Menu(props, types) {
                             </Link>
                         </ListItemText>
                     </List>
+                    </>
+                    :
+                    <>
+                    <DrawerHeader >
+                        <IconButton onClick={handleDrawerClose}>
+                            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                        </IconButton>
+                    </DrawerHeader>
+                    <Divider />
+                    <List>
+                    <Link color="inherit" href="/">
+                                Home
+                            </Link>
+                    </List>
+                    
+                    </>
+                    }
                 </Drawer>
+                
+                
+
 
             </Box>
         </div>

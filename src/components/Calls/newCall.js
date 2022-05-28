@@ -23,7 +23,8 @@ export default function NewCall(props) {
             assignee: "",
             team: "",
             status: "Open",
-            description: ""
+            description: "",
+            link : window.location.origin,
         },
 
         
@@ -43,8 +44,6 @@ export default function NewCall(props) {
         },
 
     });
-   
-
 
 
     return (

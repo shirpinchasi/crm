@@ -5,7 +5,7 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import "./GetUsers.scss"
 
-function GetUsers(props) {
+function GetUsers(props,types) {
     const [users, setUsers] = useState([]);
     const [error, setError] = useState("")
     const [isMounted, setMounted] = useState(true);
@@ -33,7 +33,6 @@ function GetUsers(props) {
         }
         return <div>{error}</div>
     }, [])
-
     return (
         <>
             <InputLabel id="userName_Form">userName</InputLabel>

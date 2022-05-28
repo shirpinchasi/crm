@@ -14,26 +14,40 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 export default function Calls() {
   const [calls, setCalls] = useState([])
   const [pageSize, setPageSize] = useState(25);
+  const [error, setError] = useState("")
+  const [isMounted, setMounted] = useState(true);
   const [isLoading, setLoading] = useState(true);
 
 
 
   async function fetchCalls() {
     try {
-      const getCalls = await fetch(config.apiUrl + `/getCalls`, {
+      const getCalls = await(await fetch(config.apiUrl + `/getCalls`, {
         method: "GET",
         credentials: "include",
-      })
-      const fetchCalls = await getCalls.json();
-      setCalls(fetchCalls)
+      })).json()
       setLoading(false)
+      if (!error) {
+        setCalls(getCalls)
+    }
+    setError(getCalls.message)
     } catch (err) {
       console.log(err);
     }
   }
   useEffect(() => {
-    fetchCalls()
-  }, [])
+        
+    if (!error) {
+        if (isMounted) {
+            fetchCalls();
+        }
+        return (() => {
+            setMounted(false)
+        })
+    }
+
+
+}, [])
 
   function CustomToolbar() {
     return (
@@ -45,7 +59,7 @@ export default function Calls() {
   const INITIAL_GROUPING_COLUMN_MODEL = ['description']
   const columns = [
     {
-      field: 'CallId', headerName: "call id", renderCell: (cellValues) => {
+      field: '_id', headerName: "call id", renderCell: (cellValues) => {
         return <Link to={`/callInfo/${cellValues.value}`}>{cellValues.value}</Link>;
       }
     },
@@ -84,18 +98,17 @@ export default function Calls() {
       {isLoading ?
         <>
           <Box sx={{ width: 300, height: 400 }}>
-            <Skeleton />
             <Skeleton animation="wave" />
             
           </Box>
         </>
-        :
+         : 
         <div className='table'>
           <Box style={{ height: 540, width: '100%' }}>
             <DataGrid
               columns={columns}
               getRowId={(row) => row._id}
-              rows={{ id: calls.CallId }, calls}
+              rows={{ id: calls._id }, calls}
               pageSize={pageSize}
               onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
               rowsPerPageOptions={[25, 50, 100]}
@@ -117,7 +130,7 @@ export default function Calls() {
 
           </Box>
         </div>
-      }
+       } 
     </>
   );
 }

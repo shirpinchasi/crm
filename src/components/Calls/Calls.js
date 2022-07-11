@@ -108,7 +108,7 @@ export default function Calls() {
             <DataGrid
               columns={columns}
               getRowId={(row) => row._id}
-              rows={{ id: calls._id }, calls}
+              rows={calls}
               pageSize={pageSize}
               onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
               rowsPerPageOptions={[25, 50, 100]}

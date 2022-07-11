@@ -33,6 +33,7 @@ const Login = () => {
       if (res.status === 200) {
         const loggedUser = await res.json();
         setUser(loggedUser);
+        console.log(loggedUser);
         window.location = loggedUser.redirectUrl
       }
 
@@ -45,7 +46,6 @@ const Login = () => {
       return res;
     },
   });
-console.log(data);
   return (
 
     <div id="login_form">
@@ -85,6 +85,8 @@ console.log(data);
           {data}
         </div>
         <div className="text-center">
+        <Link to="/ForgetPasswordEmail" className="Login__register-link">Forgot My Password</Link>
+        <br/>
           <Link to="/SignUp" className="Login__register-link">Don't have an account? Register</Link>
         </div>
       </Card>

@@ -15,6 +15,7 @@ import TeamMembers from "../Teams/teamMembers";
 
 
 export default function NewCall(props) {
+    console.log(props.props);
 
     const formik = useFormik({
         initialValues: {
@@ -24,10 +25,10 @@ export default function NewCall(props) {
             team: "",
             status: "Open",
             description: "",
-            link : window.location.origin,
+            link: window.location.origin,
         },
 
-        
+
         validationSchema: CallSchema,
         onSubmit: async (values) => {
             await fetch(config.apiUrl + "/addCall", {
@@ -45,22 +46,23 @@ export default function NewCall(props) {
 
     });
 
-
+console.log(props);
     return (
         <>
-            <form id='form_submit' onSubmit={formik.handleSubmit}>
-                <div id="flex_inputs">
-                    <div>
-                        <GetUsers label="userName" labelId="userName" id="input" name="userName" value={formik.values.userName} onChange={formik.handleChange} error={formik.touched.userName && formik.errors.userName} helpertext={formik.touched.userName && formik.errors.userName} />
-                    </div>
-                    <div>
-                        <GetSystems labelId="system" id="input" name="system" value={formik.values.system} onChange={formik.handleChange} error={formik.touched.system && formik.errors.system} helpertext={formik.touched.system && formik.errors.system} />
-                    </div>
-                    <div>
-                        <Teams labelId="teams" id="input" name="team" value={formik.values.team} onChange={formik.handleChange} error={formik.touched.team && formik.errors.team} helpertext={formik.touched.team && formik.errors.team} />
-                    </div>
-                    {/* labelIdTeam="assignee" idTeam="assignee" nameTeam="assignee" valueTeam={formik.values.assignee} onChangeTeam={formik.onChange} errorTeam={formik.touched.assignee && formik.errors.assignee} helpertextTeam={formik.touched.assignee && formik.errors.assignee}  */}
-                    {/* <InputLabel id="system">System</InputLabel>
+            {props.props === false ? null :
+                <form id='form_submit' onSubmit={formik.handleSubmit}>
+                    <div id="flex_inputs">
+                        <div>
+                            <GetUsers label="userName" labelId="userName" id="input" name="userName" value={formik.values.userName} onChange={formik.handleChange} error={formik.touched.userName && formik.errors.userName} helpertext={formik.touched.userName && formik.errors.userName} />
+                        </div>
+                        <div>
+                            <GetSystems labelId="system" id="input" name="system" value={formik.values.system} onChange={formik.handleChange} error={formik.touched.system && formik.errors.system} helpertext={formik.touched.system && formik.errors.system} />
+                        </div>
+                        <div>
+                            <Teams labelId="teams" id="input" name="team" value={formik.values.team} onChange={formik.handleChange} error={formik.touched.team && formik.errors.team} helpertext={formik.touched.team && formik.errors.team} />
+                        </div>
+                        {/* labelIdTeam="assignee" idTeam="assignee" nameTeam="assignee" valueTeam={formik.values.assignee} onChangeTeam={formik.onChange} errorTeam={formik.touched.assignee && formik.errors.assignee} helpertextTeam={formik.touched.assignee && formik.errors.assignee}  */}
+                        {/* <InputLabel id="system">System</InputLabel>
                         <Select sx={{ minWidth: 120 }}
                             labelId="system"
                             id="input"
@@ -82,37 +84,38 @@ export default function NewCall(props) {
 
 
 
-                    <TextField
-                        disabled
-                        id="input"
-                        name="status"
-                        label="status"
-                        type="status"
-                        value={formik.values.status}
-                        onChange={formik.handleChange}
-                        error={formik.touched.status && formik.errors.status}
-                        helpertext={formik.touched.status && formik.errors.status}
-                    />
+                        <TextField
+                            disabled
+                            id="input"
+                            name="status"
+                            label="status"
+                            type="status"
+                            value={formik.values.status}
+                            onChange={formik.handleChange}
+                            error={formik.touched.status && formik.errors.status}
+                            helpertext={formik.touched.status && formik.errors.status}
+                        />
 
-                    <TextField
-                        id="input"
-                        name="description"
-                        label="description"
-                        type="description"
-                        value={formik.values.description}
-                        onChange={formik.handleChange}
-                        error={formik.touched.description && formik.errors.description}
-                        helpertext={formik.touched.description && formik.errors.description}
-                    />
-
-
+                        <TextField
+                            id="input"
+                            name="description"
+                            label="description"
+                            type="description"
+                            value={formik.values.description}
+                            onChange={formik.handleChange}
+                            error={formik.touched.description && formik.errors.description}
+                            helpertext={formik.touched.description && formik.errors.description}
+                        />
 
 
-                </div>
-                <Button color="primary" onSubmit={formik.onSubmit} variant="contained" id="button_submit" type="submit">
-                    Add Call
-                </Button>
-            </form>
+
+
+                    </div>
+                    <Button color="primary" onSubmit={formik.onSubmit} variant="contained" id="button_submit" type="submit">
+                        Add Call
+                    </Button>
+                </form>
+            }
         </>
     )
 }

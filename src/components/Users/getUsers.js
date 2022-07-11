@@ -4,35 +4,43 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import "./GetUsers.scss"
+import ErrorDisplay from "../ErrorDisplay/ErrorDisplay";
 
-function GetUsers(props,types) {
+
+function GetUsers(props, types) {
     const [users, setUsers] = useState([]);
     const [error, setError] = useState("")
     const [isMounted, setMounted] = useState(true);
+    const [isLoading, setLoading] = useState(true);
 
     async function getUsers() {
-        const getUser = await (await fetch(config.apiUrl + `/getUser`, {
-            method: "GET",
-            credentials: "include",
-        })).json()
-        if (!error) {
-            setUsers(getUser)
+        try {
+            const getUser = await (await fetch(config.apiUrl + `/getUser`, {
+                method: "GET",
+                credentials: "include",
+            })).json()
+            setLoading(false)
+            if (!error) {
+                setUsers(getUser)
+            }
+            setError(getUser.message)
+        } catch (err) {
+            console.log(err);
         }
-        setError(getUser.message)
     }
     useEffect(() => {
         if (!error) {
             if (isMounted) {
-                console.log("mounted");
                 getUsers()
             }
             return (() => {
                 setMounted(false)
-                console.log("not mounted");
             })
         }
-        return <div>{error}</div>
+   
+        // <div>{error}</div>
     }, [])
+
     return (
         <>
             <InputLabel id="userName_Form">userName</InputLabel>
@@ -41,6 +49,7 @@ function GetUsers(props,types) {
                 id={props.id}
                 name={props.name}
                 value={props.value}
+                defaultValue={props.defaultValue}
                 label={props.label}
                 onChange={props.onChange}
                 error={props.error}

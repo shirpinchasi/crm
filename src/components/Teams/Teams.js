@@ -51,6 +51,7 @@ export default function Teams(props) {
                         id={props.id}
                         name={props.name}
                         value={props.value}
+                        defaultValue={props.defaultValue}
                         onChange={props.onChange}
                         error={props.error}
                         helpertext={props.helpertext}

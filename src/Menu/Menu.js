@@ -60,14 +60,14 @@ export default function Menu(props) {
         setStatus("")
         setDescription("")
     };
-
-    async function getSystems() {
-        const getSystem = await (await fetch(config.apiUrl + `/system`, {
-            method: "GET",
-            credentials: "include",
-        })).json()
-        setAllSystems(getSystem)
-    }
+console.log(props);
+    // async function getSystems() {
+    //     const getSystem = await (await fetch(config.apiUrl + `/system`, {
+    //         method: "GET",
+    //         credentials: "include",
+    //     })).json()
+    //     setAllSystems(getSystem)
+    // }
     async function logOut() {
         const logout = await fetch(config.apiUrl + "/logOut", {
             method: "GET",
@@ -79,11 +79,7 @@ export default function Menu(props) {
         }
     }
     useEffect(() => {
-        getSystems();
-
-        return () => {
-            setAllSystems([]);
-        }
+       
     }, [userName, system, goremMetapel, team, status, description])
 
     return (
@@ -93,7 +89,7 @@ export default function Menu(props) {
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
                 <AppBar position="fixed" open={open}>
-                    <Toolbar >
+                    <Toolbar id="Menu" >
                         <IconButton
                             aria-label="open drawer"
                             onClick={handleDrawerOpen}
@@ -102,20 +98,47 @@ export default function Menu(props) {
                         >
                             <MenuIcon />
                         </IconButton>
+                        <>
+                        {props.types === "admin" ? 
+                        <>
+                         <Typography variant="h6" noWrap component="div">
+                         <Link color="inherit" href="/">
+                                CRM
+                            </Link>
+                     </Typography>
+                     <Typography id="Hello" variant="h6" noWrap component="div">
+                          Hello {props.props.userName} 
+                     </Typography>
+                     {/* {window.location.pathname === "/adminPanel" ? <Button>Hello</Button> : null} */}
+                     
+                     <Button id="LogOff" variant="outlined" color="primary" onClick={logOut}>
+                         LogOff
+                     </Button>
+                     <Button id="plusIcon" variant="outlined" color="primary" onClick={handleBackDropOpen}>
+                         New Call
+                     </Button>
+                     </>
+                        :
+                        <>
                         <Typography variant="h6" noWrap component="div">
-                            CRM
-                        </Typography>
-                        <Typography id="Hello" variant="h6" noWrap component="div">
-                             Hello {props.props.userName} 
-                        </Typography>
-                        {window.location.pathname === "/adminPanel" ? <Button>Hello</Button> : null}
+                        <Link color="inherit" href="/">
+                                CRM
+                            </Link>
+                     </Typography>
+                     <Typography id="Hello" variant="h6" noWrap component="div">
+                          Hello {props.props.userName} 
+                     </Typography>
+                     {/* {window.location.pathname === "/adminPanel" ? <Button>Hello</Button> : null} */}
+                     
+                     <Button id="LogOff" variant="outlined" color="primary" onClick={logOut}>
+                         LogOff
+                     </Button>
+                     </>
                         
-                        <Button id="LogOff" variant="outlined" color="primary" onClick={logOut}>
-                            LogOff
-                        </Button>
-                        <Button id="plusIcon" variant="outlined" color="primary" onClick={handleBackDropOpen}>
-                            New Call
-                        </Button>
+                        }
+                        </>
+                       
+                        
 
                         <Backdrop open={openBackDrop}>
                             <Card id="backdrop" >
@@ -123,7 +146,7 @@ export default function Menu(props) {
                                     <CardActions>
                                         <FontAwesomeIcon icon={faTimes} onClick={handleBackDropClose} />
                                     </CardActions>
-                                    <NewCall onClick={handleBackDropClose} />
+                                    <NewCall props={openBackDrop} onClick={handleBackDropClose} />
                                 </CardContent>
                             </Card>
                         </Backdrop>
@@ -153,7 +176,7 @@ export default function Menu(props) {
                     <Divider />
                     <List>
                         <ListItemText className="text">
-                        <Link color="inherit" href="/AdminPanel">
+                        <Link color="inherit" href="/adminPanel">
                                 Admin Panel
                             </Link>
                             <Divider />

@@ -25,7 +25,6 @@ export default function NewCall(props) {
             team: "",
             status: "Open",
             description: "",
-            link: window.location.origin,
         },
 
 
@@ -46,7 +45,6 @@ export default function NewCall(props) {
 
     });
 
-console.log(props);
     return (
         <>
             {props.props === false ? null :

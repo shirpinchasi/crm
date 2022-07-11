@@ -11,7 +11,6 @@ export default function ForgetPassword() {
     const formik = useFormik({
         initialValues: {
             email: "",
-            link: window.location.origin
         },
 
 

@@ -12,5 +12,4 @@ export const CallSchema = Yup.object().shape({
       // .required('Required'),
       description: Yup.string()
       .required('Required'),
-      link : Yup.string()
   });

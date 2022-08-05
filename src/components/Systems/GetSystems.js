@@ -20,10 +20,8 @@ function GetSystems(props) {
         })).json()
         if (getSystem.status === 401) {
             <ErrorDisplay error={getSystem.message}/>
-            console.log("stuck here");
             setError(getSystem.message)
         }else{
-            console.log(getSystem);
             setSystems(getSystem)
             
         }
@@ -33,14 +31,9 @@ function GetSystems(props) {
     useEffect(() => {
             if (isMounted) {
                 getSystems();
-                console.log(systems);
-                console.log(isMounted);
-                console.log("here");
             }
             return (() => {
                 setMounted(false)
-                console.log(systems);
-                console.log("got the data");
             })
         
         

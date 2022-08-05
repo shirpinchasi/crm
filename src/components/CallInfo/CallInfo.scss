@@ -6,6 +6,7 @@
     flex-wrap: wrap;
 }
 
+
 .Form_Control{
     width: auto;
     padding-right: 5%;
@@ -17,6 +18,9 @@
     align-items: baseline;
 
 }
+#standard{
+    width: 140px;
+}
 #Card_Call{
     display: flex;
     flex-direction: column;
@@ -24,12 +28,18 @@
     align-content: center;   
 }
 #standard-disabled{
-    width: 150px;
+    width: 140px;
+}
+#assign{
+    font-size: 10px;
+    color: blue;
 }
 .tabs{
     margin-top: 7%;
     margin-left: 3%;
-
+}
+.css-w8dmq8{
+    width: 90%;
 }
 #tabList{
     display: flex;

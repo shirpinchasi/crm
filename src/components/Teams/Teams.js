@@ -4,46 +4,77 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import TeamMembers from "./teamMembers";
+import ErrorDisplay from "../ErrorDisplay/ErrorDisplay";
+import Assignee from "./assignee";
+
 
 export default function Teams(props) {
     const [teams, setTeams] = useState([]);
+    const [selected, setSelected] = useState("");
     const [error, setError] = useState([])
     const [isMounted, setMounted] = useState(true);
-
-    useEffect(() => {
-        
-        if (!error) {
-            if (isMounted) {
-                GetTeams();
-            }
-            return (() => {
-                setMounted(false)
-            })
-        }
+ 
+  
+    let type = null;
+    let options = null;
 
 
-    }, [])
 
     async function GetTeams() {
-        const getUser = await (await fetch(config.apiUrl + `/getTeams`, {
+        const getTeams = await (await fetch(config.apiUrl + `/getTeams`, {
             method: "GET",
             credentials: "include",
         })).json()
-        if (!error) {
-            setTeams(getUser)
-        }
-        setError(getUser.message)
+        if (getTeams.status === 404) {
+            <ErrorDisplay error={getTeams.message} />
+            setError(getTeams.message)
+        } else {
+            setTeams(getTeams)
 
-    }
-    const some = teams.map((t) => {
-        console.log(t);
-        if (t.teamMembers.length === 0) {
-            return null
         }
+    }
+
+    useEffect(() => {
+        if (isMounted) {
+            GetTeams();
+        }
+        return (() => {
+            setMounted(false)
+        })
+    }, [])
+    
+    teams.map((team)=>{
+        console.log(team.teamMembers);
     })
+
+    // if (props.value === "System") {
+    //     type = teams.teamMembers;
+    //     console.log(true + " i am System");
+    // } else if (props.value === "IT") {
+    //     type =  teams.teamMembers;
+    //     console.log(true + " i am It");
+    // } else if (props.value === "SecOps") {
+    //     type =  teams.teamMembers;
+    //     console.log(true + " i am SecOps");
+    // } else if (props.value === "Cyber") {
+    //     type =  teams.teamMembers;
+    //     console.log(true + " i am Cyber");
+    // }
+
+    // console.log(type);
+    // if (type) {
+    //     options = type.map((el) => <option key={el}>{el}</option>);
+    // }
+    // console.log(teams);
+
+
+    // console.log(type);
+    // console.log(options);
+
+
     return (
-        <div>
-            {!error ?
+        <>
+            {/* {!props.value ? */}
                 <>
                     <InputLabel id="demo-simple-select-label">team</InputLabel>
                     <Select sx={{ minWidth: 120 }}
@@ -61,13 +92,108 @@ export default function Teams(props) {
                             return (
                                 <MenuItem key={team._id} value={team.teamName}>{team.teamName}</MenuItem>
                             )
+                        })}
+                    </Select>
+                </>
+
+
+                {/* : */}
+                {/* <>
+                    <InputLabel id="demo-simple-select-label">team</InputLabel>
+                    <Select sx={{ minWidth: 120 }}
+                        labelId={props.labelId}
+                        id={props.id}
+                        name={props.name}
+                        value={props.value}
+                        defaultValue={props.defaultValue}
+                        onChange={props.onChange}
+                        error={props.error}
+                        helpertext={props.helpertext}
+                    >
+                        {teams.map((team) => {
+                            team.teamMembers.map((teamName) => {
+                                console.log(teamName);
+                                return (
+                                    <MenuItem key={teamName.userName} value={teamName.userName}>{teamName.userName}</MenuItem>
+
+                                )
+                            })
+                            return (
+                                <MenuItem key={team._id} value={team.teamName}>{team.teamName}</MenuItem>
+                            )
 
                         })}
-
-
                     </Select>
-                    <InputLabel id="demo-simple-select-label">assignee</InputLabel>
-                    {/* <Select labelId={props.labelIdTeam}
+                    <Select options={type}></Select> */}
+                    {/* <>
+                <InputLabel id="demo-simple-select-label">assignee</InputLabel>
+                <Select sx={{ minWidth: 120 }}
+                    labelId={props.labelIdAssignee}
+                    id={props.idAssignee}
+                    name={props.nameAssignee}
+                    value={props.valueAssignee}
+                    defaultValue={props.defaultValueAssignee}
+                    onChange={props.onChangeAssignee}
+                    error={props.errorAssignee}
+                    helpertext={props.helpertextAssignee}
+                >
+                    {teams.map((team)=>{
+                        team.teamMembers.map((teamName)=>{
+                            <MenuItem key={teamName.userName} value={teamName.userName}>{teamName.userName}</MenuItem>
+
+                        })
+                    })}
+                       
+
+
+                </Select>
+
+
+                
+            </> */}
+
+                    {/* <Assignee key={options}  labelId="assignee" id="input" name="assignee" value={options} defaultValue={options} onChange={changeSelectOptionHandler} error={props.error}  helpertext={props.helpertext} /> */}
+
+                {/* </> */}
+
+            {/* } */}
+
+        </>
+
+    )
+}
+
+
+
+
+
+
+
+
+{/* <Select sx={{ minWidth: 120 }}
+                    labelId={props.labelId}
+                    id={props.id}
+                    name={props.name}
+                    value={selected}
+                    defaultValue={props.defaultValue}
+                    error={props.error}
+                    helpertext={props.helpertext}
+                >
+                    <MenuItem key={options} value={options}>{options}</MenuItem>
+                       
+
+
+                </Select> */}
+
+
+{/* <select> */ }
+{/* { */ }
+
+{/* options */ }
+
+{/* </select> */ }
+{/* <InputLabel id="demo-simple-select-label">assignee</InputLabel> */ }
+{/* <Select labelId={props.labelIdTeam}
                         id={props.idTeam}
                         name={props.nameTeam}
                         value={props.valueTeam}
@@ -88,14 +214,4 @@ export default function Teams(props) {
 
                         })}
                     </Select> */}
-                    {some}
-                </>
-                :
-                <>
-                    {error}
-                </>
-            }
-        </div>
-
-    )
-}
+{/* {some} */ }

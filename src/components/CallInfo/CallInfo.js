@@ -28,13 +28,14 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 
 
 
-function CallInfo() {
+function CallInfo(props) {
   const { id } = useParams();
   const [calls, setCalls] = useState([]);
   const [info, setInfo] = useState([])
   const [isLoading, setLoading] = useState(true)
   const [selectedFile, setSelectedFile] = useState([]);
   const [progress, setProgress] = useState(0);
+  const [isSubmit, setSubmit] = useState(false)
   const [isFilePicked, setIsFilePicked] = useState(false);
   const [value, setValue] = useState(() => {
     const saved = localStorage.getItem("value");
@@ -50,25 +51,6 @@ function CallInfo() {
     console.log(newValue);
 
   };
-  // const callStatus = () =>{
-  //   if (calls.status === "Open") {
-  //    const chip = <div>
-  //       <Chip icon={<InfoIcon color="primary" />} label={value.value} color="primary" variant="outlined" />
-
-  //     </div>
-  //   }
-  //   else if (calls.status === "Closed") {
-  //    const chip = <div>
-  //       <Chip icon={<CheckIcon color="success" />} label={value.value} color="success" variant="outlined" />
-  //     </div>
-  //   }
-
-  //   else if (calls.status === "In Progress") {
-  //    const chip =  <div>
-  //       <Chip icon={<AutorenewIcon color="warning" />} label={value.value} color="warning" variant="outlined" />
-  //     </div>
-  //   }
-  // }
 
   const handleDrawerClose = () => {
     setOpen(false);
@@ -95,11 +77,12 @@ function CallInfo() {
   async function handleSubmission() {
     const formData = new FormData();
     formData.append('File', selectedFile);
-    const uploadData = await fetch(config.apiUrl + `/uploadPicture/${id}`, {
+    const uploadData = await fetch(config.apiUrl + `/uploadFile/${id}`, {
       method: "PUT",
       credentials: "include",
       body: formData
     })
+    
     const fetchData = await uploadData.json()
     setInfo(fetchData);
 
@@ -107,33 +90,44 @@ function CallInfo() {
       window.location.reload()
     }
   };
+  console.log(isSubmit);
   const onSubmittingFileLoader=(
     <Box sx={{ width: '100%' }}>
     <LinearProgress variant="determinate" value={progress} />
   </Box>
   )
-
+  const assigneeId = props.props.employeeId
+  async function AssignAssignee() {
+     await (await fetch(config.apiUrl + `/assignAssignee/${id}/${assigneeId}`, {
+      method: "PUT",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+    },
+    })).json()
+    refreshPage()
+  }
 
   useEffect(() => {
-    
     setLoading(true)
     fetchCalls()
     localStorage.setItem("value", value);
+  }, [])
 
-    const timer = setInterval(() => {
-      setProgress((oldProgress) => {
-        if (oldProgress === 100) {
-          return 0;
-        }
-        const diff = Math.random() * 10;
-        return Math.min(oldProgress + diff, 100)
-      });
-    }, 500)
-    return () => {
-      clearInterval(timer);
-    }
-
-  }, [value])
+  // async function Timer(){
+  //   const timer = setInterval(() => {
+  //     setProgress((oldProgress) => {
+  //       if (oldProgress === 100) {
+  //         return 0;
+  //       }
+  //       const diff = Math.random() * 10;
+  //       return Math.min(oldProgress + diff, 100)
+  //     });
+  //   }, 500)
+  //   return () => {
+  //     clearInterval(timer);
+  //   }
+  // }
 
 
   const columns = [
@@ -302,7 +296,7 @@ function CallInfo() {
                 </TabList>
               </Box>
               <TabPanel id="TabPanel" value="1">
-              <Button >Take Call</Button>
+              
                 <Button onClick={handleBackDropOpen}>Update Call</Button>
                 <Card id="Card_Call">
                   <div className="call_header">
@@ -327,7 +321,7 @@ function CallInfo() {
                   <div className="callInfo">
                     <a href={`/userInfo/${calls.userName}`}>
 
-                      <TextField disabled
+                      <TextField disabled 
                       id="standard-disabled"
                       label="UserName"
                       defaultValue={calls.userName}
@@ -339,20 +333,23 @@ function CallInfo() {
                       defaultValue={calls.system}
                       variant="standard"
                     />
-                     <TextField
-                      disabled
-                      id="standard-disabled"
-                      label="Assignee"
-                      defaultValue={calls.assignee}
-                      variant="standard"
-                    />
-                     <TextField
+                    <TextField
                       disabled
                       id="standard-disabled"
                       label="Team"
                       defaultValue={calls.team}
                       variant="standard"
                     />
+                    <div>
+                     <TextField disabled
+                      id="standard"
+                      label="Assignee"
+                      defaultValue={calls.assignee}
+                      variant="standard"
+                    />
+                    <br/>
+                    <Button id="assign" onClick={AssignAssignee} >Assign To Me</Button>
+                    </div>
                     <TextField
                       disabled
                       id="standard-disabled"
@@ -383,9 +380,11 @@ function CallInfo() {
                       </div>
                       <>
                         <Button
-                         onClick={handleSubmission}>Submit </Button>
+                         onClick={handleSubmission } setSubmit={true}>Submit </Button>
                         
                       </>
+                      {isSubmit ? onSubmittingFileLoader : null}
+                      
                       <Button
                         style={{
                           backgroundColor: "#e8605d",
@@ -400,7 +399,7 @@ function CallInfo() {
                       </Button>
                       {/* <Button id="CancelFileUpload" onClick={CancelFileUpload}>Remove File</Button> */}
                     </>
-                    : <><input type="File" name="File" onChange={changeHandler} /><div>Please Pick A File</div></>}
+                    : <><Input type="File" name="File" onChange={changeHandler} /><div>Please Pick A File</div></>}
                   {!calls.picture ? null :
                     <div style={{ height: 500, width: "100%" }}>
 

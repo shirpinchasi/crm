@@ -65,7 +65,7 @@ export default function Calls() {
     },
     { field: "userName", headerName: "userName", width: 150 },
     { field: "system", headerName: "system", width: 150 },
-    { field: "goremMetapel", headerName: "Assignee", width: 150 },
+    { field: "assignee", headerName: "Assignee", width: 150 },
     { field: "team", headerName: "Team", width: 100 },
     {
       field: "status", headerName: "Status", width: 150, renderCell: (value) => {

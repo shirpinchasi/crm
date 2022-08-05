@@ -26,7 +26,7 @@ import MuiAppBar from '@mui/material/AppBar';
 import { useNavigate } from "react-router-dom";
 import config from "../config/index";
 import NewCall from "../components/Calls/newCall";
-
+import logo from "../logo_transparent.png"
 
 
 export default function Menu(props) {
@@ -105,7 +105,9 @@ console.log(props);
                          <Link color="inherit" href="/">
                                 CRM
                             </Link>
+                           
                      </Typography>
+                     <img className="Menulogo" alt="" src={logo}/>
                      <Typography id="Hello" variant="h6" noWrap component="div">
                           Hello {props.props.userName} 
                      </Typography>

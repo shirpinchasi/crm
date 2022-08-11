@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import config from "../config/index"
 import { useFormik } from 'formik';
-import { passwordChange } from "./forgetPasswordSchema"
+import { PasswordChange } from "./ForgetPasswordSchema"
 import { Button, TextField } from '@material-ui/core';
 
 export default function ForgetPassword() {

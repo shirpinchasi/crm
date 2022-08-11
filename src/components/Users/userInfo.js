@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
-
+import InfoIcon from '@mui/icons-material/Info';
+import CheckIcon from '@mui/icons-material/Check';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
 import TextField from '@mui/material/TextField';
 import "./userInfo.scss"
 import { Button } from "@material-ui/core";
@@ -78,19 +80,23 @@ function UserInfo() {
     },
     {
       field: "status", headerName: "Status", width: 150, renderCell: (value) => {
-        if (value.value === "Active") {
+        if (value.value === "Open") {
           return <div>
-            <Chip label={value.value} color="success" variant="outlined" />
+            <Chip icon={<InfoIcon color="primary" />} label={value.value} color="primary" variant="outlined" />
 
           </div>
         }
-        else if (value.value === "Not Active") {
+        else if (value.value === "Closed") {
           return <div>
-            <Chip label={value.value} color="error" variant="outlined" />
+            <Chip icon={<CheckIcon color="success" />} label={value.value} color="success" variant="outlined" />
           </div>
         }
 
-
+        else if (value.value === "In Progress") {
+          return <div>
+            <Chip icon={<AutorenewIcon color="warning" />} label={value.value} color="warning" variant="outlined" />
+          </div>
+        }
       }
     },
     { field: "openingDate", headerName: "opening date", width: 200 },

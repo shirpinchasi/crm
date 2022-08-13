@@ -44,7 +44,7 @@ export default function ForgetPassword() {
             password: "",
             passwordConfirmation: ""
         },
-        validationSchema: passwordChange,
+        validationSchema: PasswordChange,
         onSubmit: async (values) => {
             await fetch(config.apiUrl + `/ForgetPassword/${id}/${token}`, {
                 method: "POST",

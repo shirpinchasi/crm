@@ -1,9 +1,6 @@
 {
   "name": "crm",
   "version": "0.1.0",
-  "engines": {
-    "node": "18.x"
-  },
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.10.0",

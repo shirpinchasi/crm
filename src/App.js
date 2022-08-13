@@ -16,7 +16,7 @@ import UserInfo from './components/Users/userInfo';
 import GetSystems from './components/Systems/GetSystems';
 import Home from './components/Home/Home';
 import ForgetPasswordEmail from './ForgetPasswordEmail/forgetPasswordEmail';
-import ForgetPassword from "./forgetPassword/forgetPassword"
+import ForgetPassword from "./ForgetPassword/ForgetPassword"
 
 
 function App(props) {

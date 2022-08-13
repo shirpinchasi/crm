@@ -18,7 +18,6 @@ import Home from './components/Home/Home';
 import ForgetPasswordEmail from './ForgetPasswordEmail/forgetPasswordEmail';
 import ForgetPassword from "./ForgetPassword/ForgetPassword"
 
-
 function App(props) {
   const [fetchUser, setUser] = useState({});
   const [types, setTypes] = useState({});

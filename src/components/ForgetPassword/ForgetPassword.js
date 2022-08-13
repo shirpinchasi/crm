@@ -1,7 +1,7 @@
 import { Input } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import config from "../config/index"
+import config from "../../config/index"
 import { useFormik } from 'formik';
 import { PasswordChange } from "./ForgetPasswordSchema"
 import { Button, TextField } from '@material-ui/core';

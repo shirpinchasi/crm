@@ -109,7 +109,7 @@ const Login = () => {
                   Submit
                 </Button>
               </form>
-              <div>
+              <div id="error">
                 {data}
               </div>
               <div className="text-center">

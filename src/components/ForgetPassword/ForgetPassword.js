@@ -9,6 +9,7 @@ import { Button, TextField } from '@material-ui/core';
 export default function ForgetPassword() {
     const { id, token } = useParams()
     const [error, setError] = useState(true)
+    const [passError, setPassError] = useState("")
     const [success, setSuccess] = useState("")
     const navigate = useNavigate()
     const [getToken, setToken] = useState([])
@@ -38,7 +39,8 @@ export default function ForgetPassword() {
     useEffect(() => {
         fetchTokens()
     }, [])
-    console.log(Loading);
+
+
     const formik = useFormik({
         initialValues: {
             password: "",
@@ -54,7 +56,16 @@ export default function ForgetPassword() {
                 credentials: "include",
                 body: JSON.stringify(values),
 
+            }).then((response)=>{
+                response.json().then((res)=>{
+                    setPassError(res.error)
+                })
             })
+        
+            
+        
+            // setSuccess(postingPassword)
+            
             setSuccess("Password Reset Successfully, you will be redirected to the Login page in few seconds!")
             setLoading(true)
             setTimeout(function() {
@@ -97,10 +108,12 @@ export default function ForgetPassword() {
                                     error={formik.touched.passwordConfirmation && formik.errors.passwordConfirmation}
                                     helpertext={formik.touched.passwordConfirmation && formik.errors.passwordConfirmation}
                                 />
+                                {passError && <div id='error'>{passError}</div>}
                                 <Button color="primary" onSubmit={formik.onSubmit} variant="contained" id="button_submit" type="submit">
                                     Change Password
                                 </Button>
                             </form>
+                            
                         </div>
                     }
                 </>

@@ -116,6 +116,7 @@ const SignUp = (props) => {
                   error={formik.touched.email && formik.errors.email}
                   helperText={formik.touched.email && formik.errors.email}
                 />
+                <div id='error'>{getError}</div>
                 <Button color="primary" id="button_submit_signup" variant="contained" type="submit">
                   SIGN UP
                 </Button>

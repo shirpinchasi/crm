@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import config from "../../config/index";
-import { DataGrid, GridToolbarExport, GridToolbarContainer } from "@mui/x-data-grid";
+import { DataGrid, GridToolbarExport, GridToolbarContainer,GridToolbar } from "@mui/x-data-grid";
 import "./Calls.scss";
 import Skeleton from '@mui/material/Skeleton';
 import { Link } from "react-router-dom";
@@ -9,17 +9,19 @@ import Chip from '@mui/material/Chip';
 import InfoIcon from '@mui/icons-material/Info';
 import CheckIcon from '@mui/icons-material/Check';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
+import AdminPanel from '../adminPanel/adminPanel';
+import { useLocation } from 'react-router-dom';
 
-
-export default function Calls() {
+export default function Calls(props) {
   const [calls, setCalls] = useState([])
   const [pageSize, setPageSize] = useState(25);
   const [error, setError] = useState("")
   const [isMounted, setMounted] = useState(true);
   const [isLoading, setLoading] = useState(true);
-
-
-
+  const location = useLocation()
+   const {filter} = location.state || {}
+   const [filterModel, setFilterModel] = useState(filter);
+  console.log(filterModel[0]);
   async function fetchCalls() {
     try {
       const getCalls = await(await fetch(config.apiUrl + `/getCalls`, {
@@ -40,6 +42,7 @@ export default function Calls() {
     if (!error) {
         if (isMounted) {
             fetchCalls();
+            
         }
         return (() => {
             setMounted(false)
@@ -49,13 +52,13 @@ export default function Calls() {
 
 }, [])
 
-  function CustomToolbar() {
-    return (
-      <GridToolbarContainer>
-        <GridToolbarExport />
-      </GridToolbarContainer>
-    );
-  }
+  // function CustomToolbar() {
+  //   return (
+  //     <GridToolbarContainer>
+  //       <GridToolbarExport />
+  //     </GridToolbarContainer>
+  //   );
+  // }
   const INITIAL_GROUPING_COLUMN_MODEL = ['description']
   const columns = [
     {
@@ -104,7 +107,7 @@ export default function Calls() {
         </>
          : 
         <div className='table'>
-          <Box style={{ height: 540, width: '100%' }}>
+        <Box style={{ height: 540, width: '100%' }}>
             <DataGrid
               columns={columns}
               getRowId={(row) => row._id}
@@ -113,7 +116,22 @@ export default function Calls() {
               onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
               rowsPerPageOptions={[25, 50, 100]}
               pagination
+              filterModel={filterModel}
+              onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
+
               initialState={{
+                
+                // filter: {
+                //   filterModel: {
+                //     items: [
+                //       {
+                //         columnField: filter.items[0].columnField,
+                //         operatorValue: filter.items[0].operatorValue,
+                //         value: filter.items[0].value,
+                //       },
+                //     ],
+                //   },
+                // },
                 rowGrouping: {
                   model: INITIAL_GROUPING_COLUMN_MODEL,
                 },
@@ -123,14 +141,14 @@ export default function Calls() {
                 rowGrouping: true,
               }}
               components={{
-                Toolbar: CustomToolbar,
+                Toolbar: GridToolbar,
               }}
               disableSelectionOnClick
             />
-
           </Box>
         </div>
        } 
+       
     </>
   );
 }

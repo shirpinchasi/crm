@@ -178,7 +178,7 @@ console.log(props);
                     <Divider />
                     <List>
                         <ListItemText className="text">
-                        <Link color="inherit" href="/adminPanel">
+                        <Link color="inherit" href={`/AdminPanel/${props.props.employeeId}`}>
                                 Admin Panel
                             </Link>
                             <Divider />

@@ -13,9 +13,6 @@ export default function AdminPanel(props){
     const [isMounted, setMounted] = useState(true);
     const [getTeam, setTeam] = useState([]);
     const [error,setError] = useState("")
-    const teamsArray=[]
-    teamsArray.push(getTeamName) 
-    console.log(teamsArray);
     const filterModelByAssignee = {
         items: [
           {columnField: 'assignee', operatorValue: 'equals', value: props.props.userName },
@@ -23,7 +20,7 @@ export default function AdminPanel(props){
       };
       const filterModelByTeam = {
         items:[
-            {columnField: 'team', operatorValue: 'isAnyOf', value: teamsArray },
+            {columnField: 'team', operatorValue: 'isAnyOf', value: getTeamName },
         ] 
       };
     //   console.log(props.props.team[0].teamName);
@@ -51,7 +48,7 @@ export default function AdminPanel(props){
           })).json()
           setLoading(false)
           if (!error) {
-            setTeamName(getTeamCalls.teams[0].team)
+            setTeamName(getTeamCalls.teamName)
             setTeam(getTeamCalls.teams.length)
             setCallsAmount(getCalls.calls.length)
         }

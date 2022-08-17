@@ -19,9 +19,10 @@ export default function Calls(props) {
   const [isMounted, setMounted] = useState(true);
   const [isLoading, setLoading] = useState(true);
   const location = useLocation()
+  const [getTeam, setTeam] = useState([]);
    const {filter} = location.state || {}
    const [filterModel, setFilterModel] = useState(filter);
-  console.log(filterModel[0]);
+  console.log(filter);
   async function fetchCalls() {
     try {
       const getCalls = await(await fetch(config.apiUrl + `/getCalls`, {
@@ -120,7 +121,6 @@ export default function Calls(props) {
               onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
 
               initialState={{
-                
                 // filter: {
                 //   filterModel: {
                 //     items: [

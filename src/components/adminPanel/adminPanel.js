@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import "./adminPanel.scss"
 import { useFormik } from 'formik';
 import config from "../../config/index"
-import { UserSchema } from '../Users/UserSchema';
+import { AddUserSchema } from './addUserSchema';
 import { TextField } from '@mui/material';
 import Backdrop from '@material-ui/core/Backdrop';
 import CardContent from '@material-ui/core/CardContent';
@@ -13,6 +13,10 @@ import CardActions from '@material-ui/core/CardActions';
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Teams from '../Teams/Teams';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+
 
 export default function AdminPanel(props) {
   const { id } = useParams()
@@ -74,12 +78,13 @@ export default function AdminPanel(props) {
       firstName: "",
       lastName: "",
       status: "Active",
+      roles: "",
       email: "",
       team: ""
     },
 
 
-    validationSchema: UserSchema,
+    validationSchema: AddUserSchema,
     onSubmit: async (values) => {
       await fetch(config.apiUrl + "/addUser", {
         method: "POST",
@@ -190,6 +195,24 @@ export default function AdminPanel(props) {
                         error={formik.touched.email && formik.errors.email}
                         helpertext={formik.touched.email && formik.errors.email}
                       />
+                      <Select sx={{ minWidth: 120 }}
+                        labelId="Role"
+                        id="roles"
+                        name="roles"
+                        value={formik.values.roles}
+                        label="roles"
+                        onChange={formik.handleChange}
+                        error={formik.touched.roles && formik.errors.roles}
+                        helpertext={formik.touched.roles && formik.errors.roles}
+                      >
+                        {/* {formik.values.roles.map((role) => {
+                    return ( */}
+                        <MenuItem key={"user"} value={"user"}>{"user"}</MenuItem>
+                        <MenuItem key={"admin"} value={"admin"}>{"admin"}</MenuItem>
+                    {/* ) */}
+                {/* })} */}
+
+                      </Select>
                       {/* <TextField
                             id="input"
                             name="roles"

@@ -24,7 +24,6 @@ const SignUp = (props) => {
   const navigate = useNavigate();
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    console.log(newValue);
 
   };
 
@@ -65,65 +64,65 @@ const SignUp = (props) => {
   });
 
   return (
-              <form id='form_submit_signup' onSubmit={formik.handleSubmit}>
-                <TextField
-                  id="userName"
-                  name="userName"
-                  label="User Name"
-                  type="userName"
-                  value={formik.values.userName}
-                  onChange={formik.handleChange}
-                  error={formik.touched.userName && Boolean(formik.errors.userName)}
-                  helperText={formik.touched.userName && formik.errors.userName}
-                />
-                <TextField
-                  id="firstName"
-                  name="firstName"
-                  label="First Name"
-                  type="firstName"
-                  value={formik.values.firstName}
-                  onChange={formik.handleChange}
-                  error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-                  helperText={formik.touched.firstName && formik.errors.firstName}
-                />
-                <TextField
-                  id="lastName"
-                  name="lastName"
-                  label="Last Name"
-                  type="lastName"
-                  value={formik.values.lastName}
-                  onChange={formik.handleChange}
-                  error={formik.touched.lastName && Boolean(formik.errors.lastName)}
-                  helperText={formik.touched.lastName && formik.errors.lastName}
-                />
-                <TextField
-                  id="password"
-                  name="password"
-                  label="Password"
-                  type="password"
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
-                  error={formik.touched.password && formik.errors.password}
-                  helperText={formik.touched.password && formik.errors.password}
-                />
-                <TextField
-                  id="email"
-                  name="email"
-                  label="Email"
-                  type="email"
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  error={formik.touched.email && formik.errors.email}
-                  helperText={formik.touched.email && formik.errors.email}
-                />
-                <div id='error'>{getError}</div>
-                <Button color="primary" id="button_submit_signup" variant="contained" type="submit">
-                  SIGN UP
-                </Button>
-              </form>
-          
-        
- )
+    <form id='form_submit_signup' onSubmit={formik.handleSubmit}>
+      <TextField
+        id="userName"
+        name="userName"
+        label="User Name"
+        type="userName"
+        value={formik.values.userName}
+        onChange={formik.handleChange}
+        error={formik.touched.userName && Boolean(formik.errors.userName)}
+        helperText={formik.touched.userName && formik.errors.userName}
+      />
+      <TextField
+        id="firstName"
+        name="firstName"
+        label="First Name"
+        type="firstName"
+        value={formik.values.firstName}
+        onChange={formik.handleChange}
+        error={formik.touched.firstName && Boolean(formik.errors.firstName)}
+        helperText={formik.touched.firstName && formik.errors.firstName}
+      />
+      <TextField
+        id="lastName"
+        name="lastName"
+        label="Last Name"
+        type="lastName"
+        value={formik.values.lastName}
+        onChange={formik.handleChange}
+        error={formik.touched.lastName && Boolean(formik.errors.lastName)}
+        helperText={formik.touched.lastName && formik.errors.lastName}
+      />
+      <TextField
+        id="password"
+        name="password"
+        label="Password"
+        type="password"
+        value={formik.values.password}
+        onChange={formik.handleChange}
+        error={formik.touched.password && formik.errors.password}
+        helperText={formik.touched.password && formik.errors.password}
+      />
+      <TextField
+        id="email"
+        name="email"
+        label="Email"
+        type="email"
+        value={formik.values.email}
+        onChange={formik.handleChange}
+        error={formik.touched.email && formik.errors.email}
+        helperText={formik.touched.email && formik.errors.email}
+      />
+      <div id='error'>{getError}</div>
+      <Button color="primary" id="button_submit_signup" variant="contained" type="submit">
+        SIGN UP
+      </Button>
+    </form>
+
+
+  )
 
 }
 

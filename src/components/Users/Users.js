@@ -30,7 +30,6 @@ export default function Users() {
     if (users) {
       setUsers(getUser)
     } else {
-      console.log(getUser);
       setError(getUser)
       setLoading(false)
     }

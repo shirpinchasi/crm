@@ -25,7 +25,7 @@ function GetUsers(props, types) {
             }
             setError(getUser.message)
         } catch (err) {
-            console.log(err);
+            throw err;
         }
     }
     useEffect(() => {
@@ -37,13 +37,12 @@ function GetUsers(props, types) {
                 setMounted(false)
             })
         }
-   
+
         // <div>{error}</div>
     }, [])
-
     return (
         <>
-            <InputLabel id="userName_Form">userName</InputLabel>
+            <InputLabel id="userName_Form">{props.label}</InputLabel>
             <Select sx={{ minWidth: 120 }}
                 labelId={props.labelId}
                 id={props.id}

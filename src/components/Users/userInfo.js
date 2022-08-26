@@ -40,7 +40,7 @@ function UserInfo() {
       setUsers(fetchUser.user)
       setLoading(false)
     } catch (err) {
-      console.log(err);
+      throw err;
     }
   }
 
@@ -54,7 +54,7 @@ function UserInfo() {
       setCalls(fetchCalls)
       setLoading(false)
     } catch (err) {
-      console.log(err);
+      throw err;
     }
   }
   useEffect(() => {
@@ -65,21 +65,21 @@ function UserInfo() {
 
   const columns = [
     {
-      field: '_id', headerName: "Call Id", width: 150, renderCell: (cellValues) => {
+      field: '_id', headerName: "Call Id", width: 100, renderCell: (cellValues) => {
         return <Link to={`/CallInfo/${cellValues.value}`}>{cellValues.value}</Link>;
       }
     },
     { field: "userName", headerName: "userName", width: 150 },
-     { field: "description", headerName: "Description", width: 150 },
+
     { field: "system", headerName: "System", width: 150 },
-    
+
+    // {
+    //   field: "email", headerName: "Email", width: 150, renderCell: (params) => (
+    //     <a href={`mailto:${params.value}`}>{params.value}</a>
+    //   )
+    // },
     {
-      field: "email", headerName: "Email", width: 150, renderCell: (params) => (
-        <a href={`mailto:${params.value}`}>{params.value}</a>
-      )
-    },
-    {
-      field: "status", headerName: "Status", width: 150, renderCell: (value) => {
+      field: "status", headerName: "Status", width: 130, renderCell: (value) => {
         if (value.value === "Open") {
           return <div>
             <Chip icon={<InfoIcon color="primary" />} label={value.value} color="primary" variant="outlined" />
@@ -99,6 +99,7 @@ function UserInfo() {
         }
       }
     },
+    { field: "description", headerName: "Description", width: 200 },
     { field: "openingDate", headerName: "opening date", width: 200 },
   ];
 

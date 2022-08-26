@@ -4,7 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import { useNavigate } from "react-router-dom";
-import ErrorDisplay from "../ErrorDisplay/ErrorDisplay";
+// import ErrorDisplay from "../ErrorDisplay/ErrorDisplay";
 
 function GetSystems(props) {
     const [systems, setSystems] = useState([]);
@@ -19,7 +19,7 @@ function GetSystems(props) {
             credentials: "include",
         })).json()
         if (getSystem.status === 401) {
-            <ErrorDisplay error={getSystem.message}/>
+            // <ErrorDisplay error={getSystem.message}/>
             setError(getSystem.message)
         }else{
             setSystems(getSystem)

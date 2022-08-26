@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
 import config from "./config/index"
 
-export class UserService{
-    static async get(){
-        try{
+export class UserService {
+    static async get() {
+        try {
             const res = await fetch(config.apiUrl + `/user/me`, {
-                method :"GET",
-                credentials:"include"
+                method: "GET",
+                credentials: "include"
             });
-            if (res.status === 403){
-                console.log("status 403")
-                 return null;
+            if (res.status === 403) {
+                return null;
             }
             const user = await res.json();
             return user;
-         }catch(e){
-             return null;
-         }
+        } catch (e) {
+            return null;
+        }
     }
-        
+
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import config from "../../config/index";
-import { DataGrid, GridToolbarExport, GridToolbarContainer,GridToolbar } from "@mui/x-data-grid";
+import { DataGrid, GridToolbarExport, GridToolbarContainer, GridToolbar } from "@mui/x-data-grid";
 import "./Calls.scss";
 import Skeleton from '@mui/material/Skeleton';
 import { Link } from "react-router-dom";
@@ -20,38 +20,37 @@ export default function Calls(props) {
   const [isLoading, setLoading] = useState(true);
   const location = useLocation()
   const [getTeam, setTeam] = useState([]);
-   const {filter} = location.state || {}
-   const [filterModel, setFilterModel] = useState(filter);
-  console.log(filter);
+  const { filter } = location.state || {}
+  const [filterModel, setFilterModel] = useState(filter);
   async function fetchCalls() {
     try {
-      const getCalls = await(await fetch(config.apiUrl + `/getCalls`, {
+      const getCalls = await (await fetch(config.apiUrl + `/getCalls`, {
         method: "GET",
         credentials: "include",
       })).json()
       setLoading(false)
       if (!error) {
         setCalls(getCalls)
-    }
-    setError(getCalls.message)
+      }
+      setError(getCalls.message)
     } catch (err) {
-      console.log(err);
+      return err;
     }
   }
   useEffect(() => {
-        
+
     if (!error) {
-        if (isMounted) {
-            fetchCalls();
-            
-        }
-        return (() => {
-            setMounted(false)
-        })
+      if (isMounted) {
+        fetchCalls();
+
+      }
+      return (() => {
+        setMounted(false)
+      })
     }
 
 
-}, [])
+  }, [])
 
   // function CustomToolbar() {
   //   return (
@@ -103,12 +102,12 @@ export default function Calls(props) {
         <>
           <Box sx={{ width: 300, height: 400 }}>
             <Skeleton animation="wave" />
-            
+
           </Box>
         </>
-         : 
+        :
         <div className='table'>
-        <Box style={{ height: 540, width: '100%' }}>
+          <Box style={{ height: 540, width: '100%' }}>
             <DataGrid
               columns={columns}
               getRowId={(row) => row._id}
@@ -147,8 +146,8 @@ export default function Calls(props) {
             />
           </Box>
         </div>
-       } 
-       
+      }
+
     </>
   );
 }

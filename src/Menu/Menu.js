@@ -27,6 +27,7 @@ import { useNavigate } from "react-router-dom";
 import config from "../config/index";
 import NewCall from "../components/Calls/newCall";
 import logo from "../logo_transparent.png"
+import NewSystem from "../components/Systems/NewSystems"
 
 
 export default function Menu(props) {
@@ -38,8 +39,12 @@ export default function Menu(props) {
     const [team, setTeam] = useState([]);
     const [status, setStatus] = useState([]);
     const [description, setDescription] = useState([])
+    const [systemName, setSystemName] = useState([])
+    const [systemManager,setSystemManager] = useState([])
     const [open, setOpen] = useState(false);
     const [openBackDrop, setOpenBackDrop] = useState(false);
+    const [openBackDropSystem, setOpenBackDropSystem] = useState(false);
+    const [disable, setDisable] = useState(false)
     const history = useNavigate();
 
     const handleDrawerOpen = () => {
@@ -49,10 +54,12 @@ export default function Menu(props) {
         setOpen(false);
     };
     const handleBackDropOpen = () => {
+        setDisable(true)
         setOpenBackDrop(true);
     };
     const handleBackDropClose = () => {
         setOpenBackDrop(false);
+        setDisable(false)
         setUserName("")
         setSystem("")
         setGoremMetapel("")
@@ -60,7 +67,16 @@ export default function Menu(props) {
         setStatus("")
         setDescription("")
     };
-console.log(props);
+    const handleBackDropCloseSystem = () => {
+        setOpenBackDropSystem(false)
+        setDisable(false)
+        setSystemName("")
+        setSystemManager("")
+    };
+    const handleBackDropOpenSystem = () => {
+        setOpenBackDropSystem(true);
+        setDisable(true)
+    };
     // async function getSystems() {
     //     const getSystem = await (await fetch(config.apiUrl + `/system`, {
     //         method: "GET",
@@ -90,7 +106,9 @@ console.log(props);
                 <CssBaseline />
                 <AppBar position="fixed" open={open}>
                     <Toolbar id="Menu" >
+                        
                         <IconButton
+                        disabled={disable}
                             aria-label="open drawer"
                             onClick={handleDrawerOpen}
                             edge="start"
@@ -102,7 +120,7 @@ console.log(props);
                         {props.types === "admin" ? 
                         <>
                          <Typography variant="h6" noWrap component="div">
-                         <Link color="inherit" href="/">
+                         <Link color="inherit"  href="/" >
                                 CRM
                             </Link>
                            
@@ -112,13 +130,18 @@ console.log(props);
                           Hello {props.props.userName} 
                      </Typography>
                      {/* {window.location.pathname === "/adminPanel" ? <Button>Hello</Button> : null} */}
-                     
-                     <Button id="LogOff" variant="outlined" color="primary" onClick={logOut}>
+                     <>
+                     <Button disabled={disable}  id="LogOff"  color="primary" onClick={logOut}>
                          LogOff
                      </Button>
-                     <Button id="plusIcon" variant="outlined" color="primary" onClick={handleBackDropOpen}>
+
+                     <Button disabled={disable}  id="plusIcon" color="primary" onClick={handleBackDropOpen}>
                          New Call
                      </Button>
+                     <Button disabled={disable} id="NewSystem" variant="outlined" color="primary" onClick={handleBackDropOpenSystem}>
+                         New System
+                     </Button>
+                        </>
                      </>
                         :
                         <>
@@ -139,19 +162,29 @@ console.log(props);
                         
                         }
                         </>
-                       
-                        
-
+                        <>
                         <Backdrop open={openBackDrop}>
                             <Card id="backdrop" >
                                 <CardContent>
                                     <CardActions>
                                         <FontAwesomeIcon icon={faTimes} onClick={handleBackDropClose} />
                                     </CardActions>
-                                    <NewCall props={openBackDrop} onClick={handleBackDropClose} />
+                                    <NewCall props={openBackDrop}  onClick={handleBackDropClose} />
                                 </CardContent>
                             </Card>
                         </Backdrop>
+                        <Backdrop open={openBackDropSystem}>
+                            <Card id="backdrop" >
+                                <CardContent>
+                                    <CardActions>
+                                        <FontAwesomeIcon icon={faTimes} onClick={handleBackDropCloseSystem} />
+                                    </CardActions>
+                                    <NewSystem props={openBackDropSystem} onClick={handleBackDropCloseSystem} />
+                                </CardContent>
+                            </Card>
+                        </Backdrop>
+                        </>
+                       
                     </Toolbar>
                 </AppBar>
 

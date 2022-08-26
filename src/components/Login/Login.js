@@ -21,7 +21,6 @@ const Login = () => {
   const [value, setValue] = useState("1")
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    console.log(newValue);
 
   };
 
@@ -45,7 +44,6 @@ const Login = () => {
       if (res.status === 200) {
         const loggedUser = await res.json();
         setUser(loggedUser);
-        console.log(loggedUser);
         window.location = loggedUser.redirectUrl
       }
 
@@ -65,83 +63,83 @@ const Login = () => {
         <TabPanel id="TabPanel" value="1">
           <div id="login_form">
             <Card id="card">
-            <div className="logo">
-                <img alt="" height="150px" src={logo}/>
-                </div>
-            <Box className="tabsLogin" sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <TabList centered id="tabList" onChange={handleChange} >
-            
-            <Tab className="tab" label="Login" value="1" />
-            <Tab className="tab" label="Sign Up" value="2" />
-            
-          </TabList>
-        </Box>
-              <CardContent>
-              <form id='form_submit' onSubmit={formik.handleSubmit}>
-                <Typography variant="h5" component="div">
-                
-                </Typography>
-                
-                <div id="inputs">
-                  <TextField
-                    id="userName"
-                    name="userName"
-                    label="User Name"
-                    type="userName"
-                    value={formik.values.userName}
-                    onChange={formik.handleChange}
-                    error={formik.touched.userName && Boolean(formik.errors.userName)}
-                    helperText={formik.touched.userName && formik.errors.userName}
-                  />
-                  <TextField
-                    id="password"
-                    name="password"
-                    label="Password"
-                    type="password"
-                    value={formik.values.password}
-                    onChange={formik.handleChange}
-                    error={formik.touched.password && formik.errors.password}
-                    helperText={formik.touched.password && formik.errors.password}
-                  />
-                </div>
+              <div className="logo">
+                <img alt="" height="150px" src={logo} />
+              </div>
+              <Box className="tabsLogin" sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <TabList centered id="tabList" onChange={handleChange} >
 
-                <Button color="primary" variant="contained" id="button_submit" type="submit">
-                  Submit
-                </Button>
-              </form>
-              <div id="error">
-                {data}
-              </div>
-              <div className="text-center">
-                {/* <Link to="/ForgetPassword" >forget</Link> */}
-                <Link to="/ForgetPasswordEmail" className="Login__register-link">Don't remember your password?</Link>
-                <br />
-                {/* <Link to="/SignUp" className="Login__register-link">Don't have an account? Register</Link> */}
-              </div>
+                  <Tab className="tab" label="Login" value="1" />
+                  <Tab className="tab" label="Sign Up" value="2" />
+
+                </TabList>
+              </Box>
+              <CardContent>
+                <form id='form_submit' onSubmit={formik.handleSubmit}>
+                  <Typography variant="h5" component="div">
+
+                  </Typography>
+
+                  <div id="inputs">
+                    <TextField
+                      id="userName"
+                      name="userName"
+                      label="User Name"
+                      type="userName"
+                      value={formik.values.userName}
+                      onChange={formik.handleChange}
+                      error={formik.touched.userName && Boolean(formik.errors.userName)}
+                      helperText={formik.touched.userName && formik.errors.userName}
+                    />
+                    <TextField
+                      id="password"
+                      name="password"
+                      label="Password"
+                      type="password"
+                      value={formik.values.password}
+                      onChange={formik.handleChange}
+                      error={formik.touched.password && formik.errors.password}
+                      helperText={formik.touched.password && formik.errors.password}
+                    />
+                  </div>
+
+                  <Button color="primary" variant="contained" id="button_submit" type="submit">
+                    Submit
+                  </Button>
+                </form>
+                <div id="error">
+                  {data}
+                </div>
+                <div className="text-center">
+                  {/* <Link to="/ForgetPassword" >forget</Link> */}
+                  <Link to="/ForgetPasswordEmail" className="Login__register-link">Don't remember your password?</Link>
+                  <br />
+                  {/* <Link to="/SignUp" className="Login__register-link">Don't have an account? Register</Link> */}
+                </div>
               </CardContent>
             </Card>
           </div>
         </TabPanel>
       </TabContext>
       <TabContext value={value} >
-      <TabPanel id="TabPanel" value="2">
+        <TabPanel id="TabPanel" value="2">
           <div id="login_form">
             <Card id="card">
-            <div className="logo">
-                <img alt="" height="150px" src={logo}/>
-                </div>
-            <Box className="tabsLogin" sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <TabList centered id="tabList" onChange={handleChange} >
-            
-            <Tab className="tab" label="Login" value="1" />
-            <Tab className="tab" label="Sign Up" value="2" />
-            
-          </TabList>
-        </Box>
+              <div className="logo">
+                <img alt="" height="150px" src={logo} />
+              </div>
+              <Box className="tabsLogin" sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <TabList centered id="tabList" onChange={handleChange} >
+
+                  <Tab className="tab" label="Login" value="1" />
+                  <Tab className="tab" label="Sign Up" value="2" />
+
+                </TabList>
+              </Box>
               <CardContent>
-              <SignUp/>
-              
-            
+                <SignUp />
+
+
               </CardContent>
             </Card>
           </div>
@@ -150,7 +148,7 @@ const Login = () => {
       </TabContext>
 
     </Box>
- )
+  )
 
 }
 

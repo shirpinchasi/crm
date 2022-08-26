@@ -13,7 +13,7 @@ export default function ForgetPassword() {
     const [success, setSuccess] = useState("")
     const navigate = useNavigate()
     const [getToken, setToken] = useState([])
-    const [Loading,setLoading] = useState(false)
+    const [Loading, setLoading] = useState(false)
 
     async function fetchTokens() {
         try {
@@ -24,11 +24,9 @@ export default function ForgetPassword() {
 
             if (fetchToken.err) {
                 setToken(fetchToken.err)
-                console.log(fetchToken.err);
                 setError(true)
             } else {
                 setError(false)
-                console.log(fetchToken);
                 setToken(fetchToken)
             }
 
@@ -56,27 +54,26 @@ export default function ForgetPassword() {
                 credentials: "include",
                 body: JSON.stringify(values),
 
-            }).then((response)=>{
-                response.json().then((res)=>{
+            }).then((response) => {
+                response.json().then((res) => {
                     setPassError(res.error)
                 })
             })
-        
-            
-        
+
+
+
             // setSuccess(postingPassword)
-            
+
             setSuccess("Password Reset Successfully, you will be redirected to the Login page in few seconds!")
             setLoading(true)
-            setTimeout(function() {
+            setTimeout(function () {
                 navigate("/Login")
-              }, 5000);
-            
+            }, 5000);
+
         },
 
 
     });
-    console.log(error);
     return (
         <>
             {error && <div>{getToken}</div>}
@@ -113,7 +110,7 @@ export default function ForgetPassword() {
                                     Change Password
                                 </Button>
                             </form>
-                            
+
                         </div>
                     }
                 </>

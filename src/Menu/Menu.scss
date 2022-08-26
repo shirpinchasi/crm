@@ -4,6 +4,13 @@
     border: transparent;
     color: black;
 }
+
+#NewSystem{
+    position:absolute;
+    margin-left: 14%;
+    border: transparent;
+    color: black;
+}
 #LogOff{
     border: transparent;
     color: black;
@@ -13,6 +20,7 @@
     justify-content: center;
 }
 #backdrop{
+    
     min-width: 900px;
     min-height: 500px;
 }
@@ -32,6 +40,7 @@
     
 }
 #Menu{
+    z-index: 1;
     display: flex;
     flex-wrap: wrap;
 }

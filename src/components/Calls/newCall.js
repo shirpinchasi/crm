@@ -13,7 +13,6 @@ import Teams from "../Teams/Teams";
 import TeamMembers from "../Teams/teamMembers";
 
 
-
 export default function NewCall(props) {
 
     const formik = useFormik({
@@ -25,7 +24,6 @@ export default function NewCall(props) {
             status: "Open",
             description: "",
         },
-
 
         validationSchema: CallSchema,
         onSubmit: async (values) => {
@@ -43,6 +41,8 @@ export default function NewCall(props) {
         },
 
     });
+    // if(props.onClick.name === "handleBackDropClose"){
+    // }
 
     return (
         <>

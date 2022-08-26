@@ -4,7 +4,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import TeamMembers from "./teamMembers";
-import ErrorDisplay from "../ErrorDisplay/ErrorDisplay";
+// import ErrorDisplay from "../ErrorDisplay/ErrorDisplay";
 import Assignee from "./assignee";
 
 
@@ -26,7 +26,7 @@ export default function Teams(props) {
             credentials: "include",
         })).json()
         if (getTeams.status === 404) {
-            <ErrorDisplay error={getTeams.message} />
+            // <ErrorDisplay error={getTeams.message} />
             setError(getTeams.message)
         } else {
             setTeams(getTeams)
@@ -44,7 +44,7 @@ export default function Teams(props) {
     }, [])
     
     teams.map((team)=>{
-        console.log(team.teamMembers);
+        
     })
 
     // if (props.value === "System") {

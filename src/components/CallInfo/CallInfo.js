@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import "./CallInfo.scss"
-import { DataGrid, GridToolbarExport, GridToolbarContainer,GRID_CHECKBOX_SELECTION_COL_DEF } from "@mui/x-data-grid";
+import { DataGrid, GridToolbarExport, GridToolbarContainer, GRID_CHECKBOX_SELECTION_COL_DEF } from "@mui/x-data-grid";
 import { Button } from "@material-ui/core";
 import config from "../../config/index"
 import { Card, Input, Tabs, CardContent, CardActions } from "@mui/material";
@@ -48,8 +48,6 @@ function CallInfo(props) {
   const [chip] = useState("")
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    console.log(newValue);
-
   };
 
   const handleDrawerClose = () => {
@@ -82,7 +80,7 @@ function CallInfo(props) {
       credentials: "include",
       body: formData
     })
-    
+
     const fetchData = await uploadData.json()
     setInfo(fetchData);
 
@@ -90,44 +88,62 @@ function CallInfo(props) {
       window.location.reload()
     }
   };
-  console.log(isSubmit);
-  const onSubmittingFileLoader=(
+  const onSubmittingFileLoader = (
     <Box sx={{ width: '100%' }}>
-    <LinearProgress variant="determinate" value={progress} />
-  </Box>
+      <LinearProgress variant="determinate" value={progress} />
+    </Box>
   )
   const assigneeId = props.props.employeeId
   async function AssignAssignee() {
-     await (await fetch(config.apiUrl + `/assignAssignee/${id}/${assigneeId}`, {
+    await (await fetch(config.apiUrl + `/assignAssignee/${id}/${assigneeId}`, {
       method: "PUT",
       credentials: "include",
       headers: {
         "Content-Type": "application/json"
-    },
+      },
+    })).json()
+    setSubmit(false)
+    refreshPage()
+  }
+  // async function AssignToOtherUser(){
+  //   await (await fetch(config.apiUrl + `/assignAssignee/${id}/${assigneeId}`, {
+  //     method: "PUT",
+  //     credentials: "include",
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //   })).json()
+  //   setSubmit(false)
+  //   refreshPage()
+  // }
+
+  async function CloseCall() {
+    await (await fetch(config.apiUrl + `/closeCall/${id}`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })).json()
+    refreshPage()
+  }
+  async function OpenCall() {
+    await (await fetch(config.apiUrl + `/openCall/${id}`, {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
     })).json()
     refreshPage()
   }
 
   useEffect(() => {
+    setSubmit(true)
     setLoading(true)
     fetchCalls()
     localStorage.setItem("value", value);
   }, [])
-
-  // async function Timer(){
-  //   const timer = setInterval(() => {
-  //     setProgress((oldProgress) => {
-  //       if (oldProgress === 100) {
-  //         return 0;
-  //       }
-  //       const diff = Math.random() * 10;
-  //       return Math.min(oldProgress + diff, 100)
-  //     });
-  //   }, 500)
-  //   return () => {
-  //     clearInterval(timer);
-  //   }
-  // }
 
 
   const columns = [
@@ -153,7 +169,7 @@ function CallInfo(props) {
           >
             Delete
           </Button>
-          
+
         </>
       )
     },
@@ -188,13 +204,15 @@ function CallInfo(props) {
       })).json()
       if (deleteFile.status === 200) {
         refreshPage()
-        return console.log("done");
+        return;
       }
 
     } catch (err) {
-      console.log(err);
+      return err;
     }
   }
+
+  
 
   const CancelFileUpload = () => {
     setIsFilePicked(false)
@@ -204,7 +222,7 @@ function CallInfo(props) {
     initialValues: {
       userName: calls.userName,
       system: calls.system,
-      assignee: "",
+      assignee: calls.assignee,
       team: calls.team,
       status: "Open",
       description: calls.description,
@@ -263,6 +281,8 @@ function CallInfo(props) {
                           error={formik.touched.status && formik.errors.status}
                           helpertext={formik.touched.status && formik.errors.status}
                         />
+                        <GetUsers label="Assignee" labelId="assignee" id="input" name="assignee" value={formik.values.assignee} defaultValue={calls.assignee} onChange={formik.handleChange} error={formik.touched.assignee && formik.errors.assignee} helpertext={formik.touched.assignee && formik.errors.assignee} />
+
 
                         <TextField
                           id="input"
@@ -282,6 +302,7 @@ function CallInfo(props) {
                       Update Call
                     </Button>
                     
+
                   </form>
                 </CardContent>
               </Card>
@@ -296,8 +317,13 @@ function CallInfo(props) {
                 </TabList>
               </Box>
               <TabPanel id="TabPanel" value="1">
-              
+                {calls.status === "Closed" ? <Button onClick={OpenCall} >ReOpen Call</Button> : 
+                <>
                 <Button onClick={handleBackDropOpen}>Update Call</Button>
+                <Button onClick={CloseCall}>Close Call</Button>
+                </>
+                }
+                
                 <Card id="Card_Call">
                   <div className="call_header">
 
@@ -309,23 +335,23 @@ function CallInfo(props) {
                       variant="standard"
                     />
                     <div>
-                      {calls.status === "Open" ?  <Chip icon={<InfoIcon color="primary" />} label={calls.status} color="primary" variant="outlined" /> 
-                      : calls.status === "Closed" ?  <Chip icon={<CheckIcon color="success" />} label={calls.status} color="success" variant="outlined" /> 
-                      : calls.status === "In Progress" ? <Chip icon={<AutorenewIcon color="warning" />} label={calls.status} color="warning" variant="outlined" />
-                      : null}
+                      {calls.status === "Open" ? <Chip icon={<InfoIcon color="primary" />} label={calls.status} color="primary" variant="outlined" />
+                        : calls.status === "Closed" ? <Chip icon={<CheckIcon color="success" />} label={calls.status} color="success" variant="outlined" />
+                          : calls.status === "In Progress" ? <Chip icon={<AutorenewIcon color="warning" />} label={calls.status} color="warning" variant="outlined" />
+                            : null}
                     </div>
                     <div>
-                    
-                  </div>
+
+                    </div>
                   </div>
                   <div className="callInfo">
                     <a href={`/userInfo/${calls.userName}`}>
 
-                      <TextField disabled 
-                      id="standard-disabled"
-                      label="UserName"
-                      defaultValue={calls.userName}
-                      variant="standard" /></a>
+                      <TextField disabled
+                        id="standard-disabled"
+                        label="UserName"
+                        defaultValue={calls.userName}
+                        variant="standard" /></a>
                     <TextField
                       disabled
                       id="standard-disabled"
@@ -341,14 +367,19 @@ function CallInfo(props) {
                       variant="standard"
                     />
                     <div>
-                     <TextField disabled
-                      id="standard"
-                      label="Assignee"
-                      defaultValue={calls.assignee}
-                      variant="standard"
-                    />
-                    <br/>
-                    <Button id="assign" onClick={AssignAssignee} >Assign To Me</Button>
+                      <TextField disabled
+                        id="standard"
+                        label="Assignee"
+                        defaultValue={calls.assignee}
+                        variant="standard"
+                      />
+                      <br />
+                      {calls.status === "Closed" ? null :
+                      <>
+                        {calls.assignee === calls.userName ? <Button id="assign">Assign To Other User</Button>  : <Button id="assign" onClick={AssignAssignee}>Assign To Me</Button>}
+                      </>
+                      
+                     }
                     </div>
                     <TextField
                       disabled
@@ -380,11 +411,11 @@ function CallInfo(props) {
                       </div>
                       <>
                         <Button
-                         onClick={handleSubmission } setSubmit={true}>Submit </Button>
-                        
+                          onClick={handleSubmission} setSubmit={true}>Submit </Button>
+
                       </>
                       {isSubmit ? onSubmittingFileLoader : null}
-                      
+
                       <Button
                         style={{
                           backgroundColor: "#e8605d",
@@ -408,7 +439,7 @@ function CallInfo(props) {
                         rows={calls.picture}
                         columns={columns}
                         pageSize={25}
-                        
+
                         getCellActions={getCellActions}
                       />
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Menu from './Menu/Menu';
-import { Route, useNavigate, Routes, BrowserRouter,useParams } from "react-router-dom";
+import { Route, useNavigate, Routes, BrowserRouter, useParams } from "react-router-dom";
 import Calls from './components/Calls/Calls';
 import Login from './components/Login/Login';
 import SignUp from './components/SignUp/SignUp';
@@ -25,19 +25,19 @@ function App(props) {
   const navigate = useNavigate()
   useEffect(() => {
     async function getUser() {
-      
+
       const user = await UserService.get();
       if (!user) {
         setUser(null)
         setLoading(false)
-        if(window.location.pathname.includes("/ForgetPassword")){
-          <ForgetPassword/>
-        }else{
+        if (window.location.pathname.includes("/ForgetPassword")) {
+          <ForgetPassword />
+        } else {
           navigate("/Login")
         }
-        
+
       } else {
-        if(window.location.pathname.includes("/ForgetPassword")){
+        if (window.location.pathname.includes("/ForgetPassword")) {
           navigate("/")
         }
         setLoading(false)
@@ -46,7 +46,6 @@ function App(props) {
       }
     }
     getUser();
-    console.log(fetchUser);
     setLoading(true)
   }, [])
 
@@ -54,17 +53,17 @@ function App(props) {
   return (
     <>
       <div className="App">
-        {isLoading ?<> <div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div></> :
+        {isLoading ? <> <div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div></> :
           <UserContext.Provider value={{ fetchUser, setUser }}>
             <Routes>
-              <Route path='/ForgetPassword/:id/:token' element={<ForgetPassword/>}/>
+              <Route path='/ForgetPassword/:id/:token' element={<ForgetPassword />} />
             </Routes>
             {!fetchUser ? (
               <>
                 <Routes>
                   <Route path="/Login" element={<Login />} />
                   <Route path="/SignUp" element={<SignUp />} />
-                  <Route path='/ForgetPasswordEmail' element={<ForgetPasswordEmail/>}/>
+                  <Route path='/ForgetPasswordEmail' element={<ForgetPasswordEmail />} />
                 </Routes>
 
               </>
@@ -74,14 +73,14 @@ function App(props) {
                 <Routes >
                   {types === "admin" ?
                     <>
-                    <Route path='/' element={<Home/>} />
+                      <Route path='/' element={<Home />} />
                       <Route path='callInfo/:id' element={<CallInfo props={fetchUser} />} />
                       <Route path='Requests' element={<Req props={fetchUser} types={types} />} />
                       {/* <Route path='Catalog' element={<GetSystems props={fetchUser} types={types} />} /> */}
                       <Route path='Users' element={<Users />} types={types} />
                       <Route path='userInfo/:id' element={<UserInfo />} props={fetchUser} types={types} />
                       <Route path='Calls' element={<Calls props={fetchUser} />} />
-                      <Route path='adminPanel/:id' element={<AdminPanel props={fetchUser} types={types} />} />
+                      <Route path='AdminPanel/:id' element={<AdminPanel props={fetchUser} types={types} />} />
                       <Route path='getCallsPerUser' element={<AdminPanel props={fetchUser} types={types} />} />
                       <Route element={<PageNotFound />} />
                     </>

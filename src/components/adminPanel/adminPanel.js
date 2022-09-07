@@ -47,7 +47,7 @@ export default function AdminPanel(props) {
   };
   const filterModelByTeam = {
     items: [
-      { columnField: 'team', operatorValue: 'isAnyOf', value: getTeamName },
+      { columnField: 'team', operatorValue: 'isAnyOf', value: getTeamName || null },
     ]
   };
 
@@ -134,7 +134,7 @@ export default function AdminPanel(props) {
   return (
     <>
       {isLoading ?
-        <> <div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div></>
+        <div>Loading</div>
 
         :
         <>

@@ -29,6 +29,7 @@ export default function AdminPanel(props) {
   const [newUserError, setNewUserError] = useState("")
   const [openBackDrop, setOpenBackDrop] = useState(false);
   const [error, setError] = useState("")
+  const [redirectUrl, setRedirectUrl] = useState([])
   const handleBackDropOpen = () => {
     setOpenBackDrop(true);
   };
@@ -52,21 +53,26 @@ export default function AdminPanel(props) {
 
   async function fetchCalls() {
     try {
-      const getCalls = await (await fetch(config.apiUrl + `/getUserInfo/${id}`, {
+      const getCalls = await (await fetch(config.apiUrl + `/getUserInfo`, {
         method: "GET",
         credentials: "include",
       })).json()
-      const getTeamCalls = await (await fetch(config.apiUrl + `/getCallsPerTeam/${id}`, {
-        method: "GET",
-        credentials: "include"
-      })).json()
+      // const getTeamCalls = await (await fetch(config.apiUrl + `/getCallsPerTeam/${id}`, {
+      //   method: "GET",
+      //   credentials: "include"
+      // })).json()
       setLoading(false)
       if (!error) {
-        setTeamName(getTeamCalls.teamName)
-        setTeam(getTeamCalls.teams.length)
+        
+        setTeamName(getCalls.teamName)
+        setTeam(getCalls.teams.length)
         setCallsAmount(getCalls.calls.length)
       }
+      console.log(getCalls);
       setError(getCalls.message)
+      console.log(getCalls.redirectTo);
+      
+      
     } catch (err) {
       return err;
     }

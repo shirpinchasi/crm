@@ -76,17 +76,17 @@ function App(props) {
                       <Route path='/' element={<Home />} />
                       <Route path='callInfo/:id' element={<CallInfo props={fetchUser} />} />
                       <Route path='Requests' element={<Req props={fetchUser} types={types} />} />
-                      {/* <Route path='Catalog' element={<GetSystems props={fetchUser} types={types} />} /> */}
+                      <Route path='Systems' element={<GetSystems props={fetchUser} types={types} />} />
                       <Route path='Users' element={<Users />} types={types} />
                       <Route path='userInfo/:id' element={<UserInfo />} props={fetchUser} types={types} />
                       <Route path='Calls' element={<Calls props={fetchUser} />} />
-                      <Route path='AdminPanel/:id' element={<AdminPanel props={fetchUser} types={types} />} />
+                      <Route path='AdminPanel' element={<AdminPanel props={fetchUser} types={types} />} />
                       <Route path='getCallsPerUser' element={<AdminPanel props={fetchUser} types={types} />} />
-                      <Route element={<PageNotFound />} />
+                      <Route path='*' element={<PageNotFound />} />
                     </>
                     :
                     <>
-                      <Route element={<PageNotFound />} />
+                      <Route path='*' element={<PageNotFound />} />
                       <Route exact path='/' element={<Home />} />
                     </>
                   }

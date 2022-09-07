@@ -211,7 +211,7 @@ export default function Menu(props) {
                     <Divider />
                     <List>
                         <ListItemText className="text">
-                        <Link color="inherit" href={`/AdminPanel/${props.props.employeeId}`}>
+                        <Link color="inherit" href={`/AdminPanel`}>
                                 Admin Panel
                             </Link>
                             <Divider />
@@ -223,7 +223,7 @@ export default function Menu(props) {
                                 Calls
                             </Link>
                             <Divider />
-                            <Link color="inherit" href="/Catalog">
+                            <Link color="inherit" href="/Systems">
                                 Systems
                             </Link>
                             <Divider />

@@ -106,16 +106,18 @@ function UserInfo() {
   return (
     <>
       {isLoading ? <div>Loading</div> :
-        <Box className="tabs" sx={{ width: '100%', typography: 'body1' }}>
+        <Box className="tabs" sx={{ width: '90%', typography: 'body1' }}>
           <TabContext value={value} centered>
             <Box className="tabs" sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList id="tabList" onChange={handleChange} >
-                <Tab label="User Properties" value="1" />
+                <Tab  label="User Properties" value="1" />
                 <Tab label="Item Two" value="2" />
                 <Tab label="Calls" value="3" />
               </TabList>
             </Box>
-            <TabPanel id="TabPanel" value="1">
+            
+            <TabPanel className="tab" id="TabPanel" value="1">
+            <Button>Update User</Button>
               <Card id="Card_Call">
                 <div className="call_header">
                   <TextField
@@ -125,7 +127,7 @@ function UserInfo() {
                     defaultValue={users.employeeId}
                     variant="standard"
                   />
-                  <Button>Update User</Button>
+                  
                 </div>
                 <div className="callInfo">
                   <TextField

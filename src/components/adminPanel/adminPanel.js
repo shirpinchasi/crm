@@ -11,6 +11,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Teams from '../Teams/Teams';
 import Select from '@mui/material/Select';
@@ -266,6 +267,10 @@ export default function AdminPanel(props) {
 
               <Box id="adminPanelBox">
                 <Box id="AdminBox" sx={{ boxShadow: 3, borderRadius: '16px' }}>
+                  <div>
+                  <FontAwesomeIcon icon={faPen} />
+                  </div>
+                
                   <div id='boxHeader'>Calls On Me</div>
                   <Link to={`/Calls/`} state={{ filter: filterModelByAssignee }} >{callsAmount || 0}</Link>
                 </Box>

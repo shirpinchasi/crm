@@ -7,18 +7,21 @@ import CheckIcon from '@mui/icons-material/Check';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import TextField from '@mui/material/TextField';
 import "./userInfo.scss"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Card, Input, Tabs, CardContent, CardActions } from "@mui/material";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@material-ui/core";
 import config from "../../config/index"
-import { Card, Tabs } from "@mui/material";
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import { DataGrid } from "@mui/x-data-grid";
+import Backdrop from '@material-ui/core/Backdrop';
+import UpdateUser from "./updateUser";
 
 
-
-function UserInfo() {
+function UserInfo(props) {
   const { id } = useParams();
   const [users, setUsers] = useState([]);
   const [calls, setCalls] = useState([])
@@ -26,9 +29,23 @@ function UserInfo() {
   const [info, setInfo] = useState([])
   const [isLoading, setLoading] = useState(true)
   const [value, setValue] = useState('1');
+  const [open, setOpen] = useState(false);
+  const [openBackDrop, setOpenBackDrop] = useState(false);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+
+  const handleBackDropOpen = () => {
+    setOpenBackDrop(true);
+  };
+  const handleBackDropClose = () => {
+    setOpenBackDrop(false);
+  };
+
+
+
+
 
   async function fetchUser() {
     try {
@@ -57,11 +74,16 @@ function UserInfo() {
       throw err;
     }
   }
+
+
+
+
   useEffect(() => {
     setLoading(true)
     fetchUser()
     fetchCalls()
   }, [])
+console.log(props);
 
   const columns = [
     {
@@ -102,7 +124,7 @@ function UserInfo() {
     { field: "description", headerName: "Description", width: 200 },
     { field: "openingDate", headerName: "opening date", width: 200 },
   ];
-
+console.log(openBackDrop);
   return (
     <>
       {isLoading ? <div>Loading</div> :
@@ -117,7 +139,22 @@ function UserInfo() {
             </Box>
             
             <TabPanel className="tab" id="TabPanel" value="1">
-            <Button>Update User</Button>
+            <Button onClick={handleBackDropOpen}>Update User</Button>
+            {openBackDrop === true ? 
+            <Backdrop open={openBackDrop}>
+              <Card id="backdropUpdate" >
+              <CardContent>
+                  <CardActions>
+                    <FontAwesomeIcon icon={faTimes} onClick={handleBackDropClose} />
+                  </CardActions>
+                  </CardContent>
+                  <UpdateUser lastUpdater={props.props.userName} userName={users.userName}/>
+              </Card>
+            </Backdrop>
+            
+            
+            
+            : 
               <Card id="Card_Call">
                 <div className="call_header">
                   <TextField
@@ -162,6 +199,7 @@ function UserInfo() {
 
 
               </Card>
+}
             </TabPanel>
 
 
@@ -173,7 +211,7 @@ function UserInfo() {
                 <DataGrid
                   columns={columns}
                   getRowId={(row) => row._id}
-                  rows={calls}
+                  rows={calls.calls}
                   pageSize={pageSize}
                   onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                   rowsPerPageOptions={[25, 50, 100]}

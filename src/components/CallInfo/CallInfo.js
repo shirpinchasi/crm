@@ -261,7 +261,7 @@ function CallInfo(props) {
                     <Card id="Card_Call">
                       <div className="call_header">
                         <div>
-                          <GetUsers label="userName" labelId="userName" id="input" name="userName" value={formik.values.userName} defaultValue={calls.userName} onChange={formik.handleChange} error={formik.touched.userName && formik.errors.userName} helpertext={formik.touched.userName && formik.errors.userName} />
+                          <GetUsers disabled label="userName" labelId="userName" id="input" name="userName" value={formik.values.userName} defaultValue={calls.userName} onChange={formik.handleChange} error={formik.touched.userName && formik.errors.userName} helpertext={formik.touched.userName && formik.errors.userName} />
                         </div>
                         <div>
                           <GetSystems labelId="system" id="input" name="system" defaultValue={calls.system} value={formik.values.system} onChange={formik.handleChange} error={formik.touched.system && formik.errors.system} helpertext={formik.touched.system && formik.errors.system} />

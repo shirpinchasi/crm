@@ -41,8 +41,6 @@ export default function NewCall(props) {
         },
 
     });
-    // if(props.onClick.name === "handleBackDropClose"){
-    // }
 
     return (
         <>

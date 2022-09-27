@@ -11,7 +11,9 @@ export class UserService {
             if (res.status === 403) {
                 return null;
             }
+            
             const user = await res.json();
+            console.log(user);
             return user;
         } catch (e) {
             return null;

@@ -3,6 +3,9 @@
     display: grid;
 
 }
+.MuiCardContent-root{
+    overflow-y: auto;
+}
 #card_signup{
     box-shadow: 2px 2px 2px 2px rgb(179, 173, 173);
     display: flex;

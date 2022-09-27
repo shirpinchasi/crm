@@ -76,19 +76,20 @@ export default function Teams(props) {
         <>
             {/* {!props.value ? */}
                 <>
-                    <InputLabel id="demo-simple-select-label">team</InputLabel>
+                    <InputLabel id="addUserForm">{props.labelId}</InputLabel>
                     <Select sx={{ minWidth: 120 }}
                         labelId={props.labelId}
                         id={props.id}
                         name={props.name}
                         value={props.value}
                         defaultValue={props.defaultValue}
+                        label={props.labelId}
                         onChange={props.onChange}
                         error={props.error}
                         helpertext={props.helpertext}
                     >
+                        
                         {teams.map((team) => {
-
                             return (
                                 <MenuItem key={team._id} value={team.teamName}>{team.teamName}</MenuItem>
                             )

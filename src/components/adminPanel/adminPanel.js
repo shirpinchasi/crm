@@ -43,7 +43,7 @@ export default function AdminPanel(props) {
 
   const filterModelByAssignee = {
     items: [
-      { columnField: 'assignee', operatorValue: 'equals', value: props.props.userName },
+      { columnField: 'assignee', operatorValue: 'equals', value: props.userName },
     ]
   };
   const filterModelByTeam = {
@@ -71,7 +71,6 @@ export default function AdminPanel(props) {
       }
       console.log(getCalls);
       setError(getCalls.message)
-      console.log(getCalls.redirectTo);
       
       
     } catch (err) {
@@ -130,6 +129,8 @@ export default function AdminPanel(props) {
 
 
   }, [])
+
+  console.log(props);
 
 
   return (

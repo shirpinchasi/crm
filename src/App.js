@@ -18,6 +18,7 @@ import Home from './components/Home/Home';
 import ForgetPasswordEmail from './ForgetPasswordEmail/forgetPasswordEmail';
 import ForgetPassword from "./components/ForgetPassword/ForgetPassword"
 import Systems from './components/Systems/Systems';
+import ForgetPasswordLink from "./components/ForgetPassword/forgetPassLink"
 
 function App(props) {
   const [fetchUser, setUser] = useState({});
@@ -43,28 +44,26 @@ function App(props) {
         }
         setLoading(false)
         setTypes(user.valid)
-        setUser(user.user)
+        setUser(user.userInfo)
       }
     }
     getUser();
     setLoading(true)
   }, [])
 
-
   return (
     <>
       <div className="App">
         {isLoading ? <> <div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div></> :
           <UserContext.Provider value={{ fetchUser, setUser }}>
-            <Routes>
-              <Route path='/ForgetPassword/:id/:token' element={<ForgetPassword />} />
-            </Routes>
             {!fetchUser ? (
               <>
                 <Routes>
                   <Route path="/Login" element={<Login />} />
                   <Route path="/SignUp" element={<SignUp />} />
+                  <Route path='/ForgetPassword/:id/:token' element={<ForgetPassword />} />
                   <Route path='/ForgetPasswordEmail' element={<ForgetPasswordEmail />} />
+                  <Route path='*' element={<PageNotFound />} />
                 </Routes>
 
               </>
@@ -79,7 +78,7 @@ function App(props) {
                       <Route path='Requests' element={<Req props={fetchUser} types={types} />} />
                       <Route path='Systems' element={<Systems props={fetchUser} types={types} />} />
                       <Route path='Users' element={<Users />} types={types} />
-                      <Route path='userInfo/:id' element={<UserInfo props={fetchUser} types={types} />}  />
+                      <Route path='userInfo/:id' element={<UserInfo props={fetchUser} types={types} />} />
                       <Route path='Calls' element={<Calls props={fetchUser} />} />
                       <Route path='AdminPanel' element={<AdminPanel props={fetchUser} types={types} />} />
                       <Route path='getCallsPerUser' element={<AdminPanel props={fetchUser} types={types} />} />

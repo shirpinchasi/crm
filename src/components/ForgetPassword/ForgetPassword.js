@@ -1,10 +1,11 @@
 import { Input } from '@mui/material';
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate,Routes,Route } from 'react-router-dom';
 import config from "../../config/index"
 import { useFormik } from 'formik';
 import { PasswordChange } from "./ForgetPasswordSchema"
 import { Button, TextField } from '@material-ui/core';
+
 
 export default function ForgetPassword() {
     const { id, token } = useParams()
@@ -14,6 +15,8 @@ export default function ForgetPassword() {
     const navigate = useNavigate()
     const [getToken, setToken] = useState([])
     const [Loading, setLoading] = useState(false)
+
+
 
     async function fetchTokens() {
         try {

@@ -28,8 +28,6 @@ export default function UpdateUser(props) {
         setUser(getUsers.user)
       }
 
-      console.log(props.userName);
-
     const formik = useFormik({
         initialValues: {
             userName: user.userName,

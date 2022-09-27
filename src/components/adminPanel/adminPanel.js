@@ -58,10 +58,6 @@ export default function AdminPanel(props) {
         method: "GET",
         credentials: "include",
       })).json()
-      // const getTeamCalls = await (await fetch(config.apiUrl + `/getCallsPerTeam/${id}`, {
-      //   method: "GET",
-      //   credentials: "include"
-      // })).json()
       setLoading(false)
       if (!error) {
         
@@ -69,7 +65,6 @@ export default function AdminPanel(props) {
         setTeam(getCalls.teams.length)
         setCallsAmount(getCalls.calls.length)
       }
-      console.log(getCalls);
       setError(getCalls.message)
       
       
@@ -121,16 +116,12 @@ export default function AdminPanel(props) {
       }
       return (() => {
         setMounted(false)
-        // props.props.team.map((team)=>{
-        //     setTeamName(team.teamName)
-        // })
       })
     }
 
 
   }, [])
 
-  console.log(props);
 
 
   return (
@@ -213,39 +204,12 @@ export default function AdminPanel(props) {
                         error={formik.touched.roles && formik.errors.roles}
                         helpertext={formik.touched.roles && formik.errors.roles}
                       >
-                        {/* {formik.values.roles.map((role) => {
-                    return ( */}
                         <MenuItem key={"user"} value={"user"}>{"user"}</MenuItem>
                         <MenuItem key={"admin"} value={"admin"}>{"admin"}</MenuItem>
-                    {/* ) */}
-                {/* })} */}
 
                       </Select>
-                      {/* <TextField
-                            id="input"
-                            name="roles"
-                            label="roles"
-                            type="roles"
-                            value={formik.values.roles}
-                            onChange={formik.handleChange}
-                            error={formik.touched.roles && formik.errors.roles}
-                            helpertext={formik.touched.roles && formik.errors.roles}
-                        /> */}
+                     
                       <Teams labelId="teams" id="input" name="team" value={formik.values.team} onChange={formik.handleChange} error={formik.touched.team && formik.errors.team} helpertext={formik.touched.team && formik.errors.team} />
-
-                      {/* <TextField
-                            id="input"
-                            name="team"
-                            label="team"
-                            type="team"
-                            value={formik.values.team}
-                            onChange={formik.handleChange}
-                            error={formik.touched.team && formik.errors.team}
-                            helpertext={formik.touched.team && formik.errors.team}
-                        /> */}
-
-
-
 
                     </div>
                     <div id='error'>{newUserError}</div>

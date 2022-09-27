@@ -13,7 +13,6 @@ export class UserService {
             }
             
             const user = await res.json();
-            console.log(user);
             return user;
         } catch (e) {
             return null;

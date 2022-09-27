@@ -83,7 +83,6 @@ function UserInfo(props) {
     fetchUser()
     fetchCalls()
   }, [])
-console.log(props);
 
   const columns = [
     {
@@ -95,11 +94,6 @@ console.log(props);
 
     { field: "system", headerName: "System", width: 150 },
 
-    // {
-    //   field: "email", headerName: "Email", width: 150, renderCell: (params) => (
-    //     <a href={`mailto:${params.value}`}>{params.value}</a>
-    //   )
-    // },
     {
       field: "status", headerName: "Status", width: 130, renderCell: (value) => {
         if (value.value === "Open") {
@@ -124,7 +118,6 @@ console.log(props);
     { field: "description", headerName: "Description", width: 200 },
     { field: "openingDate", headerName: "opening date", width: 200 },
   ];
-console.log(openBackDrop);
   return (
     <>
       {isLoading ? <div>Loading</div> :
@@ -216,11 +209,6 @@ console.log(openBackDrop);
                   onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                   rowsPerPageOptions={[25, 50, 100]}
                   pagination
-                  //  initialState={{
-                  //   rowGrouping: {
-                  //     model: INITIAL_GROUPING_COLUMN_MODEL,
-                  //   },
-                  // }}
                   disableSelectionOnClick
                 />
 

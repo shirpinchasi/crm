@@ -18,11 +18,13 @@ import Home from './components/Home/Home';
 import ForgetPasswordEmail from './ForgetPasswordEmail/forgetPasswordEmail';
 import ForgetPassword from "./components/ForgetPassword/ForgetPassword"
 import Systems from './components/Systems/Systems';
+import loading from "./components/Loading/loading.mp4"
+import gif from "./components/Loading/gif.mp4"
 
 function App(props) {
   const [fetchUser, setUser] = useState({});
   const [types, setTypes] = useState({});
-  const [menuItems,setMenuItems] = useState({})
+  const [menuItems, setMenuItems] = useState({})
   const [isLoading, setLoading] = useState(true)
   const navigate = useNavigate()
   useEffect(() => {
@@ -50,11 +52,21 @@ function App(props) {
     }
     getUser();
     setLoading(true)
+   
   }, [])
+//   if (isLoading) return <video className='videoTag' autoPlay loop muted>
+//   <source src={gif} type='video/mp4' />
+// </video>;
+
   return (
     <>
       <div className="App">
-        {isLoading ? <> <div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div></> :
+        {isLoading ? <>
+          <video className='videoTag' autoPlay loop muted>
+            <source src={gif} type='video/mp4' />
+          </video>
+        </>
+          :
           <UserContext.Provider value={{ fetchUser, setUser }}>
             {!fetchUser ? (
               <>

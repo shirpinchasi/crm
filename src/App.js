@@ -21,6 +21,7 @@ import Systems from './components/Systems/Systems';
 import loading from "./components/Loading/loading.mp4"
 import gif from "./components/Loading/gif.mp4"
 
+
 function App(props) {
   const [fetchUser, setUser] = useState({});
   const [types, setTypes] = useState({});
@@ -29,11 +30,12 @@ function App(props) {
   const navigate = useNavigate()
   useEffect(() => {
     async function getUser() {
-
+      
       const user = await UserService.get();
       if (!user) {
+        
         setUser(null)
-        setLoading(false)
+        // setLoading(false)
         if (window.location.pathname.includes("/ForgetPassword")) {
           <ForgetPassword />
         } else {
@@ -44,24 +46,41 @@ function App(props) {
         if (window.location.pathname.includes("/ForgetPassword")) {
           navigate("/")
         }
-        setLoading(false)
+        // setLoading(false)
         setMenuItems(user.menuItems);
         setTypes(user.valid)
         setUser(user.userInfo)
       }
-    }
+  }
     getUser();
-    setLoading(true)
+    // setLoading(false)
+    if (isLoading) {
+      setTimeout(() => {
+        setLoading(false)
+      }, 1200)
+    }
+    
    
-  }, [])
-//   if (isLoading) return <video className='videoTag' autoPlay loop muted>
-//   <source src={gif} type='video/mp4' />
-// </video>;
+  }, [isLoading])
+
 
   return (
     <>
       <div className="App">
         {isLoading ? <>
+          {/* <AnimatedText
+    type='chars'
+    interval={0.06}
+    duration={0.8}
+    animation={{
+      y: '50px',
+      ease: 'ease',
+      scale: -0.01,
+    }}
+  >
+    
+   
+</AnimatedText> */}
           <video className='videoTag' autoPlay loop muted>
             <source src={gif} type='video/mp4' />
           </video>

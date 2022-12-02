@@ -54,7 +54,7 @@ export default function Systems() {
       const columns = [
         {
           field: 'systemId', headerName: "System Id", renderCell: (cellValues) => {
-            return <Link to={`/callInfo/${cellValues.value}`}>{cellValues.value}</Link>;
+            return <Link to={`/systemInfo/${cellValues.value}`}>{cellValues.value}</Link>;
           }
         },
         { field: "systemManager", headerName: "System Manager", width: 150 },

@@ -42,7 +42,7 @@ function GetUsers(props, types) {
     }, [])
     return (
         <>
-            <InputLabel id="userName_Form">{props.label}</InputLabel>
+            <InputLabel id="userName_Form">{props.labelId}</InputLabel>
             <Select sx={{ minWidth: 120 }}
             disabled={props.disabled}
                 labelId={props.labelId}

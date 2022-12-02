@@ -61,6 +61,7 @@ function UserInfo(props) {
     }
   }
 
+
   async function fetchCalls() {
     try {
       const getCalls = await fetch(config.apiUrl + `/getCallsPerUser/${id}`, {
@@ -121,103 +122,124 @@ function UserInfo(props) {
   return (
     <>
       {isLoading ? <div>Loading</div> :
-        <Box className="tabs" sx={{ width: '90%', typography: 'body1' }}>
-          <TabContext value={value} centered>
-            <Box className="tabs" sx={{ borderBottom: 1, borderColor: 'divider' }}>
-              <TabList id="tabList" onChange={handleChange} >
-                <Tab  label="User Properties" value="1" />
-                <Tab label="Item Two" value="2" />
-                <Tab label="Calls" value="3" />
-              </TabList>
-            </Box>
-            
-            <TabPanel className="tab" id="TabPanel" value="1">
-            <Button onClick={handleBackDropOpen}>Update User</Button>
-            {openBackDrop === true ? 
-            <Backdrop open={openBackDrop}>
-              <Card id="backdropUpdate" >
-              <CardContent>
-                  <CardActions>
-                    <FontAwesomeIcon icon={faTimes} onClick={handleBackDropClose} />
-                  </CardActions>
+        <>
+          {openBackDrop === true ?
+            <>
+              <Backdrop open={openBackDrop}>
+                <Card id="backdropUpdate" >
+                  <CardContent>
+                    <CardActions>
+                      <FontAwesomeIcon icon={faTimes} onClick={handleBackDropClose} />
+                    </CardActions>
                   </CardContent>
-                  <UpdateUser lastUpdater={props.props.userName} userName={users.userName}/>
-              </Card>
-            </Backdrop>
-            
-            
-            
-            : 
-              <Card id="Card_Call">
-                <div className="call_header">
-                  <TextField
-                    disabled
-                    id="employeeId"
-                    label="employee Id"
-                    defaultValue={users.employeeId}
-                    variant="standard"
-                  />
-                  
-                </div>
-                <div className="callInfo">
-                  <TextField
-                    disabled
-                    id="standard-disabled"
-                    label="UserName"
-                    defaultValue={users.userName}
-                    variant="standard"
-                  />
-                  <TextField
-                    disabled
-                    id="standard-disabled"
-                    label="Email"
-                    defaultValue={users.email}
-                    variant="standard"
-                  />
-                  <TextField
-                    disabled
-                    id="standard-disabled"
-                    label="Opening Date"
-                    defaultValue={users.openingDate}
-                    variant="standard"
-                  />
-                  <TextField
-                    disabled
-                    id="standard-disabled"
-                    label="Status"
-                    defaultValue={users.status}
-                    variant="standard"
-                  />
-                </div>
+                  <UpdateUser lastUpdater={props.props.userName} userName={users.userName} firstName={users.firstName} lastName={users.lastName} status={users.status} email={users.email} teams={users.team} />
+                </Card>
+              </Backdrop>
+            </>
+
+            :
+            <Box className="tabs" sx={{ width: '90%', typography: 'body1' }}>
+              <TabContext value={value} centered>
+                <Box className="tabs" sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                  <TabList id="tabList" onChange={handleChange} >
+                    <Tab label="User Properties" value="1" />
+                    <Tab label="Item Two" value="2" />
+                    <Tab label="Calls" value="3" />
+                  </TabList>
+                </Box>
+
+                <TabPanel className="tab" id="TabPanel" value="1">
+                  <Button onClick={handleBackDropOpen}>Update User</Button>
+                  <Card id="Card_Call">
+                    <div className="call_header">
+                      <TextField
+                        disabled
+                        id="employeeId"
+                        label="employee Id"
+                        defaultValue={users.employeeId}
+                        variant="standard"
+                      />
+
+                    </div>
+                    <div className="callInfo">
+                      <TextField
+                        disabled
+                        id="standard-disabled"
+                        label="UserName"
+                        defaultValue={users.userName}
+                        variant="standard"
+                      />
+                      <TextField
+                        disabled
+                        id="standard-disabled"
+                        label="First Name"
+                        defaultValue={users.firstName}
+                        variant="standard"
+                      />
+                      <TextField
+                        disabled
+                        id="standard-disabled"
+                        label="last Name"
+                        defaultValue={users.lastName}
+                        variant="standard"
+                      />
+                      <TextField
+                        disabled
+                        id="standard-disabled"
+                        label="Email"
+                        defaultValue={users.email}
+                        variant="standard"
+                      />
+                      <TextField
+                        disabled
+                        id="standard-disabled"
+                        label="Opening Date"
+                        defaultValue={users.openingDate}
+                        variant="standard"
+                      />
+                      <TextField
+                        disabled
+                        id="standard-disabled"
+                        label="Status"
+                        defaultValue={users.status}
+                        variant="standard"
+                      />
+                      <TextField
+                        disabled
+                        id="standard-disabled"
+                        label="last Updater"
+                        defaultValue={users.lastUpdater}
+                        variant="standard"
+                      />
+                    </div>
 
 
-              </Card>
-}
-            </TabPanel>
+                  </Card>
+                </TabPanel>
+                <TabPanel id="TabPanel" value="2">Item Two</TabPanel>
+                <TabPanel id="TabPanel" value="3">
+                  <div style={{ height: 540, width: '100%' }}>
 
 
-            <TabPanel id="TabPanel" value="2">Item Two</TabPanel>
-            <TabPanel id="TabPanel" value="3">
-              <div style={{ height: 540, width: '100%' }}>
-
-
-                <DataGrid
-                  columns={columns}
-                  getRowId={(row) => row._id}
-                  rows={calls.calls}
-                  pageSize={pageSize}
-                  onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-                  rowsPerPageOptions={[25, 50, 100]}
-                  pagination
-                  disableSelectionOnClick
-                />
+                    <DataGrid
+                      columns={columns}
+                      getRowId={(row) => row._id}
+                      rows={calls.calls}
+                      pageSize={pageSize}
+                      onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                      rowsPerPageOptions={[25, 50, 100]}
+                      pagination
+                      disableSelectionOnClick
+                    />
 
 
 
-              </div>
-            </TabPanel>
-          </TabContext>
-        </Box>
+                  </div>
+                </TabPanel>
+              </TabContext>
+            </Box>
+          }
+        </>
       }
     </>
   )

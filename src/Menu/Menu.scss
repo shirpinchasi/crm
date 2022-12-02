@@ -20,9 +20,8 @@
     justify-content: center;
 }
 #backdrop{
-    
     min-width: 900px;
-    min-height: 500px;
+    min-height: 300px;
 }
 
 .box_form{
@@ -36,16 +35,14 @@
     width: 110px;
 }
 #Hello{
+    z-index: -1;
     margin-left: auto;
     
 }
-#Menu{
-    z-index: 1;
-    display: flex;
-    flex-wrap: wrap;
-}
+
 .Menulogo{
-    margin-left: auto;
+    z-index: -1;
+    margin-left: 41%;
     width: 60px;
 }
 .css-1xif2b4-MuiPopper-root-MuiDataGrid-menu .MuiDataGrid-menuList{

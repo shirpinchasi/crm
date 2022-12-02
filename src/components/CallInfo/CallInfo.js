@@ -41,8 +41,6 @@ function CallInfo(props) {
     const saved = localStorage.getItem("value");
     return saved || "1";
   });
-
-  const [some, setSome] = useState([])
   const [open, setOpen] = useState(false);
   const [openBackDrop, setOpenBackDrop] = useState(false);
   const [chip] = useState("")
@@ -376,7 +374,7 @@ function CallInfo(props) {
                       <br />
                       {calls.status === "Closed" ? null :
                       <>
-                        {calls.assignee === calls.userName ? <Button id="assign">Assign To Other User</Button>  : <Button id="assign" onClick={AssignAssignee}>Assign To Me</Button>}
+                        {calls.assignee === calls.userName ? <Button id="assign" >Assign To Other User</Button>  : <Button id="assign" onClick={AssignAssignee}>Assign To Me</Button>}
                       </>
                       
                      }
@@ -393,6 +391,13 @@ function CallInfo(props) {
                       id="standard-disabled"
                       label="Description"
                       defaultValue={calls.description}
+                      variant="standard"
+                    />
+                    <TextField
+                      disabled
+                      id="standard-disabled"
+                      label="last Updater"
+                      defaultValue={calls.lastUpdater}
                       variant="standard"
                     />
                   </div>
@@ -414,7 +419,8 @@ function CallInfo(props) {
                           onClick={handleSubmission} setSubmit={true}>Submit </Button>
 
                       </>
-                      {isSubmit ? onSubmittingFileLoader : null}
+                      <div id="error">{info.message}</div>
+                      {/* {isSubmit ? onSubmittingFileLoader : null} */}
 
                       <Button
                         style={{

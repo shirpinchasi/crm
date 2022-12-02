@@ -14,3 +14,12 @@
     color: black;
     margin-top: 5%;
 }
+#flex_inputs_add_user{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+}
+#backdrop_add_user{
+    height: 800px;
+}

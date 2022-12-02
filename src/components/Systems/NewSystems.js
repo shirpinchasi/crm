@@ -14,16 +14,19 @@ import TeamMembers from "../Teams/teamMembers";
 
 export default function NewSystem(props) {
 
+    const [getError, setError] = useState("")
+
+
     const formik = useFormik({
         initialValues: {
-            systemName :"",
-            systemManager :""
+            systemName: "",
+            systemManager: ""
         },
 
 
         validationSchema: SystemSchema,
         onSubmit: async (values) => {
-            await fetch(config.apiUrl + "/addSystem", {
+            const res = await fetch(config.apiUrl + "/addSystem", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -32,7 +35,17 @@ export default function NewSystem(props) {
                 body: JSON.stringify(values),
 
             })
-            window.location.reload()
+            let result = await res.json();
+            setError(result.message)
+            if (res.status === 201) {
+                console.log(res.status);
+                 window.location.reload()
+                
+            } if (res.status === 409) {
+                let result = await res.json();
+                setError(result.message)
+            }
+            
 
         },
 
@@ -62,6 +75,7 @@ export default function NewSystem(props) {
 
 
                     </div>
+                    <div className="Error">{getError}</div>
                     <Button color="primary" onSubmit={formik.onSubmit} variant="contained" id="button_submit" type="submit">
                         Add System
                     </Button>

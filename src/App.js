@@ -22,6 +22,7 @@ import Systems from './components/Systems/Systems';
 function App(props) {
   const [fetchUser, setUser] = useState({});
   const [types, setTypes] = useState({});
+  const [menuItems,setMenuItems] = useState({})
   const [isLoading, setLoading] = useState(true)
   const navigate = useNavigate()
   useEffect(() => {
@@ -42,6 +43,7 @@ function App(props) {
           navigate("/")
         }
         setLoading(false)
+        setMenuItems(user.menuItems);
         setTypes(user.valid)
         setUser(user.userInfo)
       }
@@ -49,7 +51,6 @@ function App(props) {
     getUser();
     setLoading(true)
   }, [])
-
   return (
     <>
       <div className="App">
@@ -68,7 +69,7 @@ function App(props) {
               </>
             ) : (
               <>
-                <Menu props={fetchUser} types={types} />
+                <Menu props={fetchUser} types={types} menuItems={menuItems} />
                 <Routes >
                   {types === "admin" ?
                     <>

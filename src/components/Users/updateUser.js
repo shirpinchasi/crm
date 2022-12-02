@@ -20,21 +20,21 @@ export default function UpdateUser(props) {
 
 
 
-    async function fetchUser() {
-        const getUsers = await (await fetch(config.apiUrl + `/getUser/${id}`, {
-          method: "GET",
-          credentials: "include",
-        })).json()
-        setUser(getUsers.user)
-      }
+    // async function fetchUser() {
+    //     const getUsers = await (await fetch(config.apiUrl + `/getUser/${id}`, {
+    //       method: "GET",
+    //       credentials: "include",
+    //     })).json()
+    //     setUser(getUsers.user)
+    //   }
 
     const formik = useFormik({
         initialValues: {
-            userName: user.userName,
+            userName: props.userName,
             firstName: props.firstName,
             lastName: props.lastName,
             email: props.email,
-            status: "Active",
+            status: props.status,
             team:props.teams,
             lastUpdater: props.lastUpdater,
         },
@@ -42,7 +42,7 @@ export default function UpdateUser(props) {
         validationSchema: UpdateUserSchema,
         onSubmit: async (values) => {
             await fetch(config.apiUrl + `/updateUser/${id}`, {
-                method: "POST",
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -56,15 +56,11 @@ export default function UpdateUser(props) {
     
     });
 
-    useEffect(() => {
-        fetchUser()
-      }, [])
-
     return (
         <>
 
                 <form id='form_submit' onSubmit={formik.handleSubmit}>
-                    <div id="flex_inputs">
+                    <div id="flex_inputs_update_user">
                     <TextField
                             disabled
                             id="input"
@@ -80,12 +76,22 @@ export default function UpdateUser(props) {
                             
                             id="input"
                             name="firstName"
-                            label="firstName"
+                            label="first Name"
                             type="text"
-                            value={formik.values.status}
+                            value={formik.values.firstName}
                             onChange={formik.handleChange}
-                            error={formik.touched.status && formik.errors.status}
-                            helpertext={formik.touched.status && formik.errors.status}
+                            error={formik.touched.firstName && formik.errors.firstName}
+                            helpertext={formik.touched.firstName && formik.errors.firstName}
+                        />
+                        <TextField
+                            id="input"
+                            name="lastName"
+                            label="last Name"
+                            type="lastName"
+                            value={formik.values.lastName}
+                            onChange={formik.handleChange}
+                            error={formik.touched.lastName && formik.errors.lastName}
+                            helpertext={formik.touched.lastName && formik.errors.lastName}
                         />
                         <TextField
                         disabled
@@ -98,6 +104,7 @@ export default function UpdateUser(props) {
                             error={formik.touched.email && formik.errors.email}
                             helpertext={formik.touched.email && formik.errors.email}
                         />
+                        
                         <TextField
                             disabled
                             id="input"
@@ -112,24 +119,13 @@ export default function UpdateUser(props) {
                         <TextField
                             disabled
                             id="input"
-                            name="status"
-                            label="status"
-                            type="status"
-                            value={formik.values.status}
+                            name="lastUpdater"
+                            label="last Updater"
+                            type="lastUpdater"
+                            value={formik.values.lastUpdater}
                             onChange={formik.handleChange}
-                            error={formik.touched.status && formik.errors.status}
-                            helpertext={formik.touched.status && formik.errors.status}
-                        />
-                        <TextField
-                            disabled
-                            id="input"
-                            name="status"
-                            label="status"
-                            type="status"
-                            value={formik.values.status}
-                            onChange={formik.handleChange}
-                            error={formik.touched.status && formik.errors.status}
-                            helpertext={formik.touched.status && formik.errors.status}
+                            error={formik.touched.lastUpdater && formik.errors.lastUpdater}
+                            helpertext={formik.touched.lastUpdater && formik.errors.lastUpdater}
                         />
                         <div>
                             <Teams labelId="teams" id="input" name="team" value={formik.values.team} onChange={formik.handleChange} error={formik.touched.team && formik.errors.team} helpertext={formik.touched.team && formik.errors.team} labelIdAssignee="assignee" idAssignee="assignee" nameAssignee="assignee" valueAssignee={formik.values.assignee} onChangeAssignee={formik.onChange} errorAssignee={formik.touched.assignee && formik.errors.assignee} helpertextAssignee={formik.touched.assignee && formik.errors.assignee} />

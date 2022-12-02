@@ -1,3 +1,24 @@
 .tab{
     padding-left: 2%;
 }
+.flex_inputs_update_user{
+    display: block;
+}
+.backdropUpdate{
+    display: flex;
+}
+
+#Card_Call_Update{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;  
+    z-index: -1;
+}
+.call_update_Info{
+    margin-top: 5%;
+    margin-left: 5%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}

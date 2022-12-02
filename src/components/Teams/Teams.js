@@ -13,11 +13,6 @@ export default function Teams(props) {
     const [selected, setSelected] = useState("");
     const [error, setError] = useState([])
     const [isMounted, setMounted] = useState(true);
- 
-  
-    let type = null;
-    let options = null;
-
 
 
     async function GetTeams() {
@@ -33,7 +28,7 @@ export default function Teams(props) {
 
         }
     }
-
+console.log(props);
     useEffect(() => {
         if (isMounted) {
             GetTeams();
@@ -58,19 +53,23 @@ export default function Teams(props) {
                         id={props.id}
                         name={props.name}
                         value={props.value}
-                        defaultValue={props.defaultValue}
-                        label={props.labelId}
                         onChange={props.onChange}
                         error={props.error}
                         helpertext={props.helpertext}
+                        setSelected={props.value}
                     >
-                        
+                    <MenuItem key={""} value={""}>{""}</MenuItem>
+
                         {teams.map((team) => {
                             return (
                                 <MenuItem key={team._id} value={team.teamName}>{team.teamName}</MenuItem>
                             )
                         })}
                     </Select>
+                    {/* {!props.value ? null :
+                        <TeamMembers/>
+                    
+                    } */}
                 </>
 
         </>

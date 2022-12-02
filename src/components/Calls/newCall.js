@@ -14,13 +14,14 @@ import TeamMembers from "../Teams/teamMembers";
 
 
 export default function NewCall(props) {
+    const teamName = props.user.team
 
     const formik = useFormik({
         initialValues: {
             userName: "",
             system: "",
             assignee: "",
-            team: "",
+            team: teamName,
             status: "Open",
             description: "",
         },
@@ -48,7 +49,7 @@ export default function NewCall(props) {
                 <form id='form_submit' onSubmit={formik.handleSubmit}>
                     <div id="flex_inputs">
                         <div>
-                            <GetUsers label="userName" labelId="userName" id="input" name="userName" value={formik.values.userName} onChange={formik.handleChange} error={formik.touched.userName && formik.errors.userName} helpertext={formik.touched.userName && formik.errors.userName} />
+                            <GetUsers  labelId="userName" id="input" name="userName" value={formik.values.userName} onChange={formik.handleChange} error={formik.touched.userName && formik.errors.userName} helpertext={formik.touched.userName && formik.errors.userName} />
                         </div>
                         <div>
                             <GetSystems labelId="system" id="input" name="system" value={formik.values.system} onChange={formik.handleChange} error={formik.touched.system && formik.errors.system} helpertext={formik.touched.system && formik.errors.system} />

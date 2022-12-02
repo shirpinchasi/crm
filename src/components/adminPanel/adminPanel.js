@@ -39,16 +39,14 @@ export default function AdminPanel(props) {
   };
 
 
-
-
   const filterModelByAssignee = {
     items: [
-      { columnField: 'assignee', operatorValue: 'equals', value: props.userName },
+      { columnField: 'assignee', operatorValue: 'equals', value: props.props.userName },
     ]
   };
   const filterModelByTeam = {
     items: [
-      { columnField: 'team', operatorValue: 'isAnyOf', value: getTeamName || null },
+      { columnField: 'team', operatorValue: 'equals', value: props.props.team },
     ]
   };
 
@@ -131,9 +129,8 @@ export default function AdminPanel(props) {
 
         :
         <>
-          <div id='menuAdmin'>
-          </div>
           {openBackDrop ?
+           <Box >
             <Backdrop open={openBackDrop}>
               <Card id="backdrop" >
                 <CardContent>
@@ -142,6 +139,7 @@ export default function AdminPanel(props) {
                   </CardActions>
                   <form id='form_submit' onSubmit={formik.handleSubmit}>
                     <div id="flex_inputs">
+                    
                       <TextField
                         id="input"
                         name="userName"
@@ -221,7 +219,7 @@ export default function AdminPanel(props) {
                 </CardContent>
               </Card>
             </Backdrop>
-
+            </Box>
 
             :
 

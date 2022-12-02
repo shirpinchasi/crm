@@ -31,7 +31,6 @@ import NewSystem from "../components/Systems/NewSystems"
 
 
 export default function Menu(props) {
-    const [getSystem, setAllSystems] = useState([]);
     const theme = useTheme();
     const [userName, setUserName] = useState([]);
     const [system, setSystem] = useState([]);
@@ -40,13 +39,12 @@ export default function Menu(props) {
     const [status, setStatus] = useState([]);
     const [description, setDescription] = useState([])
     const [systemName, setSystemName] = useState([])
-    const [systemManager,setSystemManager] = useState([])
+    const [systemManager, setSystemManager] = useState([])
     const [open, setOpen] = useState(false);
     const [openBackDrop, setOpenBackDrop] = useState(false);
     const [openBackDropSystem, setOpenBackDropSystem] = useState(false);
     const [disable, setDisable] = useState(false)
     const history = useNavigate();
-
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -77,13 +75,6 @@ export default function Menu(props) {
         setOpenBackDropSystem(true);
         setDisable(true)
     };
-    // async function getSystems() {
-    //     const getSystem = await (await fetch(config.apiUrl + `/system`, {
-    //         method: "GET",
-    //         credentials: "include",
-    //     })).json()
-    //     setAllSystems(getSystem)
-    // }
     async function logOut() {
         const logout = await fetch(config.apiUrl + "/logOut", {
             method: "GET",
@@ -95,9 +86,8 @@ export default function Menu(props) {
         }
     }
     useEffect(() => {
-       
-    }, [userName, system, goremMetapel, team, status, description])
 
+    }, [userName, system, goremMetapel, team, status, description])
     return (
         <div>
 
@@ -106,9 +96,9 @@ export default function Menu(props) {
                 <CssBaseline />
                 <AppBar position="fixed" open={open}>
                     <Toolbar id="Menu" >
-                        
+
                         <IconButton
-                        disabled={disable}
+                            disabled={disable}
                             aria-label="open drawer"
                             onClick={handleDrawerOpen}
                             edge="start"
@@ -117,74 +107,57 @@ export default function Menu(props) {
                             <MenuIcon />
                         </IconButton>
                         <>
-                        {props.types === "admin" ? 
-                        <>
-                         <Typography variant="h6" noWrap component="div">
-                         <Link color="inherit"  href="/" >
-                                CRM
-                            </Link>
-                           
-                     </Typography>
-                     <img className="Menulogo" alt="" src={logo}/>
-                     <Typography id="Hello" variant="h6" noWrap component="div">
-                          Hello {props.props.userName} 
-                     </Typography>
-                     {/* {window.location.pathname === "/adminPanel" ? <Button>Hello</Button> : null} */}
-                     <>
-                     <Button disabled={disable}  id="LogOff"  color="primary" onClick={logOut}>
-                         LogOff
-                     </Button>
+                            <Typography variant="h6" noWrap component="div">
+                                <Link color="inherit" href="/" >
+                                    CRM
+                                </Link>
 
-                     <Button disabled={disable}  id="plusIcon" color="primary" onClick={handleBackDropOpen}>
-                         New Call
-                     </Button>
-                     <Button disabled={disable} id="NewSystem" variant="outlined" color="primary" onClick={handleBackDropOpenSystem}>
-                         New System
-                     </Button>
+                            </Typography>
+                            <img className="Menulogo" alt="" src={logo} />
+                            <Typography id="Hello" variant="h6" noWrap component="div">
+                                Hello {props.props.userName}
+                            </Typography>
+
+                            {props.menuItems ?
+                                <>
+                                    <Button disabled={disable} id="plusIcon" color="primary" onClick={handleBackDropOpen}>
+                                        {props.menuItems.newCallButton}
+                                    </Button>
+                                    <Button disabled={disable} id="NewSystem" variant="outlined" color="primary" onClick={handleBackDropOpenSystem}>
+                                    {props.menuItems.newSystemButton}
+                                    </Button>
+                                </>
+                                :
+                                null
+                            }
+                            <Button id="LogOff" variant="outlined" color="primary" onClick={logOut}>
+                                LogOff
+                            </Button>
                         </>
-                     </>
-                        :
+
                         <>
-                        <Typography variant="h6" noWrap component="div">
-                        <Link color="inherit" href="/">
-                                CRM
-                            </Link>
-                     </Typography>
-                     <Typography id="Hello" variant="h6" noWrap component="div">
-                          Hello {props.props.userName} 
-                     </Typography>
-                     {/* {window.location.pathname === "/adminPanel" ? <Button>Hello</Button> : null} */}
-                     
-                     <Button id="LogOff" variant="outlined" color="primary" onClick={logOut}>
-                         LogOff
-                     </Button>
-                     </>
-                        
-                        }
+                            <Backdrop open={openBackDrop}>
+                                <Card id="backdrop" >
+                                    <CardContent>
+                                        <CardActions>
+                                            <FontAwesomeIcon icon={faTimes} onClick={handleBackDropClose} />
+                                        </CardActions>
+                                        <NewCall props={openBackDrop} user={props.props} onClick={handleBackDropClose} />
+                                    </CardContent>
+                                </Card>
+                            </Backdrop>
+                            <Backdrop open={openBackDropSystem}>
+                                <Card id="backdrop" >
+                                    <CardContent>
+                                        <CardActions>
+                                            <FontAwesomeIcon icon={faTimes} onClick={handleBackDropCloseSystem} />
+                                        </CardActions>
+                                        <NewSystem props={openBackDropSystem} onClick={handleBackDropCloseSystem} />
+                                    </CardContent>
+                                </Card>
+                            </Backdrop>
                         </>
-                        <>
-                        <Backdrop open={openBackDrop}>
-                            <Card id="backdrop" >
-                                <CardContent>
-                                    <CardActions>
-                                        <FontAwesomeIcon icon={faTimes} onClick={handleBackDropClose} />
-                                    </CardActions>
-                                    <NewCall props={openBackDrop}  onClick={handleBackDropClose} />
-                                </CardContent>
-                            </Card>
-                        </Backdrop>
-                        <Backdrop open={openBackDropSystem}>
-                            <Card id="backdrop" >
-                                <CardContent>
-                                    <CardActions>
-                                        <FontAwesomeIcon icon={faTimes} onClick={handleBackDropCloseSystem} />
-                                    </CardActions>
-                                    <NewSystem props={openBackDropSystem} onClick={handleBackDropCloseSystem} />
-                                </CardContent>
-                            </Card>
-                        </Backdrop>
-                        </>
-                       
+
                     </Toolbar>
                 </AppBar>
 
@@ -201,57 +174,57 @@ export default function Menu(props) {
                     anchor="left"
                     open={open}
                 >
-                    {props.types === "admin" ? 
-                    <>
-                    <DrawerHeader >
-                        <IconButton onClick={handleDrawerClose}>
-                            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                        </IconButton>
-                    </DrawerHeader>
-                    <Divider />
-                    <List>
-                        <ListItemText className="text">
-                        <Link color="inherit" href={`/AdminPanel`}>
-                                Admin Panel
-                            </Link>
+                    {props.types === "admin" ?
+                        <>
+                            <DrawerHeader >
+                                <IconButton onClick={handleDrawerClose}>
+                                    {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                                </IconButton>
+                            </DrawerHeader>
                             <Divider />
-                            <Link color="inherit" href="/Requests">
-                                Requests
-                            </Link>
+                            <List>
+                                <ListItemText className="text">
+                                    <Link color="inherit" href={`/AdminPanel`}>
+                                        Admin Panel
+                                    </Link>
+                                    <Divider />
+                                    <Link color="inherit" href="/Requests">
+                                        Requests
+                                    </Link>
+                                    <Divider />
+                                    <Link color="inherit" href="/Calls">
+                                        Calls
+                                    </Link>
+                                    <Divider />
+                                    <Link color="inherit" href="/Systems">
+                                        Systems
+                                    </Link>
+                                    <Divider />
+                                    <Link color="inherit" href="/Users">
+                                        Users
+                                    </Link>
+                                </ListItemText>
+                            </List>
+                        </>
+                        :
+                        <>
+                            <DrawerHeader >
+                                <IconButton onClick={handleDrawerClose}>
+                                    {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                                </IconButton>
+                            </DrawerHeader>
                             <Divider />
-                            <Link color="inherit" href="/Calls">
-                                Calls
-                            </Link>
-                            <Divider />
-                            <Link color="inherit" href="/Systems">
-                                Systems
-                            </Link>
-                            <Divider />
-                            <Link color="inherit" href="/Users">
-                                Users
-                            </Link>
-                        </ListItemText>
-                    </List>
-                    </>
-                    :
-                    <>
-                    <DrawerHeader >
-                        <IconButton onClick={handleDrawerClose}>
-                            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                        </IconButton>
-                    </DrawerHeader>
-                    <Divider />
-                    <List>
-                    <Link color="inherit" href="/">
-                                Home
-                            </Link>
-                    </List>
-                    
-                    </>
+                            <List>
+                                <Link color="inherit" href="/">
+                                    Home
+                                </Link>
+                            </List>
+
+                        </>
                     }
                 </Drawer>
-                
-                
+
+
 
 
             </Box>

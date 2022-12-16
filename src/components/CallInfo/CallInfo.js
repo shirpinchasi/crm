@@ -71,6 +71,9 @@ function CallInfo(props) {
     setIsFilePicked(true);
   };
   async function handleSubmission() {
+    console.log(isSubmit);
+    setProgress(true)
+    setSubmit(true)
     const formData = new FormData();
     formData.append('File', selectedFile);
     const uploadData = await fetch(config.apiUrl + `/uploadFile/${id}`, {
@@ -88,7 +91,8 @@ function CallInfo(props) {
   };
   const onSubmittingFileLoader = (
     <Box sx={{ width: '100%' }}>
-      <LinearProgress variant="determinate" value={progress} />
+      <LinearProgress />
+      {/* <LinearProgress variant="determinate" value={progress} /> */}
     </Box>
   )
   const assigneeId = props.props.employeeId
@@ -100,7 +104,7 @@ function CallInfo(props) {
         "Content-Type": "application/json"
       },
     })).json()
-    setSubmit(false)
+    
     refreshPage()
   }
   // async function AssignToOtherUser(){
@@ -137,7 +141,6 @@ function CallInfo(props) {
   }
 
   useEffect(() => {
-    setSubmit(true)
     setLoading(true)
     fetchCalls()
     localStorage.setItem("value", value);
@@ -416,11 +419,11 @@ function CallInfo(props) {
                       </div>
                       <>
                         <Button
-                          onClick={handleSubmission} setSubmit={true}>Submit </Button>
+                          onClick={handleSubmission} >Submit </Button>
 
                       </>
-                      <div id="error">{info.message}</div>
-                      {/* {isSubmit ? onSubmittingFileLoader : null} */}
+                      {/* <div id="error">{info.message}</div> */}
+                      {isSubmit ? onSubmittingFileLoader : null}
 
                       <Button
                         style={{

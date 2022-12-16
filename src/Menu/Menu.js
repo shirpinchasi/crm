@@ -28,6 +28,7 @@ import config from "../config/index";
 import NewCall from "../components/Calls/newCall";
 import logo from "../logo_transparent.png"
 import NewSystem from "../components/Systems/NewSystems"
+import NewUser from "../components/Users/newUser"
 
 
 export default function Menu(props) {
@@ -43,6 +44,8 @@ export default function Menu(props) {
     const [open, setOpen] = useState(false);
     const [openBackDrop, setOpenBackDrop] = useState(false);
     const [openBackDropSystem, setOpenBackDropSystem] = useState(false);
+    const [openBackDropUser, setOpenBackDropUser] = useState(false);
+
     const [disable, setDisable] = useState(false)
     const history = useNavigate();
     const handleDrawerOpen = () => {
@@ -73,6 +76,17 @@ export default function Menu(props) {
     };
     const handleBackDropOpenSystem = () => {
         setOpenBackDropSystem(true);
+        setDisable(true)
+    };
+
+    const handleBackDropCloseUser = () => {
+        setOpenBackDropUser(false)
+        setDisable(false)
+        // setSystemName("")
+        // setSystemManager("")
+    };
+    const handleBackDropOpenUser = () => {
+        setOpenBackDropUser(true);
         setDisable(true)
     };
     async function logOut() {
@@ -106,34 +120,39 @@ export default function Menu(props) {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <>
+                        <div id="menuItems">
                             <Typography variant="h6" noWrap component="div">
-                                <Link color="inherit" href="/" >
+                                <Link disabled={disable} color="inherit" href="/" >
                                     CRM
                                 </Link>
 
                             </Typography>
-                            <img className="Menulogo" alt="" src={logo} />
-                            <Typography id="Hello" variant="h6" noWrap component="div">
-                                Hello {props.props.userName}
-                            </Typography>
+                            
 
                             {props.menuItems ?
-                                <>
-                                    <Button disabled={disable} id="plusIcon" color="primary" onClick={handleBackDropOpen}>
+                                <div id="buttons">
+                                    <Button disabled={disable} id="NewCall" color="primary" onClick={handleBackDropOpen}>
                                         {props.menuItems.newCallButton}
                                     </Button>
                                     <Button disabled={disable} id="NewSystem" variant="outlined" color="primary" onClick={handleBackDropOpenSystem}>
                                     {props.menuItems.newSystemButton}
                                     </Button>
-                                </>
+                                    <Button disabled={disable} id="NewUser" variant="outlined" color="primary" onClick={handleBackDropOpenUser}>
+                                    {props.menuItems.newUserButton}
+                                    </Button>
+                                </div>
                                 :
                                 null
                             }
-                            <Button id="LogOff" variant="outlined" color="primary" onClick={logOut}>
+                            <img className="Menulogo" alt="" src={logo} />
+                            <Typography id="Hello" variant="h6" noWrap component="div">
+                                Hello {props.props.userName}
+                            </Typography>
+
+                            <Button disabled={disable} id="LogOff" variant="outlined" color="primary" onClick={logOut}>
                                 LogOff
                             </Button>
-                        </>
+                        </div>
 
                         <>
                             <Backdrop open={openBackDrop}>
@@ -153,6 +172,16 @@ export default function Menu(props) {
                                             <FontAwesomeIcon icon={faTimes} onClick={handleBackDropCloseSystem} />
                                         </CardActions>
                                         <NewSystem props={openBackDropSystem} onClick={handleBackDropCloseSystem} />
+                                    </CardContent>
+                                </Card>
+                            </Backdrop>
+                            <Backdrop open={openBackDropUser}>
+                                <Card id="backdrop" >
+                                    <CardContent>
+                                        <CardActions>
+                                            <FontAwesomeIcon icon={faTimes} onClick={handleBackDropCloseUser} />
+                                        </CardActions>
+                                        <NewUser props={openBackDropUser} onClick={handleBackDropCloseUser} />
                                     </CardContent>
                                 </Card>
                             </Backdrop>

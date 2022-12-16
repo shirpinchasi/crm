@@ -41,6 +41,7 @@ export default function Users() {
         getUsers()
       }
       return(()=>{
+        console.log("loading");
         setMounted(false)
       })
     }
@@ -87,6 +88,7 @@ export default function Users() {
   return (
     <>
       {/* {isLoading ? <><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div><div>Loading</div></> : */}
+
         <div className='table'>
           {error.status === 401 ? <> <h1>Not Admin!</h1><h1>Not Admin!</h1> <h1>Not Admin!</h1> <h1>Not Admin!</h1> <h1>Not Admin!</h1> <h1>Not Admin!</h1> <h1>Not Admin!</h1> <h1>Not Admin!</h1> <h1>Not Admin!</h1> <h1>Not Admin!</h1> <h1>Not Admin!</h1> <h1>Not Admin!</h1> </> :
             <div style={{ height: 540, width: '100%' }}>
@@ -114,7 +116,7 @@ export default function Users() {
           }
 
         </div>
-      {/* } */}
+       {/* }  */}
     </>
   )
 

@@ -94,7 +94,7 @@ function App(props) {
                   <Route path="/SignUp" element={<SignUp />} />
                   <Route path='/ForgetPassword/:id/:token' element={<ForgetPassword />} />
                   <Route path='/ForgetPasswordEmail' element={<ForgetPasswordEmail />} />
-                  <Route path='*' element={<PageNotFound />} />
+                  <Route path='' element={<PageNotFound />} />
                 </Routes>
 
               </>
@@ -117,7 +117,7 @@ function App(props) {
                     </>
                     :
                     <>
-                      <Route path='*' element={<PageNotFound />} />
+                      {/* <Route path='' element={<PageNotFound />} /> */}
                       <Route exact path='/' element={<Home />} />
                     </>
                   }

@@ -27,9 +27,9 @@
     flex-wrap: wrap;
     align-content: center;   
 }
-#standard-disabled{
-    width: 140px;
-}
+// #standard-disabled{
+//     width: 140px;
+// }
 #assign{
     font-size: 10px;
     color: blue;
@@ -44,7 +44,27 @@
 #tabList{
     display: flex;
 
+
 }
+.css-heg063-MuiTabs-flexContainer{
+    display: flex;
+
+}
+// .css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected{
+//     margin-right: 10px;
+// }
+// #mui-p-84834-T-2{
+//     padding-right: 10px;
+// }
+
+// #mui-p-84834-T-1{
+//     padding-right: 10px;
+    
+// }
+// #mui-p-84834-T-3{
+//     padding-right: 10px;
+// }
+
 table, th, td {
     border:1px solid black;
   }
@@ -52,3 +72,5 @@ table, th, td {
         position: absolute;
         z-index: -1;
   }
+
+

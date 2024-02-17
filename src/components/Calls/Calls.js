@@ -22,6 +22,12 @@ export default function Calls(props) {
   const [getTeam, setTeam] = useState([]);
   const { filter } = location.state || {}
   const [filterModel, setFilterModel] = useState(filter);
+  const [sortModel]= useState([
+    {
+      field: 'Status',
+      value: 'Open',
+    },
+  ]);
   async function fetchCalls() {
     try {
       const getCalls = await (await fetch(config.apiUrl + `/getCalls`, {
@@ -71,7 +77,7 @@ export default function Calls(props) {
     { field: "assignee", headerName: "Assignee", width: 150 },
     { field: "team", headerName: "Team", width: 100 },
     {
-      field: "status", headerName: "Status", width: 150, renderCell: (value) => {
+      field: "status", headerName: "Status", width: 150,renderCell: (value) => {
         if (value.value === "Open") {
           return <div>
             <Chip icon={<InfoIcon color="primary" />} label={value.value} color="primary" variant="outlined" />
@@ -107,7 +113,7 @@ export default function Calls(props) {
         </>
         :
         <div className='table'>
-          <Box style={{ height: 540, width: '100%' }}>
+          <Box style={{ height: '89%', width: '100%',position: "absolute" }}>
             <DataGrid
               columns={columns}
               getRowId={(row) => row._id}
@@ -120,17 +126,11 @@ export default function Calls(props) {
               onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
 
               initialState={{
-                // filter: {
-                //   filterModel: {
-                //     items: [
-                //       {
-                //         columnField: filter.items[0].columnField,
-                //         operatorValue: filter.items[0].operatorValue,
-                //         value: filter.items[0].value,
-                //       },
-                //     ],
-                //   },
-                // },
+                filter: {
+                  filterModel: {
+                    items: [{columnField:"status",operatorValue:"equals",value:"Open"}],
+                  },
+                },
                 rowGrouping: {
                   model: INITIAL_GROUPING_COLUMN_MODEL,
                 },

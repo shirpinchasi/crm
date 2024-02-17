@@ -313,7 +313,7 @@ function CallInfo(props) {
               <Box className="tabs" sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <TabList id="tabList" onChange={handleChange} >
                   <Tab label="Call Properties" value="1" />
-                  <Tab label="Item Two" value="2" />
+                  <Tab label="Call History" value="2" />
                   <Tab label="AddOns" value="3" />
                 </TabList>
               </Box>
@@ -409,7 +409,7 @@ function CallInfo(props) {
 
 
 
-              <TabPanel id="TabPanel" value="2">Item Two</TabPanel>
+              <TabPanel id="TabPanelHistory" value="2"></TabPanel>
               <TabPanel id="TabPanel" value="3">
                 <div>
                   {isFilePicked ?

@@ -20,7 +20,7 @@ export default function Users() {
   const [isLoading, setLoading] = useState(true);
   const history = useNavigate();
 
-
+console.log(users);
 
   async function getUsers() {
     const getUser = await (await fetch(config.apiUrl + `/getUser`, {
@@ -41,15 +41,9 @@ export default function Users() {
         getUsers()
       }
       return(()=>{
-        console.log("loading");
         setMounted(false)
       })
     }
-
-   
-
-
-
   }, [])
 
   const columns = [
@@ -84,6 +78,7 @@ export default function Users() {
       }
     },
     { field: "openingDate", headerName: "opening date", width: 200 },
+    // { field: "isAdmin", headerName: "Is Admin?", width: 100 },
   ];
   return (
     <>
@@ -91,10 +86,10 @@ export default function Users() {
 
         <div className='table'>
           {error.status === 401 ? <> <h1>Not Admin!</h1><h1>Not Admin!</h1> <h1>Not Admin!</h1> <h1>Not Admin!</h1> <h1>Not Admin!</h1> <h1>Not Admin!</h1> <h1>Not Admin!</h1> <h1>Not Admin!</h1> <h1>Not Admin!</h1> <h1>Not Admin!</h1> <h1>Not Admin!</h1> <h1>Not Admin!</h1> </> :
-            <div style={{ height: 540, width: '100%' }}>
+            <div style={{ height: '89%', width: '100%',position: "absolute" }}>
 
 
-              <DataGrid
+              <DataGrid 
                 columns={columns}
                 getRowId={(row) => row._id}
                 rows={users}

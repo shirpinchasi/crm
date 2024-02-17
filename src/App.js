@@ -20,7 +20,14 @@ import ForgetPassword from "./components/ForgetPassword/ForgetPassword"
 import Systems from './components/Systems/Systems';
 import loading from "./components/Loading/loading.mp4"
 import gif from "./components/Loading/gif.mp4"
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
 
+const theme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
 
 function App(props) {
   const [fetchUser, setUser] = useState({});
@@ -35,7 +42,6 @@ function App(props) {
       if (!user) {
         
         setUser(null)
-        // setLoading(false)
         if (window.location.pathname.includes("/ForgetPassword")) {
           <ForgetPassword />
         } else {
@@ -46,14 +52,12 @@ function App(props) {
         if (window.location.pathname.includes("/ForgetPassword")) {
           navigate("/")
         }
-        // setLoading(false)
         setMenuItems(user.menuItems);
         setTypes(user.valid)
         setUser(user.userInfo)
       }
   }
     getUser();
-    // setLoading(false)
     if (isLoading) {
       setTimeout(() => {
         setLoading(false)
@@ -66,21 +70,10 @@ function App(props) {
 
   return (
     <>
+     <ThemeProvider theme={theme}>
+     <CssBaseline/>
       <div className="App">
         {isLoading ? <>
-          {/* <AnimatedText
-    type='chars'
-    interval={0.06}
-    duration={0.8}
-    animation={{
-      y: '50px',
-      ease: 'ease',
-      scale: -0.01,
-    }}
-  >
-    
-   
-</AnimatedText> */}
           <video className='videoTag' autoPlay loop muted>
             <source src={gif} type='video/mp4' />
           </video>
@@ -94,12 +87,14 @@ function App(props) {
                   <Route path="/SignUp" element={<SignUp />} />
                   <Route path='/ForgetPassword/:id/:token' element={<ForgetPassword />} />
                   <Route path='/ForgetPasswordEmail' element={<ForgetPasswordEmail />} />
-                  <Route path='' element={<PageNotFound />} />
+                  <Route path='*' element={<PageNotFound />} />
                 </Routes>
 
               </>
             ) : (
               <>
+              <ThemeProvider theme={theme}>
+              <CssBaseline/>
                 <Menu props={fetchUser} types={types} menuItems={menuItems} />
                 <Routes >
                   {types === "admin" ?
@@ -117,11 +112,12 @@ function App(props) {
                     </>
                     :
                     <>
-                      {/* <Route path='' element={<PageNotFound />} /> */}
+                      <Route path='*' element={<PageNotFound />} />
                       <Route exact path='/' element={<Home />} />
                     </>
                   }
                 </Routes>
+                </ThemeProvider>
               </>
             )
             }
@@ -129,7 +125,7 @@ function App(props) {
           </UserContext.Provider>
         }
       </div>
-
+      </ThemeProvider>
     </>
   );
 }

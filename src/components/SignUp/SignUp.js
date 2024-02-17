@@ -12,8 +12,8 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Box from '@mui/material/Box';
-import logo from "../../logo_transparent.png"
-import Login from '../Login/Login';
+// import logo from "../../logo_transparent.png"
+import Login from '../Login/LoginOld';
 
 
 
@@ -22,6 +22,7 @@ const SignUp = (props) => {
   const [showSuccess, setSuccess] = useState(false)
   const [value, setValue] = useState("2")
   const navigate = useNavigate();
+  const [disable, setDisable] = useState(false);
   const handleChange = (event, newValue) => {
     setValue(newValue);
 
@@ -46,7 +47,7 @@ const SignUp = (props) => {
         },
         body: JSON.stringify(values)
       });
-      let result = await res.json();
+      let result = res.json();
       setError(result.message)
       if (res.status === 201) {
         setSuccess(true);

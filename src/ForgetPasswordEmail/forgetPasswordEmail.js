@@ -37,7 +37,7 @@ export default function ForgetPasswordEmail() {
         <>
         {success ?<div id="successMessage">{success}</div> : 
         <>
-            <h2>Fill Youe Email Address</h2>
+            <h2>Fill Your Email Address</h2>
             <form id="form_submit_forget" onSubmit={formik.handleSubmit}>
                 <div id="flex_inputs_forget">
                     <TextField

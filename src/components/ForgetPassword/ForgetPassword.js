@@ -1,6 +1,6 @@
 import { Input } from '@mui/material';
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate,Routes,Route } from 'react-router-dom';
+import { useParams, useNavigate, Routes, Route } from 'react-router-dom';
 import config from "../../config/index"
 import { useFormik } from 'formik';
 import { PasswordChange } from "./ForgetPasswordSchema"
@@ -59,10 +59,11 @@ export default function ForgetPassword() {
 
             }).then((response) => {
                 response.json().then((res) => {
+                    console.log(res.error);
                     setPassError(res.error)
                 })
             })
-
+            console.log(passError);
 
 
             // setSuccess(postingPassword)
@@ -97,8 +98,8 @@ export default function ForgetPassword() {
                                     error={formik.touched.password && formik.errors.password}
                                     helpertext={formik.touched.password && formik.errors.password}
                                 />
+                                {formik.errors.password && <div id='error'>{formik.errors.password}</div>}
                                 <TextField
-
                                     id="passwordConfirmation"
                                     name="passwordConfirmation"
                                     label="Password Confirmation"
@@ -108,7 +109,7 @@ export default function ForgetPassword() {
                                     error={formik.touched.passwordConfirmation && formik.errors.passwordConfirmation}
                                     helpertext={formik.touched.passwordConfirmation && formik.errors.passwordConfirmation}
                                 />
-                                {passError && <div id='error'>{passError}</div>}
+                                {formik.errors.passwordConfirmation && <div id='error'>{formik.errors.passwordConfirmation}</div>}
                                 <Button color="primary" onSubmit={formik.onSubmit} variant="contained" id="button_submit" type="submit">
                                     Change Password
                                 </Button>

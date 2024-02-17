@@ -90,7 +90,7 @@ export default function Systems() {
 
       return(
         <div className='table'>
-        <Box style={{ height: 540, width: '100%' }}>
+        <Box style={{ height: '89%', width: '100%',position: "absolute" }}>
             
             <DataGrid
                   columns={columns}

@@ -26,28 +26,20 @@ import MuiAppBar from '@mui/material/AppBar';
 import { useNavigate } from "react-router-dom";
 import config from "../config/index";
 import NewCall from "../components/Calls/newCall";
-import logo from "../logo_transparent.png"
+// import logo from "./logo_transparent.png"
 import NewSystem from "../components/Systems/NewSystems"
 import NewUser from "../components/Users/newUser"
 
 
 export default function Menu(props) {
     const theme = useTheme();
-    const [userName, setUserName] = useState([]);
-    const [system, setSystem] = useState([]);
-    const [goremMetapel, setGoremMetapel] = useState([]);
-    const [team, setTeam] = useState([]);
-    const [status, setStatus] = useState([]);
-    const [description, setDescription] = useState([])
-    const [systemName, setSystemName] = useState([])
-    const [systemManager, setSystemManager] = useState([])
     const [open, setOpen] = useState(false);
     const [openBackDrop, setOpenBackDrop] = useState(false);
     const [openBackDropSystem, setOpenBackDropSystem] = useState(false);
     const [openBackDropUser, setOpenBackDropUser] = useState(false);
 
-    const [disable, setDisable] = useState(false)
     const history = useNavigate();
+
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -55,39 +47,33 @@ export default function Menu(props) {
         setOpen(false);
     };
     const handleBackDropOpen = () => {
-        setDisable(true)
         setOpenBackDrop(true);
     };
     const handleBackDropClose = () => {
         setOpenBackDrop(false);
-        setDisable(false)
-        setUserName("")
-        setSystem("")
-        setGoremMetapel("")
-        setTeam("")
-        setStatus("")
-        setDescription("")
+        // setUserName("")
+        // setSystem("")
+        // setGoremMetapel("")
+        // setTeam("")
+        // setStatus("")
+        // setDescription("")
     };
     const handleBackDropCloseSystem = () => {
         setOpenBackDropSystem(false)
-        setDisable(false)
-        setSystemName("")
-        setSystemManager("")
+        // setSystemName("")
+        // setSystemManager("")
     };
     const handleBackDropOpenSystem = () => {
         setOpenBackDropSystem(true);
-        setDisable(true)
     };
 
     const handleBackDropCloseUser = () => {
         setOpenBackDropUser(false)
-        setDisable(false)
         // setSystemName("")
         // setSystemManager("")
     };
     const handleBackDropOpenUser = () => {
         setOpenBackDropUser(true);
-        setDisable(true)
     };
     async function logOut() {
         const logout = await fetch(config.apiUrl + "/logOut", {
@@ -101,7 +87,7 @@ export default function Menu(props) {
     }
     useEffect(() => {
 
-    }, [userName, system, goremMetapel, team, status, description])
+    }, [])
     return (
         <div>
 
@@ -112,7 +98,6 @@ export default function Menu(props) {
                     <Toolbar id="Menu" >
 
                         <IconButton
-                            disabled={disable}
                             aria-label="open drawer"
                             onClick={handleDrawerOpen}
                             edge="start"
@@ -122,7 +107,7 @@ export default function Menu(props) {
                         </IconButton>
                         <div id="menuItems">
                             <Typography variant="h6" noWrap component="div">
-                                <Link disabled={disable} color="inherit" href="/" >
+                                <Link color="inherit" href="/" >
                                     CRM
                                 </Link>
 
@@ -131,25 +116,25 @@ export default function Menu(props) {
 
                             {props.menuItems ?
                                 <div id="buttons">
-                                    <Button disabled={disable} id="NewCall" color="primary" onClick={handleBackDropOpen}>
+                                    <Button id="NewCall" color="primary" onClick={handleBackDropOpen}>
                                         {props.menuItems.newCallButton}
                                     </Button>
-                                    <Button disabled={disable} id="NewSystem" variant="outlined" color="primary" onClick={handleBackDropOpenSystem}>
+                                    <Button id="NewSystem" variant="outlined" color="primary" onClick={handleBackDropOpenSystem}>
                                     {props.menuItems.newSystemButton}
                                     </Button>
-                                    <Button disabled={disable} id="NewUser" variant="outlined" color="primary" onClick={handleBackDropOpenUser}>
+                                    <Button id="NewUser" variant="outlined" color="primary" onClick={handleBackDropOpenUser}>
                                     {props.menuItems.newUserButton}
                                     </Button>
                                 </div>
                                 :
                                 null
                             }
-                            <img className="Menulogo" alt="" src={logo} />
+                            <img className="Menulogo" alt="" src={"/logo_transparent.png"} />
                             <Typography id="Hello" variant="h6" noWrap component="div">
                                 Hello {props.props.userName}
                             </Typography>
 
-                            <Button disabled={disable} id="LogOff" variant="outlined" color="primary" onClick={logOut}>
+                            <Button id="LogOff" variant="outlined" color="primary" onClick={logOut}>
                                 LogOff
                             </Button>
                         </div>

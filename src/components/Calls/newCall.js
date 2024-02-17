@@ -15,6 +15,8 @@ import TeamMembers from "../Teams/teamMembers";
 
 export default function NewCall(props) {
     const teamName = props.user.team
+    const lastUpdateName = props.user.userName
+    console.log(props.onClick);
 
     const formik = useFormik({
         initialValues: {
@@ -24,6 +26,7 @@ export default function NewCall(props) {
             team: teamName,
             status: "Open",
             description: "",
+            lastUpdater: lastUpdateName
         },
 
         validationSchema: CallSchema,
